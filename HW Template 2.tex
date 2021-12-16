@@ -1,0 +1,492 @@
+\documentclass{article}[11pt]
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{fixmath}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{caption}
+\newcommand*{\Z}{\mathbb{Z}}
+\newcommand*{\D}{\mathbb{D}}
+\newcommand*{\Q}{\mathbb{Q}}
+\newcommand*{\R}{\mathbb{R}}
+\newcommand*{\N}{\mathbb{N}}
+\newcommand*{\I}{\mathbb{I}}
+\newcommand*{\C}{\mathbb{C}}
+\newcommand*{\Prime}{\mathbb{P}}
+\newcommand*{\E}{\textrm{E}}
+\newcommand*{\Var}{\textrm{Var}}
+\newcommand*{\m}{\textrm{mod }}
+\newcommand*{\osc}{\textrm{osc}}
+\newcommand*{\vol}{\textrm{vol}}
+\newcommand*{\prt}{\mathcal{P}}
+\newcommand*{\intr}{\textrm{int}}
+\newcommand*{\cl}{\textrm{cl}}
+\newcommand*{\bd}{\textrm{bd}}
+\newcommand*{\tr}{\textrm{Tr}}
+\newcommand*{\img}{\textrm{im}}
+\newcommand*{\rank}{\textrm{rank}}
+\newcommand*{\spn}{\textrm{span}}
+\newcommand*{\Trig}{\textrm{Trig}}
+\newcommand*{\col}{\textrm{col}}
+\newcommand*{\iu}{\mathbold{i}}
+\newcommand*{\re}{\textrm{Re}}
+\newcommand*{\im}{\textrm{Im}}
+\newcommand*{\e}{\textrm{e}}
+\newcommand*{\arcsinh}{\textrm{arcsinh}}
+\newcommand*{\ros}{\widehat{\mathcal{R}}}
+\newcommand*{\defeq}{\vcentcolon=}
+\newcommand*{\eqdef}{=\vcentcolon}
+\DeclareMathOperator*{\diam}{diam}
+\DeclareMathOperator*{\Bor}{Bor}
+\linespread{1.3}
+
+\renewcommand{\dot}{\;\begin{picture}(-1,1)(-1,-3)\circle*{3}\end{picture}\;\,\, }
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+\newcommand*{\QED}{\hfill\ensuremath{\square}}%
+
+\newtheoremstyle{dotless}{}{}{}{}{\bfseries}{}{12pt}{}
+
+\theoremstyle{dotless}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{exa}[thm]{Example}
+\newtheorem{exe}[thm]{Exercise}
+\newtheorem{aside}[thm]{Aside}
+
+% stuff from the percent sign to end of line is a comment, ignored by LaTeX
+
+\usepackage[margin=1in]{geometry} %set margins
+\begin{document}
+
+\nocite{*} % this command forces all references in template.bib to be printed in the bibliography
+
+\title{Hausdorff Measure and Dimension}
+
+\author{Name \\
+Course Number – Course Name \\
+University Name}
+
+\maketitle
+
+\section*{Introduction}
+
+The \textbf{Hausdorff measure} is a measure on metric spaces which generalizes the Lebesgue measure on $\R^n$.
+As such, one can imagine how useful this measure can be in areas such as differential geometry, where it
+can be used to define ``volumes'' of submanifolds (such as the unit sphere in $\R^3$).
+In \textbf{Assignment 3}, we've seen how to construct the Hausdorff measure on a metric space. We shall now look at
+some further properties of the measure (such as its \textit{measurable} sets) as well as introduce 
+\textbf{Hausdorff dimension}, which generalizes the notion of the usual (topological) dimension.
+
+
+\section{Measurable sets of the Hausdorff measure}
+
+Let $(X, \rho)$ be a metric space.
+Recall (from \textbf{Assignment 3}) that if $d > 0$ and $\delta > 0$, we define $H_\delta^d : \mathcal{P}(X) \to [0,\infty]$ by:
+\[ H_\delta^d(E) = \inf \left\{ \sum_{i \geqslant 1} \diam(U_i)^d : E \subseteq \bigcup_{i \geqslant 1} U_i, \; \diam(U_i) < \delta \right\} \]
+
+\noindent
+for all $E \subseteq X$,
+where $\diam(U) = \sup \{ \rho(x,y) : x,y \in U \}$. Then the $d$-dimensional Hausdorff \textit{outer} measure $H^d$ on $(X, \rho)$ is defined by:
+\[ H^d(E) = \lim_{\delta \to 0^+} H_\delta^d(E) \]
+
+\noindent
+for all $E \subseteq X$. That is, $H^n(E)$ is approximated by
+the sum of $d$\textsuperscript{th} powers of the diameters of the sets of countable covers of $E$ where each diameter is less than $\delta$, 
+and a smaller value of $\delta$ means a better
+approximation. We wish to find the \textit{measurable} sets of $H^d$.
+\bigskip
+
+We know that a set $E \subseteq X$ is $H^d$-measurable when $H^d(A) = H^d(E \cap A) + H^d(A \setminus E)$
+for all $A \subseteq E$. We therefore have: 
+\[ \mathcal{B} = \{ E \subseteq X : H^d(A) = H^d(E \cap A) + H^d(A \setminus E) \; \forall A \subseteq X \} \]
+
+\noindent
+is the set of all $H^d$-measurable sets. In particular, the Carath\'{e}odory theorem tells us that $\mathcal{B}$ is a $\sigma$-algebra
+and that $H^d$ restricted to $\mathcal{B}$ is a \textit{complete} measure. Of course, this definition doesn't tell us much about exactly 
+which sets are $H^d$-measurable. If we wish for the Hausdorff measure to extend the notion of the Lebesgue measure, it's reasonable
+to ask that
+the Borel sets in $X$ be $H^d$-measurable. Recall (again from \textbf{Assignment 3}) that two sets $A, B \subseteq X$ in
+a metric space $(X,\rho)$ are said to be \textbf{positively separated} when $\inf \{ \rho(x,y) : x \in A, \; y \in B \} > 0$.
+For brevity, we will define $\rho(A,B) = \inf \{ \rho(x,y) : x \in A, \; y \in B \}$. We have seen that if $A$ and $B$ are
+positively separated, then $H^d(A \cup B) = H^d(A) + H^d(B)$.
+
+\begin{defn}
+	In general, if $\mu^*$ is an outer measure on a metric space $(X, \rho)$ such that $\mu^*(A \cup B) = \mu^*(A) + \mu^*(B)$
+	whenever $A, B \subseteq X$ are positively separated, then $\mu^*$ is called a \textbf{metric outer measure} (or a 
+	\textbf{Carath\'{e}odory outer measure}).
+\end{defn}
+\bigskip
+
+Hence, the Hausdorff outer measure $H^d$ is a metric outer measure. We have the following general result about metric outer
+measures that states that the Borel sets must be measurable.
+
+\begin{prop}
+	Let $(X, \rho)$ be a metric space and $\mu^*$ a metric outer measure on $(X, \rho)$. Then 
+	every Borel set in $X$ is $\mu^*$-measurable.
+\end{prop}
+\begin{proof}
+	(Adapted from \cite{Fol}).
+	\bigskip
+	
+	\noindent
+	Let $\Bor(X)$ denote the set of Borel sets, which we know is a $\sigma$-algebra. In particular, we have that
+	$\Bor(X) = \sigma(\{ F \subseteq X : F \text{ is closed} \})$. Let $\mathcal{B}$ be the $\sigma$-algebra of $\mu^*$-measurable
+	sets in $X$. Then to show that $\Bor(X) \subseteq \mathcal{B}$, it suffices to prove that every closed set is $\mu^*$-measurable.
+	\bigskip
+	
+	\noindent
+	Indeed, let $F \subseteq X$ be closed and let $A \subseteq X$ be any set. It's immediate that
+	$\mu^*(A) \leqslant \mu^*(A \cap F) + \mu^*(A \setminus F)$ by subadditivity. Moreover, if
+	$\mu^*(A) = \infty$, equality clearly holds. Thus, we may assume $\mu^*(A) < \infty$.
+	For each $n \in \N$, let $A_n = \{ x \in A \setminus F : \rho(\{x\}, F) = \inf\{ \rho(x,y) : y \in F \} \geqslant \frac{1}{n} \}$.
+	Observe that if $x \in A_n$, then $\rho(\{x\}, F) \geqslant \frac{1}{n} > \frac{1}{n+1}$, so $x \in A_{n+1}$.
+	Hence, $A_1 \subseteq A_2 \subseteq \cdots \subseteq A \setminus F$.
+	\bigskip
+	
+	\noindent
+	Now for any $x \in A \setminus F$, suppose we had that $\rho(\{x\}, F) = \inf\{ \rho(x,y) : y \in F \} = 0$. 
+	Then for all $n \in \N$, we can find some $y_n \in F$ for which $\rho(x,y_n) < \frac{1}{n}$. As $\rho$ is a metric
+	on $X$, it follows that $y_n$ converges to $x$. By closure of $F$, we have that in fact $x \in F$, which is a contradiction.
+	It thus follows that $\rho(\{x\}, F) > 0$ for any $x \in A \setminus F$, which means we can find a $k \in \N$ for which
+	$\rho(\{x\}, F) \geqslant \frac{1}{k}$ and consequently $x \in A_k \subseteq \bigcup_{n \geqslant 1} A_n$. This proves
+	that $\bigcup_{n \geqslant 1} A_n = A \setminus F$.
+	\bigskip
+	
+	\noindent
+	As $A = (A \cap F) \cup (A \setminus F) \supseteq (A \cap F) \cup A_n$ for all $n \in \N$, we have by monotonicity that:
+	\[ \mu^*(A) \geqslant \mu^*((A \cap F) \cup A_n) \]
+	
+	\noindent
+	Moreover, we have by construction that $\rho(\{x\}, F) \geqslant \frac{1}{n}$ whenever $x \in A_n$, and thus
+	(in particular) $\rho(A_n, A \cap F) \geqslant \frac{1}{n} > 0$, so $A_n$ and $A \cap F$ are positively separated. 
+	Since $\mu^*$ is a \textit{metric} outer measure:
+	\[ \mu^*((A \cap F) \cup A_n) = \mu^*(A \cap F) + \mu^*(A_n) \]
+	
+	\noindent
+	Now consider $D_n = A_{n+1} \setminus A_n = \{ x \in A \setminus F : \frac{1}{n+1} \leqslant \rho(\{x\}, F) < \frac{1}{n} \}$.
+	By construction, we have that the $D_n$'s are disjoint and $A \setminus F = \bigcup_{n \geqslant 1} D_n$.
+	Let $x \in D_{n+1}$ and suppose $y \in X$ satisfies $\rho(x,y) < \frac{1}{n(n+1)}$. Then for all $z \in F$, $x \in D_{n+1} = A_{n+2} \setminus
+	A_{n+1}$ means $\frac{1}{n+2} \leqslant \rho(x,z) < \frac{1}{n+1}$, so the triangle inequality gives:
+	\[ \rho(y,z) \leqslant \rho(y,x) + \rho(x,z) < \frac{1}{n(n+1)} + \frac{1}{n+1} = \frac{n+1}{n(n+1)} = \frac{1}{n} \]
+	
+	\noindent
+	and thus $\rho(y,F) < \frac{1}{n} \implies y \not\in A_n$. This means if $y \in A_n$, then we must have
+	$\rho(x,y) \geqslant \frac{1}{n(n+1)}$ so that $\rho(x, A_n) \geqslant \frac{1}{n(n+1)}$. As our choice of $x \in D_{n+1}$ was arbitrary,
+	it follows that $\rho(D_{n+1}, A_n) \geqslant \frac{1}{n(n+1)} > 0$ so that $D_{n+1}$ and $A_n$ are positively separated.
+	Thus, for all $n \in \N$:
+	\[ \mu^*(A_{2n+1}) = \mu^*(D_{2n} \cup A_{2n}) \geqslant \mu^*(D_{2n} \cup A_{2n-1})
+	= \mu^*(D_{2n}) + \mu^*(A_{2n-1}) \]
+	\[ \mu^*(A_{2n}) = \mu^*(D_{2n-1} \cup A_{2n-1}) \geqslant \mu^*(D_{2n-1} \cup A_{2n-2})
+	= \mu^*(D_{2n-1}) + \mu^*(A_{2n-2}) \]
+	
+	\noindent
+	where we can set $A_0 = \emptyset$. It hence follows that (inductively):
+	\[ \sum_{k=1}^n \mu^*(D_{2k}) \leqslant \sum_{k=1}^n \mu^*(D_{2k}) + \mu^*(A_1) \leqslant \mu^*(A_{2n+1})
+	\leqslant \mu^*(A) < \infty \]
+	\[ \sum_{k=1}^n \mu^*(D_{2k-1}) = \sum_{k=1}^n \mu^*(D_{2k-1}) + \mu^*(A_0) \leqslant \mu^*(A_{2n})
+	\leqslant \mu^*(A) < \infty \]
+	
+	\noindent
+	As the above holds for all $n \in \N$, we have in particular that $\sum_{k=1}^\infty \mu^*(D_{2k})$
+	and $\sum_{k=1}^\infty \mu^*(D_{2k-1})$ are convergent series. Thus, $\sum_{k=1}^\infty \mu^*(D_k)$ is also a
+	convergent series. By subadditivity, we have for all $n \in \N$ that:
+	\[ \mu^*(A \setminus F) = \mu^*\left( \bigcup_{k \geqslant 1} A_k \right)
+	= \mu^*\left( A_n \cup \bigcup_{k \geqslant n+1} D_k \right)
+	\leqslant \mu^*(A_n) +  \sum_{k \geqslant n+1} \mu^*(D_k) \]
+	
+	\noindent
+	By convergence of the series:
+	\[ \mu^*(A \setminus F) \leqslant \liminf_{n \to \infty} \left[ \mu^*(A_n) +  \sum_{k \geqslant n+1} \mu^*(D_k) \right]
+	= \liminf_{n \to \infty} \mu^*(A_n) + \liminf_{n \to \infty} \sum_{k \geqslant n+1} \mu^*(D_k)
+	= \liminf_{n \to \infty} \mu^*(A_n) \]
+	
+	\noindent
+	Moreover, $A_n \subseteq A \setminus F$ means $\mu^*(A_n) \leqslant \mu^*(A \setminus F)$ by monotonicity, so in fact:
+	\[ \mu^*(A \setminus F) \leqslant \liminf_{n \to \infty} \mu^*(A_n) \leqslant \limsup_{n \to \infty} \mu^*(A_n)
+	\leqslant \mu^*(A \setminus F) \]
+	\[ \implies \lim_{n \to \infty} \mu^*(A_n) = \mu^*(A \setminus F) \]
+	
+	\noindent
+	Finally, it follows that:
+	\[ \mu^*(A) \geqslant \mu^*(A \cap F) + \lim_{n \to \infty} \mu^*(A_n) = \mu^*(A \cap F) + \mu^*(A \setminus F) \]
+	
+	\noindent
+	and we hence get that $F$ is $\mu^*$-measurable. As $F$ was an arbitrarily-chosen closed set, it follows that every Borel set is 
+	$\mu^*$-measurable.
+\end{proof}
+
+The following result is therefore immediate (following the fact that $H^d$ is a metric outer measure):
+
+\begin{cor}
+	In a metric space $(X, \rho)$, every Borel set is $H^d$-measurable.
+\end{cor}
+
+\begin{rem}
+	As $\Bor(X)$ is a $\sigma$-algebra and each $A \in \Bor(X)$ is $H^d$-measurable, it follows that
+	$(X, \Bor(X), H^d)$ is a measure space (with $H^d$ restricted to $\Bor(X)$). 
+\end{rem}
+
+The next step is to justify that the Hausdorff measure can indeed be considered a generalization of the Lebesgue
+measure (though we will not go into too much detail, as it would take quite some time). 
+\bigskip
+
+Recall that the Lebesgue outer measure on $\R$ is \textit{translation-invariant}. That is, $m^*(x + A) = m(A)$ for any $A \subseteq \R$
+and any $x \in \R$. We also know that $m^*(\lambda A) = |\lambda| m^*(A)$ for $\lambda \in \R$. 
+The following analogous result holds for the Hausdorff measure:
+
+\begin{lem}\label{isom}
+	On a metric space $(X, \rho)$, the Hausdorff outer measure $H^d$ is invariant under isometries of $(X, \rho)$.
+	Moreover, for any set $Y$, any $\lambda \in \R$, and functions $f,g : Y \to X$ satisfying $\rho(f(y_1), f(y_2)) \leqslant |\lambda| 
+	\rho(g(y_1), g(y_2))$ for all $y_1, y_2 \in Y$, we have $H^d(f(B)) = |\lambda|^d H^d(g(B))$ for all $B \subseteq Y$.
+\end{lem}
+\begin{proof}
+	(Adapted from \cite{Fol}).
+	\bigskip
+	
+	\noindent
+	Let $h : X \to X$ be an isometry, so that $\rho(x,y) = \rho(h(x), h(y))$ for all $x,y \in X$.
+	In particular, for any $U \subseteq X$, the fact that $h$ is isometric and bijective implies:
+	\[ \diam(U) = \sup \{ \rho(x,y) : x,y \in U \} = \sup \{ \rho(h(x), h(y)) : x,y \in U \} \] 
+	\[ = \sup \{ \rho(h(x), h(y)) : h(x),h(y) \in h(U) \} = \diam(h(U))  \]
+	
+	\noindent
+	and likewise, $\diam(h^{-1}(U)) = \diam(U)$ (in other words, $\diam$ is invariant under isometries).
+	Let $A \subseteq X$. Then for any $\delta > 0$:
+	\[ H_\delta^d(h(A)) = \inf \left\{ \sum_{i \geqslant 1} \diam(U_i)^d : h(A) \subseteq \bigcup_{i \geqslant 1} U_i, \; \diam(U_i) < \delta \right\} \]
+	\[ = \inf \left\{ \sum_{i \geqslant 1} \diam(h^{-1}(U_i))^d : A \subseteq \bigcup_{i \geqslant 1} h^{-1}(U_i), \; \diam(h^{-1}(U_i)) < \delta \right\}
+	= H_\delta^d(A) \]
+	
+	\noindent
+	and it follows by letting $\delta \to 0$ that $H^d(h(A)) = H^d(A)$, so that $H^d$ is invariant under isometries.
+	\bigskip
+	
+	\noindent
+	For the second statement, we may assume WLOG that $\lambda \neq 0$ (the case where $\lambda = 0$ is clear). Let $B \subseteq Y$ 
+	and let $\delta, \varepsilon > 0$ be arbitrary. Then we can find a cover 
+	$V_1, V_2, ... \subseteq X$ of $g(B)$ such that $\diam(V_i) < \frac{\delta}{|\lambda|}$ and:
+	\[ \sum_{i=1}^\infty \diam(V_i)^d \leqslant H_\delta^d(g(B)) + \frac{\varepsilon}{|\lambda|^d} \]
+	
+	\noindent
+	Let $U_i = f(g^{-1}(V_i))$. Then we have by construction that $U_1, U_2, ... \subseteq X$ is a cover for $f(A)$,
+	and by the assumption we have:
+	\[ \diam(U_i) = \sup \{ \rho(x_1, x_2) : x_1, x_2 \in U_i \} = \sup \{ \rho(f(y_1),f(y_2)) : y_1, y_2 \in g^{-1}(V_i) \}\]
+	\[ \leqslant |\lambda| \sup \{ \rho(g(y_1),g(y_2)) : y_1, y_2 \in g^{-1}(V_i) \} 
+	= |\lambda| \sup \{ \rho(x_1,x_2) : x_1, x_2 \in V_i \} = |\lambda| \diam(V_i) \]
+	
+	\noindent
+	Hence, it follows that:
+	\[ H_\delta^d(f(B)) \leqslant \sum_{i=1}^\infty \diam(U_i)^d \leqslant |\lambda|^d \sum_{i=1}^\infty \diam(V_i)^d
+	\leqslant |\lambda|^d H_\delta^d(g(B)) + \varepsilon \]
+	
+	\noindent
+	Now since $\delta$ and $\varepsilon$ were arbitrary, letting $\delta, \varepsilon \to 0$ gives:
+	\[ H^d(f(B)) \leqslant |\lambda|^d H^d(g(B)) \]
+	
+	\noindent
+	which completes the proof.
+\end{proof}
+
+The following result justifies that the Hausdorff measure can be considered a generalization of the Lebesgue measure:
+
+\begin{prop}\label{leb}
+	For $\R^n$ equipped with the usual Euclidean metric and $m_n$ the Lebesgue measure on $\R^n$, there exists
+	a constant $\gamma_n > 0$ for which $H^n = \gamma_n m_n$.
+\end{prop}
+\begin{proof}
+	We will \textit{sketch} the general idea of the proof. Consider the unit cube $Q = [0,1]^n$ and define $\gamma_n = H^n(Q)$. 
+	We can show that $\gamma_n < \infty$ by choosing $\delta > 0$, writing $Q$ as a union of cubes of length 
+	$< \frac{\delta}{\sqrt{n}}$, and verifying that the sum of diameters of the cubes is $n^{n/2}$. It will follow that
+	$\gamma_n = H^n(Q) < \infty$ (as $\delta$ doesn't depend on $n$). 
+	\bigskip
+	
+	\noindent
+	We can similarly show that $\gamma_n > 0$ by choosing an arbitrary countable cover $U_1, U_2, ...$ of $Q$ and covering
+	each $U_i$ by a cube $Q_i$ of side length $\diam(U_i)$. Monotonicity will then give
+	that $m_n(Q) = 1 \leqslant \sum_{i=1}^\infty m_n(Q_i) = \sum_{i=1}^\infty (\diam(U_i))^n$, and taking the infimum over all such
+	covers leads to $1 \leqslant H^n(Q)$ (so that in particular, $\gamma_n = H^n(Q) > 0$).
+	\bigskip
+	
+	\noindent
+	Finally, we can make use of the uniqueness of the Carath\'{e}odory theorem
+	in the construction of $m_n$ to show that $H^n(B) = \gamma_n m_n(B)$ for all open \textit{boxes} $B \subseteq \R^n$.
+	This is done by approximating the boxes by ``almost disjoint'' cubes (as done in \textbf{A1 Q5 (2)}) and using \textbf{Lemma \ref{isom}} 
+	to deal with the scaling and translating of each cube to $[0,1]^n$. It will then follow that in fact $H^n(A) = \gamma_n m_n(A)$
+	for all Lebesgue-measurable $A \subseteq \R^n$.
+\end{proof}
+
+\begin{rem}\label{vol_rem}
+	The proof doesn't require the computation of the value of $\gamma_n$, but only that it's a (strictly) positive finite value. It turns out that
+	$\gamma_n = \frac{\vol(B_1^n)}{2^n}$ where $\vol(B_1^n)$ is the volume of the $n$-ball $B_1^n \subseteq \R^n$ of radius 1 
+	(diameter 2). In particular, $\gamma_1 = 1$ so that $H^1$ is exactly the 1-dimensional Lebesgue measure $m_1$. We will prove this
+	latter fact formally (as it will help later).
+\end{rem}
+
+\begin{lem}\label{gamma_1}
+	$\gamma_1 = 1$. Hence, $H^1 = m_1$ (that is, the 1-dimensional Hausdorff measure on $\R$ is exactly the Lebesgue measure on $\R$).
+\end{lem}
+\begin{proof}
+	Since $H^1([0,1]) = \gamma_1 m_1([0,1]) = \gamma_1$, we must show that $H^1([0,1]) = 1$.
+	Indeed, let $\delta > 0$ and choose $N \in \N$ for which $\frac{1}{N} < \delta$. Then for each $1 \leqslant n \leqslant N$, set 
+	$U_n = [\frac{n-1}{N}, \frac{n}{N}]$ so that $U_1, ..., U_N$ is a cover for $[0,1]$ with $\diam(U_n) = \frac{1}{N} < \delta$.
+	Then:
+	\[ H_\delta^1([0,1]) \leqslant \sum_{n=1}^N \diam(U_n) \leqslant \sum_{n=1}^N \frac{1}{N} = 1 \]
+	
+	\noindent
+	and so letting $\delta \to 0$, we have $H^1([0,1]) \leqslant 1$. On the other hand, let $\delta > 0$ and
+	choose any cover $U_1, U_2, ... \subseteq \R$ for $[0,1]$ satisfying $\diam(U_i) < \delta$. We can see that $\diam(U_i) \geqslant m_1^*(U_i)$
+	(where $m_1^*$ is the Lebesgue \textit{outer} measure)
+	because $\diam(U_i) < \delta$ implies we can find $\alpha_i = \inf(U_i)$ and $\beta_i = \sup(U_i)$ so that
+	$\diam(U_i) = \beta_i - \alpha_i$ and $J_i = [\alpha, \beta] \supseteq U_i$ so that $\diam(U_i) = \beta_i - \alpha_i
+	= m_1(J_i) \geqslant m_1^*(U_i)$ by monotonicity. It then follows (by subadditivity and monotonicity) that:
+	\[ \sum_{i=1}^\infty \diam(U_i) \geqslant \sum_{i=1}^\infty m_1^*(U_i) \geqslant m_1^*\left( \bigcup_{i=1}^\infty U_i \right)
+	\geqslant m_1([0,1]) = 1 \]
+	
+	\noindent
+	so that (since our choice of cover was arbitrary) $H_\delta^1([0,1]) \geqslant 1$. Letting $\delta \to 0$ then gives
+	$H^1([0,1]) \geqslant 1$, and thus $H^1([0,1]) = \gamma_1 = 1$.
+\end{proof}
+
+\section{Hausdorff dimension}
+
+Before defining the Hausdorff dimension of a set, we first need the following lemma:
+
+\begin{lem}\label{dim}
+	Let $(X, \rho)$ be a metric space, let $E \subseteq X$, and let $\alpha, \beta \in \R$ with $0 < \alpha < \beta$.
+	If $H^\alpha(E) < \infty$, then $H^\beta(E) = 0$.
+\end{lem}
+\begin{proof}
+	(Adapted from \cite{Roy}).
+	\bigskip
+	
+	\noindent
+	Let $\delta > 0$. As $H^\alpha(E) < \infty$, we can choose $U_1, U_2, ... \subseteq X$ for which $E \subseteq \bigcup_{i \geqslant 1} U_i$,
+	each $\diam(U_i) < \delta$, and:
+	\[ \sum_{i \geqslant 1} \diam(U_i)^\alpha < H_\delta^\alpha(E) + 1  \]
+	
+	\noindent
+	We then see that as $\alpha < \beta$ and $\diam(U_i) < \delta$:
+	\[ H_\delta^\beta(E) \leqslant \sum_{i \geqslant 1} \diam(U_i)^\beta = \sum_{i \geqslant 1} \diam(U_i)^{\beta - \alpha + \alpha}
+	\leqslant \delta^{\beta - \alpha} \sum_{i \geqslant 1} \diam(U_i)^\alpha
+	\leqslant \delta^{\beta - \alpha} \left( H_\delta^\alpha(E) + 1 \right) \]
+	
+	\noindent
+	Moreover, since $H_\delta^\alpha(E)$ is increasing as $\delta \to 0$ (as proved in \textbf{A3}):
+	\[ H_\delta^\beta(E) \leqslant \delta^{\beta - \alpha} \left( H_\delta^\alpha(E) + 1 \right) \leqslant \delta^{\beta - \alpha} 
+	\left( H^\alpha(E) + 1 \right) \]
+	
+	\noindent
+	Finally, we have:
+	\[ H^\beta(E) = \lim_{\delta \to 0} H_\delta^\beta(E) \leqslant \lim_{\delta \to 0} \delta^{\beta - \alpha} \left( H^\alpha(E) + 1 \right)
+	= 0 \]
+	
+	\noindent
+	which forces $H^\beta(E) = 0$.
+\end{proof}
+
+The lemma makes the following definition well-defined:
+
+\begin{defn}
+	Let $(X, \rho)$ be a metric space and let $E \subseteq X$. The \textbf{Hausdorff dimension} $\dim_H(E)$ of $E$ is defined to be:
+	\[ \dim_H(E) = \inf \{ \alpha \geqslant 0 : H^\alpha(E) = 0 \} \]
+\end{defn}
+
+\paragraph{}
+Using \textbf{Lemma \ref{dim}} and \textbf{Proposition \ref{leb}}, we can compute the Hausdorff dimensions of certain shapes
+(subsets of $\R^n$). The following are examples in $\R^2$.
+
+\begin{exa}
+	Consider the closed unit disk $\D = \{ x \in \R^2 : \norm{x}_2 \leqslant 1 \}$.
+	We claim that its Hausdorff dimension $\dim_H(\D) = 2$. By using \textbf{Proposition \ref{leb}}, we have that:
+	\[ H^2(\D) = \gamma_2 m_2(\D) = \gamma_2 \cdot \pi > 0 \]
+	
+	\noindent
+	where $m_2(\D) = \pi$ is just the $\R^2$-Lebesgue measure (area) of $\D$. Then \textbf{Lemma \ref{dim}} tells us that
+	$H^\alpha(\D) = 0$ for all $\alpha > 2$, and so:
+	\[ \dim_H(\D) = \inf\{ \alpha \geqslant 0 : H^\alpha(\D) = 0 \} = 2 \]
+	
+	\noindent
+	We used \textbf{Proposition \ref{leb}} to prove that $H^2(\D) > 0$, but we could also have done an infimum argument
+	to do it. The former method saves us time, however.
+\end{exa}
+
+It can be more difficult to compute Hausdorff dimensions of more general submanifolds of $\R^n$, as 
+\textbf{Proposition \ref{leb}} would not guarantee that $H^n$ gives a non-zero value. In the next example, we compute
+the Hausdorff dimension of the submanifold $S^1$ (the unit circle in $\R^2$), and the following lemma proves useful to do so:
+
+\begin{lem}\label{conn}
+	Let $(X, \rho)$ be a metric space and let $A \subseteq X$ be a \textit{connected} set. Then $H^1(A) \geqslant \diam(A)$.
+\end{lem}
+\begin{proof}
+	(Adapted from \cite{Sem})
+	\bigskip
+	
+	\noindent
+	For each $a \in X$, consider the map $d_a : X \to \R$ defined by $d_a(x) = \rho(a,x)$. We can see that for $x,y \in X$
+	(assuming WLOG $\rho(a,x) \geqslant \rho(a,y)$):
+	\[ |d_a(x) - d_a(y)| = |\rho(a,x) - \rho(a,y)| = \rho(a,x) - \rho(a,y) \leqslant \rho(a,y) + \rho(x,y) - \rho(a,y) = \rho(x,y) \]
+	
+	\noindent
+	where the inequality comes from the triangle inequality on $\rho$. This shows that $d_a$ is 1-Lipschitz, thus (in particular) continuous. 
+	We hence get that:
+	\[ \diam(d_a(U)) = \sup\{ |d_a(x)-d_a(y)| : x,y \in U \} \leqslant \sup\{ \rho(x,y) : x,y \in d_a(U) \} = \diam(U) \]
+	
+	\noindent
+	for any $U \subseteq X$, which implies for any $\delta > 0$:
+	\[ H_\delta^1(d_a(A)) = \inf\left\{ \sum_{i \geqslant 1} \diam(J_i) : d_a(A) \subseteq \bigcup_{i \geqslant 1} J_i, \; \diam(J_i) < \delta \right\} \]
+	\[ \leqslant \inf\left\{ \sum_{i \geqslant 1} \diam(d_a(U_i)) : A \subseteq \bigcup_{i \geqslant 1} U_i, \; \diam(d_a(U_i)) \leqslant 
+	\diam(U_i) < \delta \right\} \]
+	\[ \leqslant \inf\left\{ \sum_{i \geqslant 1} \diam(U_i) : A \subseteq \bigcup_{i \geqslant 1} U_i, \; \diam(U_i) < \delta \right\} 
+	= H_\delta^1(A) \]
+	
+	\noindent
+	so that $H^1(d_a(A)) \leqslant H^1(A)$ for all $a \in X$. Finally since $d_a$ is continuous and $A$ is connected, it follows that
+	$d_a(A) \subseteq \R$ is connected (i.e. an interval), which means $H^1(d_a(A)) = \gamma_1 m_1(d_a(A)) = \gamma_1 \diam(d_a(A))$.
+	By \textbf{Lemma \ref{gamma_1}}, $\gamma_1 = 1$ and so $H^1(d_a(A)) = \diam(d_a(A)) \leqslant H^1(A)$ for all $a \in X$.
+	Finally:
+	\[ \sup_{a \in A} \diam(d_a(A)) = \sup_{a \in X} \sup \{ |d_a(x)-d_a(y)| : x,y \in A \}
+	= \sup_{a \in X} \sup \{ |\rho(x,a)-\rho(y,a)| : x,y \in A \} \]
+	\[ = \sup_{a \in X} \sup \{ \rho(x,a)-\rho(y,a) : x,y \in A \} 
+	\geqslant \sup \{ \rho(x,y)-\rho(y,y) : x,y \in A \}\]
+	\[ = \sup \{ \rho(x,y) : x,y \in A \} = \diam(A)   \]
+
+	\noindent
+	so that $\diam(A) \leqslant \sup_{a \in A} \diam(d_a(A)) \leqslant H^1(A)$, which completes the proof.
+\end{proof}
+
+\begin{exa}
+	Consider the unit circle $S^1 = \{ x \in \R^2 : \norm{x}_2 = 1 \}$.
+	We claim that its Hausdorff dimension $\dim_H(S^1) = 1$. We know that $S^1$ has $\R^2$-Lebesgue measure zero, so that:
+	\[ H^2(S^1) = \gamma_2 m_2(S^2) = \gamma_2 \cdot 0 = 0 \]
+	
+	\noindent
+	But this only tells us that $\dim_H(S^1) \leqslant 2$. To show that $\dim_H(S^1) = 1$, we observe that
+	$S^1 \subseteq \R^2$ is \textit{connected}, and so by \textbf{Lemma \ref{conn}}:
+	\[ H^1(S^1) \geqslant \diam(S^1) = 2 > 0 \]
+	
+	\noindent
+	so that $\dim_H(S^1) = 1$ (by \textbf{Lemma \ref{dim}}).
+\end{exa}
+
+\newpage
+
+\begin{thebibliography}{MMMMM} 
+\bibitem[Folland]{Fol} Folland, G. B. (1999). \textit{Real analysis: Modern techniques and their applications}. New York: Wiley.
+\bibitem[Royden]{Roy} Royden, H. L. \& Fitzpatrick, P. (2010). \textit{Real analysis}. Boston: Prentice Hall.
+\bibitem[Semmes]{Sem} Semmes, S. (2010). \textit{Some elementary aspects of Hausdorff measure and dimension}. arXiv:1008.2637v1.
+\end{thebibliography}
+
+\bibliographystyle{plain}
+\bibliography{template}
+
+\end{document}

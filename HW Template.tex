@@ -1,0 +1,159 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{latexsym,amssymb}
+\usepackage{array}
+\usepackage{amsmath}
+ \usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{mathtools}
+\usepackage{sectsty}
+\usepackage{tocloft}
+\usepackage{amsthm}
+\usepackage{float} 
+\usepackage[hidelinks]{hyperref}
+\usepackage{semantic}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shadings}
+\usepackage{fancyhdr}
+\usepackage{physics}
+\usepackage{pgfplots}
+
+%Plot settings
+\pgfplotsset{my style/.append style={axis x line=middle, axis y line=
+           middle, xlabel={$x$}, ylabel={$y$}, axis equal }}
+
+\setlength{\textwidth}{450pt}
+\setlength{\textheight}{720pt}
+\setlength{\topmargin}{-50pt}
+\setlength{\oddsidemargin}{12pt}
+\setlength{\parskip}{1pt plus 1pt}
+\setlength{\mathsurround}{1pt}
+\renewcommand{\baselinestretch}{1.05}
+
+\setcounter{secnumdepth}{2}
+\setcounter{secnumdepth}{0}
+\sectionfont{\Large}
+\subsectionfont{\fontsize{12}{8}\selectfont}
+
+\renewenvironment{proof}{{\bfseries Proof.}}{\hfill $\square$}
+\renewcommand*{\d}{\mathop{\kern5pt\mathrm{d}}\!{}}
+\newcommand*\Eval[3]{\left.#1\right\rvert_{#2}^{#3}}
+\newcommand{\floor}[1]{\lfloor #1 \rfloor}
+\newcommand{\dotp}{\boldsymbol{\cdot}}
+\newtheorem{theorem}{\indent\sc Theorem}[section]
+\newtheorem{lemma}{\indent\sc Lemma}[section]
+\newcommand{\Thmstop}{\hglue-6pt.\kern6pt}
+
+\DeclareMathOperator{\R}{\mathbb{R}} 
+\DeclareMathOperator{\N}{\mathbb{N}} 
+\DeclareMathOperator{\Z}{\mathbb{Z}} 
+\DeclareMathOperator{\Q}{\mathbb{Q}} 
+\DeclareMathOperator{\C}{\mathbb{C}} 
+
+\onehalfspacing
+\begin{document}
+\begin{titlepage}
+    \begin{center}
+    \huge{\bfseries Course Name: HW \#}\\
+         \vspace{0.5cm}
+    \large{Name}\\
+    \large{Student ID}\\
+     \large{Date}\\
+    \end{center}
+    \begin{center}
+    	\tableofcontents
+    \end{center}
+\end{titlepage}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Header}
+\cfoot{Page \thepage}
+
+\section{Question 1}
+Let $a_n = \dfrac{18n^5+2n-5}{6n^5-n^3-3}$. We want to show that $(\forall \epsilon > 0)(\exists K \in \N)[n \geq K \Rightarrow |a_n-3| < \epsilon]$. \\\\
+We have:
+\begin{align*}
+\left|\dfrac{18n^5+2n-5}{6n^5-n^3-3} - 3\right| &= \left|\dfrac{18n^5+2n-5 - 3(6n^5-n^3-3)}{6n^5-n^3-3}\right| \\
+&= \left|\dfrac{3n^3+2n+4}{6n^5-n^3-3}\right| \\
+&< \left|\dfrac{3n^3+3n^3+4n^3}{6n^5-n^3-3}\right| && \text{\small(as for $n \in \N$, $2n < 3n \leq 3n^3$ and $4 \leq 4n \leq 4n^3$)} \\
+&\leq \left|\dfrac{10n^3}{6n^5-n^5-3n^5}\right| && \text{\small(as for $n \in \N$, $n^5 \geq n^3$ and $3n^5 \geq 3$)} \\
+&=\left|\dfrac{10n^3}{2n^5}\right| \\
+&=\left|\dfrac{5}{n^2}\right| \\
+&=\dfrac{5}{n^2} && \text{$(*)$}
+\end{align*}
+Note that for $\epsilon > 0$ and $n > 0$, $\dfrac{5}{n^2} < \epsilon \iff n > \sqrt{\dfrac{5}{\epsilon}}$. \\
+\begin{proof}
+Let $\epsilon > 0$ be given. By the Archimedean property of $\R$, $\exists K \in \N$ such that $K >  \sqrt{\dfrac{5}{\epsilon}}$. Then for all $n \geq K$, we have:
+\begin{align*}
+\left|\dfrac{18n^5+2n-5}{6n^5-n^3-3} - 3\right| &< \dfrac{5}{n^2} && \text{(by $(*))$} \\
+&\leq \dfrac{5}{K^2} && \text{(since $n \geq K$)} \\
+&< \dfrac{5}{\left(\dfrac{5}{\epsilon}\right)} && \text{(since $K > \sqrt{\dfrac{5}{\epsilon}}$)} \\
+&= \epsilon \\
+\end{align*} 
+Hence, we have $\lim\limits_{n \to \infty}{\dfrac{18n^5+2n-5}{6n^5-n^3-3}} = 3$, as required.
+\end{proof}
+
+\section{Question 2}
+Let $a$ be the common limit of the subsequences. We want to show that $(\forall \epsilon > 0)(\exists K \in \N)[n \geq K \Rightarrow |a_n-a| < \epsilon]$. \\\\
+We know that:
+$$(\forall \epsilon > 0)(\exists K_1 \in \N)[k \geq K_1 \Rightarrow |a_{2k}-a| < \epsilon]$$
+$$(\forall \epsilon > 0)(\exists K_2 \in \N)[k \geq K_2 \Rightarrow |a_{4k-1}-a| < \epsilon]$$ 
+$$(\forall \epsilon > 0)(\exists K_3 \in \N)[k \geq K_3 \Rightarrow |a_{4k-3}-a| < \epsilon]$$
+
+We also note that these 3 subsequences partition $(a_n)$. This is because the integers can be partitioned into the equivalences classes of $\Z_4$. When $n$ is even, we have the union of equivalence classes $[0] \cup [2]$. In other words, if we only look at the positive, even values of $n$, we get the sequence $(a_{2k})$. If n is odd, we have the union of equivalence classes $[1] \cup [3]$. In other words, if we only look at the positive, odd values of $n$, we get either the sequence $(a_{4k-1})$ or $(a_{4k-3})$. \\
+
+\begin{proof}
+Let $\epsilon > 0$ be given. Let $K = \max\{2K_1, 4K_2-1, 4K_3-1\}$. Then for all $n \geq K$, we have:
+\[ \begin{cases}
+	|a_n-a| = |a_{2k}-a| < \epsilon & \text{if } n = 2k \text{	(since $k = \frac{n}{2} \geq \frac{K}{2} \geq K_1$)} \\
+      	|a_n-a| = |a_{4k-1}-a| < \epsilon & \text{if } n = 4k-1 \text{	(since $k = \frac{n+1}{4} \geq \frac{K+1}{4} \geq K_2$)} \\
+      	|a_n-a| = |a_{4k-3}-a| < \epsilon & \text{if } n = 4k-3 \text{	(since $k = \frac{n+3}{4} \geq \frac{K+3}{4} \geq K_3$)} \\
+\end{cases} 
+\]
+\end{proof}
+
+\section{Question 3}
+Note that $$x_1 = 6, x_2 = 5.33, x_3 = 5.12, x_4 = 5.05, x_5 = 5.02, x_6 = 5.01, ...$$  
+\begin{proof} 
+We first show that $x_n \geq 5$ for all $n \in \N$. Let $P(n)$ be the statement that $x_n \geq 5$. Clearly, $P(1)$ holds, as $x_{1} = 6 \geq 5$. Assume $P(k)$ holds, i.e. $x_k \geq 5$. Then $x_{k+1} = \dfrac{8x_k}{3+x_k} = 8 - \dfrac{24}{3+x_k} \geq 8 - \dfrac{24}{3+5}$, which gives $x_{k+1} \geq 5$. So, $P(k+1)$ holds. Thus, by the principle of mathematical induction,  $x_n \geq 5$ for all $n \in \N$, i.e., $(x_n)$ is bounded below by 5. \\\\
+Now we show that $x_n$ is decreasing for all $n \in \N$. Let $D(n)$ be the statement $x_{n+1} \leq x_{n}$. Then, since $x_2 = \dfrac{48}{9} \leq 6$, $D(1)$ holds. Assume $D(k)$ holds, i.e. $x_{k+1} \leq x_{k}$. Then $x_{k+2} - x_{k+1} = \dfrac{8x_{k+1}}{3+x_{k+1}} - \dfrac{8x_{k}}{3+x_{k}} = \dfrac{24(x_{k+1}-x_{k})}{(3+x_{k+1})(3+x_{k})}$. Note that $(3+x_{k+1})(3+x_{k}) \geq 0$, since $x_k \geq 5$ for all $k \in \N$, and by our induction hypothesis, $x_{k+1}-x_{k} \leq 0$. Thus, $\dfrac{24(x_{k+1}-x_{k})}{(3+x_{k+1})(3+x_{k})} \leq 0$. So, $D(k+1)$ holds. Thus, by the principle of mathematical induction,  $x_{n+1} \leq x_{n}$ for all $n \in \N$, i.e., $x_n$ is decreasing. \\\\
+Since $(x_n)$ is decreasing and bounded below, by Corollary 3.3.2(ii), it follows from the Monotone Convergence Theorem that $(x_n)$ converges. Let $\lim\limits_{n \to \infty}{x_{n}} = x \in \R$. By Theorem 3.4.1, as $(x_{n+1})$ is a subsequence of $(x_n)$, we know that  $\lim\limits_{n \to \infty}{x_{n+1}} = \lim\limits_{n \to \infty}{x_{n}} = x$. Hence,
+\begin{align*}
+x = \lim\limits_{n \to \infty}{x_{n+1}} &= \lim\limits_{n \to \infty}{\dfrac{8x_n}{3+x_n}} \\
+&= \dfrac{\lim\limits_{n \to \infty}{8x_n}}{\lim\limits_{n \to \infty}{3+x_n}} && \text{(as $x_n$ is bounded below by 5, so $3+x_n \neq 0$ for any $n$)} \\
+&= \dfrac{8\cdot\lim\limits_{n \to \infty}{x_n}}{3+\lim\limits_{n \to \infty}{x_n}} \\
+&= \dfrac{8x}{3+x} 
+\end{align*} 
+Thus, $x = \dfrac{8x}{3+x}$, which gives $x^2-5x = 0$. So either $x = 5$ or $x = 0$. Let $y_n = 5$ be a constant sequence. So, by Theorem 3.2.9(b), as $x_n \geq 5$ (from above), $x = \lim\limits_{n \to \infty}{x_{n}} \geq \lim\limits_{n \to \infty}{y_{n}} = 5$. Hence, $x = 5$.
+\end{proof}
+
+\section{Question 4}
+\begin{proof}
+Let $m_1 = \liminf x_n$, $m_2 = \liminf y_n$ and $m = \min\{m_1, m_2\}$. Note that as $(x_n), (y_n)$ are bounded, $\exists a, b, c, d \in \R$ such that $a \leq x_n \leq b$ and $c \leq y_n \leq d$ for all $n \in \N$. As $z_n = \min\{x_n, y_n\}$, each term in $(z_n)$ is either in $(x_n)$ or $(y_n)$. So, $\min\{a, c\} \leq z_n \leq \max\{b, d\}$, i.e., $z_n$ is bounded. We know that $(\forall n \in \N)[(z_n \leq x_n) \land (z_n \leq y_n)]$, so by Theorem 3.5.4, $\liminf z_n \leq \liminf x_n  = m_1$ and $\liminf z_n \leq \liminf y_n = m_2$. Hence, $\liminf z_n \leq \min\{m_1, m_2\} = m$. \\\\\ (Note that since $x_n, y_n, z_n$ are bounded, by the Bolzano-Weierstrass Theorem, each of the sequences have at least one convergent subsequence, which means $S(x_n), S(y_n)$, and $S(z_n)$ are non-empty and thus $\liminf x_n$, $\liminf y_n$, and $\liminf z_n$ exist.) \\\\
+Now let $z \in S(z_n)$. Then, there exists a subsequence $(z_{n_k})$ of $(z_n)$ (with each $n_k \geq k$) such that $\lim\limits_{n \to \infty}{z_n} = z$. Now as $(x_n), (y_n)$ are bounded sequences, by Theorem 3.5.2: 
+$$(\forall \epsilon > 0)(\exists K_1 \in \N)[n \geq K_1 \Rightarrow x_n > m_1-\epsilon]$$ 
+\begin{center} and \end{center}
+$$(\forall \epsilon > 0)(\exists K_2 \in \N)[n \geq K_2 \Rightarrow y_n > m_2-\epsilon]$$ \\
+So, let $\epsilon > 0$ be given and $K = \max\{K_1, K_2\}$. Then $(\forall n \geq K)[(x_n > m_1-\epsilon) \land (y_n > m_2-\epsilon)]$. So, $(x_n > \min\{m_1-\epsilon, m_2-\epsilon\}) \land (y_n > \min\{m_1-\epsilon, m_2-\epsilon\})$. Hence, $z_n > \min\{m_1-\epsilon, m_2-\epsilon\}$. As $\epsilon$ is a constant, we get $z_n > \min\{m_1, m_2\} - \epsilon$, which is equivalent to $z_n > m - \epsilon$. Now, as $(z_{n_k})$ is a subsequence of $(z_n)$, $n_k \geq k$, so:
+\begin{align*}
+k \geq K &\Rightarrow n_k \geq k \geq K \\
+&\Rightarrow z_{n_k} > m - \epsilon \\
+&\Rightarrow z_{n_k} \geq m - \epsilon
+\end{align*} 
+Thus, we have shown that $(\forall \epsilon > 0)(\exists K \in \N)[k \geq K \Rightarrow z_{n_k} \geq m-\epsilon]$. Now, if we let $k \to \infty$, by Theorem 3.2.9, $z = \lim\limits_{n \to \infty}{z_{n_k}} \geq m - \epsilon$. As $\epsilon > 0$ is arbitrary, $z \geq m$. \\\\
+Hence, as $z$ is arbitrary, we have shown that $(\forall z \in S(z_n))[z \geq m]$. So, $m$ is a lower bound of $S(z_n)$. By definition, $\inf{S(z_n)}$ is greatest lower bound of $S(z_n)$, so $\liminf z_n \geq m$. \\\\
+Consequently, as $(\liminf z_n \geq m) \land (\liminf z_n \leq m)$, $\liminf z_n = m = \min\{\liminf x_n,\liminf y_n\}$, as required.
+\end{proof}
+
+\section{Question 5}
+\subsection{(a)}
+False
+\subsection{(b)}
+False
+\subsubsection{(i)}
+False
+\subsubsection{(ii)}
+False
+
+\end{document}
