@@ -4,7 +4,7 @@
 
 - **Chapter 1** gives a brief introduction to the guide.  
 - **Chapter 2** gives a brief introduction to LaTeX.  
-- **Chapter 3** helps create your first LaTeX document.  
+- **Chapter 3** helps you create your first LaTeX document.  
 - **Chapter 4** talks about text.  
 - **Chapter 5** is about using LaTeX with different languages.  
 - **Chapter 6** refers to page design.  
