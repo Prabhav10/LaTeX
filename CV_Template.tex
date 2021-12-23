@@ -1,0 +1,206 @@
+% PREAMBLE START
+
+\documentclass{article}
+
+% Sometimes links can be broken if people open your resume with old computers and software. At end of the day, you need maximum reach. Just do this.
+\pdfminorversion=4
+
+\usepackage[cm]{fullpage}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{latexsym}
+\usepackage[margin=0.56in]{geometry}
+
+\hypersetup{breaklinks=true,%
+pagecolor=white,%
+colorlinks=true,%
+linkcolor=cyan,%
+urlcolor=MyDarkBlue}
+
+\definecolor{MyDarkBlue}{rgb}{0,,0.0}
+
+\newlength{\tabin}
+\setlength{\tabin}{0em}
+\newlength{\secsep}
+\setlength{\secsep}{0.1125cm}
+
+\setlength{\parindent}{0in}
+\setlength{\parskip}{0in}
+\setlength{\itemsep}{0in}
+\setlength{\topsep}{0in}
+\setlength{\tabcolsep}{0in}
+
+\definecolor{contactgray}{gray}{0.3}
+\pagestyle{empty}
+
+\newcommand{\lineunder}{\vspace*{-8pt} \\ \hspace*{-6pt} \hrulefill \\ \vspace*{-15pt}}
+
+\newenvironment{tabbedsection}[1]{
+  \begin{list}{}{
+      \setlength{\itemsep}{0pt}
+      \setlength{\labelsep}{0pt}
+      \setlength{\labelwidth}{0pt}
+      \setlength{\leftmargin}{0pt}
+      \setlength{\rightmargin}{0pt}
+      \setlength{\listparindent}{0pt}
+      \setlength{\parsep}{0pt}
+      \setlength{\parskip}{0pt}
+      \setlength{\partopsep}{0pt}
+      \setlength{\topsep}{0.4pt}
+    }
+  \item[]
+}{\end{list}}
+
+\newenvironment{nospacetabbing}{
+    \begin{tabbing}
+}{\end{tabbing}\vspace{-1.2em}}
+
+\newenvironment{resume_section}[1]{
+  \filbreak
+  \vspace{2\secsep}
+  \textbf{\textsc{\large#1}}
+  \lineunder
+  \begin{tabbedsection}{\secsep}
+}{\end{tabbedsection}}
+
+\newenvironment{resume_subsection}[4]{
+ \textbf{#2} \hfill  \textbf{#1}
+ \begin{flushright} \emph{{\small#3}} \hfill \emph{{\small#4}} \end{flushright}
+   \begin{tabbedsection}{0pt}
+}{\end{tabbedsection}
+}
+
+\newenvironment{subitems}{
+  
+  \begin{itemize}
+      \setlength{\labelsep}{1em}
+}{\end{itemize}}
+
+\newenvironment{resume_employer}[4]{
+  \vspace{\secsep}
+  \textbf{#1}  \hfill \textbf{#2}
+  \begin{flushright} \indent \emph{{\small#4}} \hfill \emph{{\small#3}} \end{flushright}
+  \begin{tabbedsection}{0pt}
+  \begin{subitems}
+}{\end{subitems}\end{tabbedsection}}
+
+\newenvironment{short_resume_employer}[4]{
+  \vspace{\secsep}
+  \textbf{#1}  \hfill \textbf{#2}
+  \begin{flushright} \indent \emph{{\small#4}} \hfill \emph{{\small#3}} \end{flushright}}
+
+
+\newenvironment{resume_research}[1]{
+\textbf{#1} 
+   \begin{tabbedsection}{0pt}
+}{\end{tabbedsection}
+\vspace{1\secsep}
+}
+
+\newenvironment{resume_comp}[2]{
+\textbf{#1}: \small{#2}
+\vspace{1\secsep}
+}
+
+% PREAMBLE END
+
+\begin{document}
+
+\begin{center}
+\textbf{{\huge{Name}}} \\
+\smallskip
+\normalsize{{Website} $\|$		
+{Email}		$\|$		Phone Number
+\end{center}
+
+
+\begin{resume_section}{EDUCATION}
+  
+  \begin{resume_subsection}{Location}{University}{Degree}{MMM YYYY -- Present}
+   \begin{subitems}
+     \item \small{GPA: }
+     \item \small{Coursework:}
+      \item \small{Award:}
+      \item \small{Societies:}
+   \end{subitems}
+  \end{resume_subsection}
+  
+   \begin{resume_subsection}{Location}{University}{Degree}{MMM YYYY -- MMM YYYY}
+    \begin{subitems}
+     \item \small{One-Liner}
+     \end{subitems}
+  \end{resume_subsection}
+  
+    \begin{resume_subsection}{Location}{High School}
+   {Course}{MMM YYYY -- MMM YYYY}
+    \begin{subitems}
+      \item \small{Awards:}
+      \item \small{Societies:}
+          \end{subitems}
+  \end{resume_subsection}
+\end{resume_section}
+
+\begin{resume_section}{EXPERIENCE}
+
+  \begin{resume_employer}{Company}{Location}{MMM YYYY -- Present}{Position}
+  \item \small{Flex.}
+  \item Another Flex.
+    \item Insert those key words and numbers.
+\end{resume_employer}
+
+  \begin{short_resume_employer}{Company}{Location}{MMM YYYY -- MMM YYYY}{Exclusive Networking Event that you add to your LinkedIn Profile}
+\end{short_resume_employer}
+
+  \begin{resume_employer}{Company}{Location}{MMM YYYY -- MMM YYYY}{Position}
+  \item \small{Something simple in fancy terms.}
+  \item Flex those communication, teamwork, and leadership qualities.
+    \item Something random you probably spent 1 hour on.
+\end{resume_employer}
+  
+\end{resume_section}
+
+
+\begin{resume_section}{COMPETITIONS \& PROJECTS}
+\vspace{1\secsep}
+  
+\begin{resume_research}{Research Projects}
+  \begin{subitems}
+\item \small{Research Name (link to project) - Describe it with a complex sentence that nobody understands.}
+\item \small{Research Name (link to project) - Another complex sentence that even you don't understand.}
+\item \small{Use other formats from other resume sections if you need more words to describe your complex research project.}
+      \end{subitems}
+   \end{resume_research}
+   
+  \begin{resume_comp}{Competition}{Award}
+   \end{resume_comp}
+  
+  \begin{resume_comp}{Another Competition}{Award}
+    \end{resume_comp}
+    
+      \begin{resume_comp}{Another Competition **sigh**}{Wow, another award!}
+    \end{resume_comp}
+
+ \end{resume_section}
+
+ \begin{resume_section}{LEADERSHIP \& ACTIVITIES}
+    \begin{resume_employer}{Club}{Location}{MMM YYYY -- MMM YYYY}{Position}
+    \item \small{Explain how you are core member of the club.}
+\end{resume_employer}
+ 
+       \begin{resume_employer}{Society}{Location}{MMM YYYY -- MMM YYYY}{Position}
+    \item \small{Explain how you should win a Nobel Prize for your contribution}
+\end{resume_employer}
+
+   \end{resume_section}
+  
+ \begin{resume_section}{ABOUT ME}
+  \begin{tabbing}
+  \textbf{Technical Skills} \= \quad\small{\LaTeX\, bunch of programming languages you learnt for $<$ 10 hours} \\
+  \textbf{Languages} \> \quad\small{Don't add English; if you can say $<$ 10 words in a language, just add it.}\\
+  \textbf{Certifications} \> \quad\small{Useful Certificate 1, Useless Certificate 2}\\
+  \textbf{Interests} \> \quad\small{\LaTeX, Flexing, Applying to Companies, Networking, whatever that makes you unique}\\
+  \end{tabbing}
+
+\end{resume_section}
+
+\end{document}
