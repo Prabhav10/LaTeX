@@ -12,7 +12,7 @@
 - **Chapter 8** mentions lists, tables, and images.  
 - **Chapter 9** touches on document features.   
 - **Chapter 10** brings LaTeX to life visually.   
-- **Chapter 11** extends LaTeX to physics, chemistry, computer science, poetry, emojis, resume writing, thesis writing, and presentaitons.  
+- **Chapter 11** extends LaTeX to physics, chemistry, computer science, poetry, emojis, resume writing, thesis writing, and presentations.  
 - **Chapter 12** gives you a few tips and tricks.  
 - **Chapter 13** comments on debugging.  
 - **Chapter 14** provides more resources.  
