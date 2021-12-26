@@ -17,5 +17,5 @@
 - **Chapter 13** comments on debugging.  
 - **Chapter 14** provides more resources.  
 
-**Notes**: 
+**Remarks**: 
 - _If the links do not work, download the guide._ 
