@@ -20,10 +20,10 @@
 
 ## Version Tracker:   
 **1.0** - Original guide.  
-**1.1** - Discouraged the use of the $$...$$ environment. (Credit: https://www.reddit.com/user/Efficient_Paper/)  
-**1.2** - Added bookmarks for the PDF Viewer. (Credit: https://www.reddit.com/user/victotronics/)  
+**1.1** - Discouraged the use of the $$...$$ environment. (**Credit**: https://www.reddit.com/user/Efficient_Paper/)  
+**1.2** - Added bookmarks for the PDF Viewer. (**Credit**: https://www.reddit.com/user/victotronics/)  
 
 ## Remarks:   
-- _If the links do not work, download the guide._ 
-- _I am still learning how to use Git, so bare with me._
+- If the links do not work, download the guide.   
+- I am still learning how to use Git, so bare with me.  
 
