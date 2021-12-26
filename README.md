@@ -16,3 +16,5 @@
 - **Chapter 12** gives you a few tips and tricks.  
 - **Chapter 13** comments on debugging.  
 - **Chapter 14** provides more resources.  
+
+**Note**: If the links do not work, download the guide.  
