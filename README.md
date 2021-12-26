@@ -20,7 +20,7 @@
 
 ## Version Tracker:   
 **1.0** - Original guide.  
-**1.1** - Discouraged the use of the $$...$$ environment. (**Credit**: [u/Efficient_Paper/](https://www.reddit.com/user/Efficient_Paper/))  
+**1.1** - Discouraged the use of the $$...$$ environment. (**Credit**: [u/Efficient_Paper](https://www.reddit.com/user/Efficient_Paper/))  
 **1.2** - Added bookmarks for the PDF Viewer. (**Credit**: [u/victotronics](https://www.reddit.com/user/victotronics/))  
 
 ## Remarks:   
