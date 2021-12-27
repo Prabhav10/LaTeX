@@ -1,6 +1,6 @@
 # How to Become a LaTeXpert
 
-### How to Become a LaTeXpert is a guide for LaTeX, a programming-like tool that allows users to write mathematics on their computer. An open-source tool, LaTeX is now the standard for research papers, books, and academic journals. Its power is far-reaching and people will encounter it sooner or later.
+### How to Become a LaTeXpert is a guide for LaTeX, a programming-like tool that allows users to write mathematics on their computer. An open-source tool, LaTeX is now the standard for research papers, books, and academic journals. Its power is far-reaching and people will encounter it sooner or later. 
 
 ## :scroll: Chapter Summaries:   
 - **Chapter 1** gives a brief introduction to the guide.  
@@ -26,4 +26,3 @@
 ## :writing_hand: Remarks:   
 - If the links do not work, download the guide.   
 - I am still learning how to use Git, so bare with me.  
-
