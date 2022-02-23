@@ -25,7 +25,7 @@
 
 ## :writing_hand: Remarks:   
 - If the links do not work, download the guide.   
-- Under the Creative Commons License 
+- (23rd Feb 2022) I have uploaded the source code, so feel free to contribute.
 
 ## 💳 License:
 [![License: CC0](https://img.shields.io/badge/License-CC0-lightgrey.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
