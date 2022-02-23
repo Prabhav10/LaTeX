@@ -1,0 +1,4113 @@
+% PREAMBLE %
+
+\documentclass[12pt]{report}
+
+% Packages %
+\usepackage[margin=3.5cm, includefoot]{geometry} % Margins %
+\usepackage{dirtytalk} % Quotations %
+\usepackage{fancyhdr} % Headers + Footers %
+\usepackage{shapepar} % Paragraph Shaping %
+\usepackage{verse} % Poetry %
+\usepackage[toc]{appendix}
+\usepackage{imakeidx} % Index %
+\usepackage{xcolor} % Colors for Headings %
+\usepackage{sectsty} % Changes Headings %
+\usepackage{fontspec} % Installing other fonts %
+\usepackage{tcolorbox} % Colored Boxes %
+\usepackage{float} % Table Positioning %
+\usepackage{multirow} % Multiple Cells over Rows in Table %
+\usepackage{tikz} % Drawings % 
+\usepackage{circuitikz} % Circuits %
+\usepackage{pgfplots} % Graphs %
+\usepackage{graphicx} % Graphics %
+\usepackage{mhchem} % Chemistry % 
+\usepackage{chemfig} % Drawing Chemistry %
+\usepackage{showexpl} % LaTeX Code + Output %
+\usepackage{listings} % Code Listing %
+\usepackage{fancyvrb} % LaTeX Code + No Output %
+\usepackage[colorlinks, citecolor=green, urlcolor=blue, linkcolor=magenta, hypertexnames=true]{hyperref}  % Hyperlinks %
+\usepackage{mathtools, amssymb, amsthm, braket, polynom, cancel} % Math %
+\usepackage[ISO]{diffcoeff} % Derivatives %
+\usepackage{polyglossia} % International Language Support %
+\setdefaultlanguage{english} % Main Language %
+\setotherlanguages{spanish, french} % Other Languages %
+\usepackage[UTF8, scheme = plain]{ctex} % Chinese Text %
+\usepackage{xeCJK} % Japanese Text %
+\usepackage{metalogo} % XeLaTeX %
+
+% Commands %
+
+% Index Command
+\newcommand{\indexcommand}[1]{\index{#1@$\texttt{\textbackslash#1}$}\index{commands!$\texttt{\textbackslash#1}$}} 
+% Print + Index Command 
+\newcommand{\command}[1]{\texttt{\textbackslash#1}\index{#1@$\texttt{\textbackslash#1}$}\index{commands!$\texttt{\textbackslash#1}$}} 
+% Index Font Commands 
+\newcommand{\fontCommand}[2]{\index{#1@$\texttt{\textbackslash#1}$}\index{commands!$\texttt{\textbackslash#2}$@$\texttt{\textbackslash#1}$}\index{font sizes!$\texttt{\textbackslash#2}$@$\texttt{\textbackslash#1}$}}
+
+
+% Math %
+\newcommand{\dee}{\mathrm{d}} % Upright d 
+\newcommand{\bvec}[1]{\boldsymbol{#1}} % Bold Vector 
+\newtheoremstyle{dotless}{}{}{}{}{\bfseries}{}{12pt}{}
+\theoremstyle{dotless}
+\newtheorem{thm}{Theorem}[section] % Theorem 
+\newtheorem*{thm*}{Theorem} % Theorem (unnumbered)
+\newtheorem{lem}[thm]{Lemma} % Lemma 
+\newtheorem*{lem*}{Lemma} % Lemma (unnumbered)
+\newtheorem{cor}[thm]{Corollary} % Corollary 
+\newtheorem*{cor*}{Corollary} % Corollary (unnumbered)
+\newtheorem{prop}[thm]{Proposition} % Proposition
+\newtheorem*{prop*}{Proposition} % Proposition (unnumbered)
+\newtheorem{defn}[thm]{Definition} % Definition
+\newtheorem*{defn*}{Definition} % Definition (unnumbered)
+\newtheorem{rem}[thm]{Remark} % Remark
+\newtheorem*{rem*}{Remark} % Remark (unnumbered)
+\newtheorem{exa}[thm]{Example} % Example
+\newtheorem*{exa*}{Example} % Example (unnumbered)
+\newtheorem{exe}[thm]{Exercise} % Exercise
+\newtheorem*{exe*}{Exercise} % Exercise (unnumbered)
+\newtheorem{aside}[thm]{Aside} % Aside
+\newtheorem*{aside*}{Aside} % Aside (unnumbered)
+
+% Fonts %
+\renewcommand{\familydefault}{\sfdefault} % sets document fonts
+\newfontfamily{\tnr}{Times New Roman} % Times New Roman
+ \let\arabicfonttt\ttfamily
+\newfontfamily{\arabicfont}[Script=Arabic,Scale=1.1]{Scheherazade} % Arabic Font 
+\newfontfamily{\hindifont}[Script=Devanagari]{Lohit Devanagari} % Hindi Font 
+\newfontfamily{\bengalifont}[Script=Bengali]{Kalpurush} % Bengali Font
+\newfontfamily{\russianfont}[Script=Cyrillic]{Linux Libertine} % Russian Font 
+\newfontfamily{\thaifont}[Script=Thai]{Prompt} % Thai Font 
+\newfontfamily{\hebrewfont}[Script=Hebrew]{IBM Plex Sans Hebrew} % Hebrew Font
+\newfontfamily{\greekfont}[Script=Greek]{Linux Libertine} % Greek Font 
+
+% Colours %
+\definecolor{deepjunglegreen}{rgb}{0.0, 0.29, 0.29} % define my green color
+\sectionfont{\color{deepjunglegreen}}  % sets colour of sections
+\subsectionfont{\color{deepjunglegreen}}  % sets colour of sections
+
+% Options on Headers + Footers %
+\pagestyle{fancy}
+\fancyhf{}
+\chead{\leftmark}
+\cfoot{\thepage}
+\usepackage[bottom]{footmisc} % Places footnote at bottom of the page 
+\renewcommand{\chaptermark}[1]{ % Chapter Mark %
+                 \markboth{\large\textbf{#1}}{}}
+
+% Alphabetical Index Options %
+\begin{filecontents*}{\jobname.mst}
+headings_flag 1
+heading_prefix   "\\par\\penalty-50\\textbf{"
+heading_suffix   "}\\\\\*\~\\\\\*"
+symhead_positive "Symbols"
+symhead_negative "symbols"
+numhead_positive "Numbers"
+numhead_negative "numbers"
+delim_0 ",\~"
+\end{filecontents*}
+
+% An Index %
+\makeindex[intoc]
+
+% Options on Code + Output %
+\lstdefinestyle{myLaTeX}
+{
+    language=[LaTeX]TeX,
+    morekeywords={say},
+    keywordstyle=\ttfamily,
+    numbers=none,
+    basicstyle=\footnotesize\ttfamily,
+    breakatwhitespace=true,         
+    breaklines=true,
+    captionpos=b,               
+    keepspaces=true,                             
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+}
+
+% Spacing %
+\frenchspacing % Treats punctuation equally %
+
+% Document Info %
+\title{How to Become a \LaTeX pert}
+\author{\color{deepjunglegreen}Prabhav Kumar}
+\date{\color{deepjunglegreen}\today}
+
+% PREAMBLE END %
+
+% DOCUMENT %
+\begin{document}
+
+% Title Page %
+\maketitle
+
+% Table of Contents %
+\tableofcontents
+
+% Setting Page Number %
+\setcounter{page}{6}
+
+% CHAPTER 0 %
+\chapter{A Very Brief Introduction}
+This guide serves as an introduction to \LaTeX{}. I have tried to make it concise and easy to follow. I am open to criticism (hopefully constructive). \\\\ Contact me via \url{prabhavkumar10@gmail.com} or \href{https://www.linkedin.com/in/prabhavkumar/}{LinkedIn}. \\\\ Updates to this guide can be found on \href{https://github.com/Prabhav10/LaTeX}{GitHub}.
+
+% CHAPTER 1 %
+
+\chapter{\LaTeX{} 101}
+
+% TeX %
+\section{\TeX{}}
+Throughout history, mathematical symbols and equations were written on materials such as clay and paper. With the advent of technology, humans needed a way to write math on computers, so \TeX{} (pronounced \say{Tech}) was created. It is a computer program created by Donald E. Knuth\index{Donald E. Knuth} and short for {\greekfont{τέχνη}}, Greek for both \say{art} and \say{craft}.
+
+% LaTeX %
+\section{\LaTeX{}}
+\LaTeX{} (pronounced \say{Lah-Tech}) is built on top of \TeX{} and is much more user-friendly. It is created by Leslie Lamport\index{Leslie Lamport}. It is useful to think of \TeX{} as a low-level language and \LaTeX{} as a higher-level language. 
+
+% Analogy %
+\subsection{The Light-Bulb Analogy}
+Understanding the difference between \TeX{} and \LaTeX{} can be quite tricky, so a simple light-bulb analogy can be used to explain the difference: \\\\ \TeX{} and \LaTeX{} can be thought of an electrical circuit and a switch, respectively. Both provide a similar function (lighting up a bulb), but it is much more convenient for the user to deal with the switch than the circuit.
+
+% Word %
+\subsection{Not a Word Processor}
+\LaTeX{} is \textbf{not} a word processor. When using Microsoft Word\index{Microsoft Word}, the final document automatically updates while typing on a .docx file\index{file}. However, with \LaTeX{}, the final document, which is usually a separate PDF file, only updates after typing and typesetting or compiling a .tex file\index{file}. 
+
+% Installation %
+\section{Installing \LaTeX{}}
+There are several ways to install\index{install} \LaTeX{}, but this is what I did:
+\begin{enumerate} 
+	\item Download \href{https://miktex.org/download}{MikTeX} (a \TeX{} distribution) . 
+	\item Download \href{https://www.xm1math.net/texmaker/download.html}{Texmaker} (a cross-platform \LaTeX{} editor). 
+	\item Watch \href{https://www.youtube.com/watch?v=WnIYTFTsWiU}{this} video for a guided walkthrough.
+\end{enumerate} 
+
+% CHAPTER 2 %
+
+\chapter{Creating your First \LaTeX{} Document}
+
+% Pre-requisites, Typesetting & Troubleshooting
+\section{Before you Start: Typesetting \& Troubleshooting\index{typesetting}\index{troubleshooting}\index{start}}
+To compile a \LaTeX{} file, the user must typeset it on Texmaker using the \say{Quick Build} button (other editors have a \say{Typeset} or \say{Compile} button). If a PDF\index{PDF} file is outputted, the compilation\index{compilation} was successful. If not, then do the following:\\ 
+\begin{enumerate}
+\item Click on the "abort" button.
+\item Read the console output - it will include the line number and the command that caused the error.
+\item Fix the error\index{error}.
+\item Typeset the file again. \\
+\end{enumerate}
+As an example, after opening a new document, type the following code:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\documentclass[10pt]{article}
+
+\begin{document}
+Hello World!
+\end{document}
+\end{LTXexample}
+As shown, the output should be Hello Word!.
+\index{environments!document@\texttt{document}}
+
+
+% Document Class %
+\section{\command{documentclass}}
+\label{classes}
+\command{documentclass} is the command that must appear at the start of a \LaTeX{} document. The document class is specified within \{ \}. Frequently used classes include: 
+\begin{itemize}
+\item \command{article} - for shorter documents (notes).
+\item \command{beamer} - for presentation slides.
+\item \command{book} - self-explanatory.
+\item \command{proc} - for conference proceedings.
+\item \command{report} - for longer documents (PhD thesis\index{thesis}). \\
+\end{itemize} 
+Document class options are specified within [ ]. Frequently used options include: 
+\begin{itemize}
+\item \texttt{$x$pt\index{font}} - main font size (default is 10pt).
+\item \texttt{a4paper\index{A4 paper}}, \texttt{a5paper\index{A5 paper}}, \texttt{letterpaper\index{Letter paper}}, \texttt{legalpaper\index{Legal paper}} - paper size. 
+\end{itemize}
+
+% Preamble %
+\section{The Preamble\index{preamble} \& The Body\index{preamble}}
+Anything before \command{begin}\texttt{\{document\}} is called the preamble and applies to the whole document. \\\\
+The area between \command{begin}\texttt{\{document\}} and \command{end}\texttt{\{document\}} is called the body. This is where the content goes. \\\\
+Text after \command{end}\texttt{\{document\}} will be ignored.
+
+% Packages %
+\subsection{\command{usepackage}}
+Sometimes \LaTeX{} cannot solve a problem, so external packages are added in the preamble using \command{usepackage}. For example, \texttt{dirtytalk}\index{quotations} allows users to deal with quotation marks.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\documentclass[10pt]{article}
+\usepackage{dirtytalk}
+
+\begin{document}
+\say{Stay positive \& test negative!}
+\end{document}
+\end{LTXexample}
+$\\$
+You can find package documentation by googling \say{CTAN *insert package name*}.
+
+% Title / Author / Date %
+\subsection{\command{title}, \command{author}, \command{date}, \command{maketitle}}
+When creating a title page, these 4 commands are used. For example, if Einstein (hypothetically) wrote a \LaTeX{} document, he would type \command{title}\texttt{\{General Relativity\}}, \command{author}\texttt{\{Albert Einstein\}}, \command{date}\texttt{\{May 7, 1915\}} and \command{maketitle} in the body.
+
+% Special Characters %
+\section{The Building Blocks of \LaTeX{}: \texttt{\textbackslash}, \texttt{[  ]}, \texttt{\{ \}}, \texttt{\textvisiblespace}}
+The backslash is central to \LaTeX{} because each \LaTeX{} command starts with \texttt{\textbackslash}. 
+
+% Commands %
+\subsection{Commands\index{commands}}
+A command is a special expression that instructs \LaTeX{} to do a specific task. It is case-sensitive, i.e. \texttt{\textbackslash large}\fontCommand{large}{large} and \texttt{\textbackslash Large}\fontCommand{Large}{large} are different commands. Commands are sometimes followed by declarations. 
+
+% Declarations %
+\subsection{Declarations\index{declarations}}
+A declaration is either optional \texttt{[  ]} or required \texttt{\{ \}}. For example, in \\ \command{documentclass}\texttt{[10pt]\{article\}}:
+\begin{itemize}
+\item \command{documentclass} is the command.
+\item \texttt{[10pt]} is an optional declaration (can be omitted).
+\item \texttt{\{article\}} is a required declaration (something is needed within \texttt{\{ \}}). \\
+\end{itemize} 
+Sometimes \texttt{\{ \}} provides spacing after a command:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\LaTeX  ample vs. \LaTeX{} ample
+\end{LTXexample}
+
+% Environments %
+\subsection{Environments\index{environments}}
+An environment performs a specific action on a block of \LaTeX{} code. It must have matching \command{begin} and \command{end} declarations. For example:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\begin{center}
+Core-an is the official language at the center of Earth. \\
+P.S. This is how you center text.
+\end{center}
+\end{LTXexample}
+\index{center}
+\index{center text}
+\index{justify center}
+\index{environments!center@\texttt{center}}
+
+% Spaces %
+\subsection{Spaces\index{spaces}}
+Spaces and tabs\index{tabs} are treated as 1 space (\texttt{\textvisiblespace}). Any combination of consecutive spaces and tabs are also treated as 1 space. An empty line\index{empty line} marks the end of a paragraph\index{paragraph}. Consecutive empty lines are treated  as 1 empty line. For example:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+1 space =    1 tab.
+1 space =      consecutive spaces. 
+
+1 empty line = end of paragraph.
+
+
+1+ empty lines = 1 empty line.
+\end{LTXexample}
+$\\$
+Use a tilde (\~{}) for an unbreakable space
+\begin{LTXexample}[style=myLaTeX, pos=o]
+This is an unbreakable space.
+Really? Oh Yes. \\
+This is an unbreakable space.
+Really? Oh~Yes. 
+\end{LTXexample}
+\index{unbreakable space}
+
+% Special Characters %
+\subsection{Special Characters\index{special characters}}
+
+% Reserved Characters %
+\subsubsection{Reserved Characters\index{reserved characters}}
+The following characters\index{characters} (discussed elsewhere) have a special meaning in \LaTeX: 
+\begin{center}
+  {\verb! # $ % & { } _ ~ ^ \!}
+\end{center}
+$\\$
+In order to print them, you must escape or prefix the character with a \texttt{\textbackslash}: 
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\# \$ \% \& \{ \} \_ \~{} \^{}
+\textbackslash
+\end{LTXexample}
+$\\$
+\command{\textbackslash} means a newline\index{newline} so \texttt{\textbackslash textbackslash} is used.
+\indexcommand{\$}
+\index{dollar sign}
+\indexcommand{\%}
+\index{percent sign}
+\index{comment}
+\index{escape}
+
+% Symbols %
+\label{symbols}
+\subsubsection{Symbols\index{symbols}}
+There are over 18,000 symbols\footnote{Some symbols require packages. } in \LaTeX{}. They are printed using specific commands\index{commands}. For example: 
+\begin{LTXexample}[style=myLaTeX, pos=o]
+$\div$ \\
+\copyright \\
+$\clubsuit$ 
+\end{LTXexample}
+$\\$
+Sometimes the symbol must be placed between \$ signs (refer to \ref{math mode} on page \pageref{math mode}).
+\index{$\clubsuit$} \indexcommand{clubsuit}
+\index{\copyright} \indexcommand{copyright}
+\index{$\div$} \indexcommand{div}\index{divide}\index{division}
+
+% Symbols Resources %
+\subsubsection{Helpful Resources\index{resources}}
+\begin{enumerate}
+\item \href{https://detexify.kirelabs.org/classify.html}{Detexify} - inputs a drawing of a symbol and outputs its \LaTeX{} command (and the package required if needed).
+\item \href{http://tug.ctan.org/info/symbols/comprehensive/symbols-letter.pdf}{CTAN} - a comprehesive list of symbols.
+\end{enumerate}
+
+% Organization %
+\section{Basic Organization (Section)\index{organization}\index{sections}}
+It is helpful to divide the \LaTeX{} document into different sections.
+
+% Sectioning Commands %
+\subsection{Sectioning Commands\index{sectioning commands} (Subsection)}
+Different document classes\index{document classes} have different sectioning commands\index{commands}:
+
+% Article Sectioning Commands %
+\subsubsection{\texttt{article} class (Subsubsection)}
+\begin{itemize}
+\item \command{section}
+\item \command{subsection}
+\item \command{subsubsection}
+\item \command{paragraph}
+\end{itemize}
+
+% Book/Report Sectioning Commands %
+\subsubsection{\texttt{book, report} class (Subsubsection)}
+\begin{itemize}
+\item \command{part}
+\item \command{chapter}
+\item All of the \texttt{article} sectioning commands.
+\end{itemize}
+$\\$
+Sectioning commands automatically provide spacing\index{space} (and numbering), so you do not need to add \command{newline} or \command{\textbackslash} before the next sectioning command.  Add a $*$ after the sectioning command for unnumbering. (Paragraph)
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+\section{This will be a numbered section.}
+\section*{This will not.}
+\end{lstlisting} 
+
+% Labelling %
+\subsection{Labelling\index{labels}\index{references}}
+\label{label}
+Section commands can be labelled with \command{label}\texttt{\{labelname\}}. When referring to a particular section, use  \command{ref}\texttt{\{labelname\}} (the section) or \command{pageref}\texttt{\{labelname\}} (page number of the section). Using an example from this guide:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\label{symbols}
+% Some Code 
+To learn about symbols, refer to \ref{symbols} on page \pageref{symbols}.
+\end{LTXexample}
+
+% Footnotes %
+\subsection{Footnotes \index{size}\index{footnotes}}
+\command{footnote} prints text at the bottom of the page\footnote{Footnotes are easy with \LaTeX{}!}. Here is the code I used to create the footnote:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+$\ldots$ at the bottom of the page\footnote{Footnotes are easy with \LaTeX{}!}. 
+\end{LTXexample}
+
+% Comments %
+\subsection{Comments\index{comments}}
+The \texttt{\%}\indexcommand{\%}\index{percent sign} character is reserved for commenting. When used, the rest of the current line is ignored.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% This text will be ignored.
+Some text % will be ignored.
+\end{LTXexample}
+$\\$
+If multiple lines need to be commented, highlight the necessary text and use the keyboard shortcut for commenting\footnote{Keyboard shortcuts for \href{https://www.xm1math.net/texmaker/doc.html\#SECTION39}{Texmaker}; \href{http://transit.iut2.upmf-grenoble.fr/doc/texstudio/html/usermanual_en.html\#SHORTCUTS}{Texstudio}.}\index{keyboard shortcuts}. \\\\ Another way is to define a new command:
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Preamble
+\newcommand{\comment}[1]{}
+
+% Body
+\comment{
+You Can't See Me.
+
+Just Like John Cena.
+}
+\end{lstlisting} 
+
+ % CHAPTER 3 %
+
+\chapter{All About Text}
+
+% Line Breaking %
+\section{Line Breaking\index{line breaks}\index{newline}}
+As mentioned previously, \command{\textbackslash} or \command{newline} performs a line break. \command{\textbackslash$*$} starts a new line without starting a new paragraph. 
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Text is broken here. \\* 
+The paragraph is not broken.
+\end{LTXexample}
+
+% Page Breaking %
+\section{Page Breaking\index{page breaks}\index{new page}}
+\command{newpage} should suffice.
+
+% Keeping Words Together %
+\section{Keeping Words Together\index{coalescing words}}
+\command{mbox} keeps words together in 1 line. No line breaks are allowed in the text.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+These words are not grouped, but \mbox{these words are}.
+\end{LTXexample}
+$\\$
+\command{fbox} draws a box around the grouped words.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\fbox{These words are trapped}.
+\end{LTXexample}
+
+% Punctuation %
+\section{Punctuation\index{punctuation}}
+
+% Type-able punctuation %
+\subsection{Apostrophes, Colons, Commas, Periods, and Semi-Colons}
+Simply type these punctuation marks. It is useful but not necessary to type \command{frenchspacing} in the preamble. This tells the document to treat spacing after commas and periods equally. 
+
+% Dashes %
+\subsection{Dashes\index{dashes}\index{hyphens}\index{en-dash}\index{em-dash}\index{minus sign}}
+There are 4 types of dashes:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+hyphen (-): Pre-Christmas vibes. \\
+en-dash (--): I work from 9--5. \\
+em-dash (---): Yes --- or no? \\
+minus sign ($-$): $-69$.
+\end{LTXexample}
+
+% Ellipsis %
+\subsection{Ellipsis\index{ellipsis}\index{dots}}
+As it has better spacing and line-break behavior, \command{ldots} in between dollar signs is a better solution than typing 3 dots.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+3 dots:  a b c... z \\
+low dots: a b c $\ldots$ z
+\end{LTXexample}
+$\\$
+
+
+% Quotation Marks %
+\subsection{Quotation Marks\index{quotation marks}}
+The \texttt{dirtytalk} package is a comprehensive solution.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Preamble
+\usepackage{dirtytalk}
+
+% Body
+\say{I am surrounded!} \\
+\say{Quotations can be \say{nested} as well!}
+\end{LTXexample}
+$\\$
+If you want to define the primary and secondary set of quotation marks, type the following in the preamble:
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+\usepackage[
+    left = ``,%
+    right = '',% 
+    leftsub = `,% 
+    rightsub = ',%
+]{dirtytalk}
+\end{lstlisting}
+$\\$
+You can find a table of primary and secondary quotation marks in several languages \href{https://www.overleaf.com/learn/latex/Typesetting_quotations#Reference_guide}{here}. 
+
+% Quotations %
+\subsection{Quotations\index{quotations}}
+The \texttt{quotation} environment\index{environments!quotation@\texttt{quotation}} adds quotes to some text.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Walt Disney once said something interesting.
+\begin{quotation}
+The way to get started is to quit talking and begin doing. 
+\end{quotation}
+It changed my life.
+\end{LTXexample}
+
+% More Special Characters %
+\section{More Special Characters\index{special characters}\index{characters}}
+Commands for accents, diacritics, and other characters can be found on \href{https://en.wikibooks.org/wiki/LaTeX/Special_Characters}{Wikibooks}. These commands may not be needed if the characters can be typed out from the keyboard.
+\index{accents}\index{diacritics}\index{symbol}
+
+% Aligning Text %
+\section{Aligning Text\index{text-align}\index{align}}
+The \texttt{flushleft}, \texttt{center}, \texttt{flushright} environments align text to the left, center, and right, respectively.
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\begin{flushleft}
+Chairman Mao
+\end{flushleft}
+
+\begin{center}
+Canada
+\end{center}
+
+\begin{flushright}
+Hitler
+\end{flushright}
+\end{LTXexample}
+\index{environments!flushright@\texttt{flushright}}
+\index{environments!flushleft@\texttt{flushleft}}
+\index{environments!center@\texttt{center}}
+\index{align left}
+\index{align right}
+\index{align center}
+\index{center}
+\index{justify left}
+\index{justify center}
+\index{justify right}
+
+% Coloring Text %
+\section{Coloring Text\index{color}\index{text-color}}
+\label{colors}
+Add color to the document using the \texttt{xcolor} package. Use \command{textcolor} or \command{color} to color text.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Preamble
+\usepackage{xcolor}
+
+% Body
+\textcolor{yellow}{Black} and {\color{black}yellow}.
+\end{LTXexample}
+$\\$
+If you want to highlight text\index{text-highlight}\index{highlighting}, then use \command{colorbox}.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Preamble
+\usepackage{xcolor}
+
+% Body
+\colorbox{yellow}{Black} \\
+\colorbox{black}{\textcolor{yellow}{yellow}}
+\end{LTXexample}
+$\\$
+The colors provided by \texttt{xcolor} can be found \href{https://www.overleaf.com/learn/latex/Using_colours_in_LaTeX\#Named_colours_provided_by_the_xcolor_package}{here}. If you scroll down on the webpage, there are instructions to define more colors and set the page color.
+
+% Fonts %
+\section{Fonts\index{fonts}}
+
+% Font Sizes %
+\subsection{Font Sizes \index{size}\index{font sizes}}
+\LaTeX{} commands for font sizes:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+{\tiny tiny} \\
+{\scriptsize scriptsize} \\
+{\footnotesize footnotesize} \\
+{\small small} \\
+{\normalsize normalsize} \\
+{\large large} \\
+{\Large Large} \\
+{\LARGE LARGE} \\
+{\huge huge} 
+\end{LTXexample} 
+\fontCommand{tiny}{tiny}
+\fontCommand{scriptsize}{scriptsize}
+\fontCommand{footnotesize}{footnotesize}
+\fontCommand{small}{small}
+\fontCommand{normalsize}{normalsize}
+\fontCommand{large}{large}
+\fontCommand{Large}{large}
+\fontCommand{LARGE}{large}
+$\\$
+A more thorough tutorial on font sizes can be found at \href{https://latex-tutorial.com/changing-font-size/}{latex-tutorial.com}.
+
+% Typefacing %
+\subsection{Font Styles\index{typeface}\index{font styles}}
+Text can be type-faced in different ways. Popular commands include: 
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\underline{Underlined text} \\
+\emph{Emphasized text.} \\
+\textbf{Bold text.} \\
+\textit{Italicized text.} \\
+\textsl{Slanted text.} \\
+\textsc{Smallcaps text.} \\
+\uppercase{upper.} \\
+\lowercase{LOWER.} 
+\end{LTXexample} 
+$\\$
+\command{underline} does not break properly to the next line, so use the \href{https://ctan.org/pkg/ulem?lang=en}{\texttt{ulem}} pacakge to resolve the issue. This package also allows for underline styling and strikethroughs\index{strikethrough}. \\\\ Note that although \command{emph}, \command{textit}, and \command{textsl} have the same effect here, they render different effects with other fonts.\indexcommand{underline}\index{underline}
+\indexcommand{emph}\index{emphasize}
+\indexcommand{textbf}\index{bold}
+\indexcommand{textit}\index{italicize}
+\indexcommand{textsl}\index{slanted}
+\indexcommand{textsc}\index{smallcaps}
+\indexcommand{uppercase}\index{uppercase}
+\indexcommand{lowercase}\index{lowercase}
+
+% Font Families %
+\subsection{Font Families \index{font families}\index{typefaces}}
+The default font on a \LaTeX{} document is \textrm{Computer Modern}\index{Computer Modern@\textrm{Computer Modern}}, which is part of the \textrm{serif}\index{serif@\textrm{serif}} family. The other 2 popular font families are \textsf{sans serif}\index{sans serif} and \texttt{monospace}\index{monospace@\texttt{monospace}}\index{typewriter@\texttt{typewriter}}. 
+\index{font families!monospace@\texttt{monospace}}
+\index{font families!serif@\textrm{serif}}
+\index{font families!sans serif}
+
+% Global Font Family % 
+\subsubsection{Changing the Global Font Family\index{global font}\index{permanent font}}
+To change the default font family for the whole document to \texttt{monospace}, type the following in the preamble: 
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+\renewcommand{\familydefault}{\ttdefault}
+\end{lstlisting} 
+$\\$
+Replace \command{ttdefault} with \command{sfdefault} for sans serif. As \textrm{serif} is the default font family for a \LaTeX{} document, nothing needs to be done to use it. However, if needed, use \command{rmdefault}.
+
+% Local Font Family % 
+\subsubsection{Temporarily Changing the Font Family\index{local font}\index{temporary font}}
+To use these font families temporarily, use the following commands:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\textrm{Serif text.} \\
+\textsf{Sans Serif text.} \\
+\texttt{Monospace text.}
+\end{LTXexample} 
+\indexcommand{textrm}
+\indexcommand{textsf}
+\indexcommand{texttt}
+
+% More Fonts %
+\section{More Fonts\index{external fonts}}
+
+To use other fonts, employ external packages.
+
+% Fonts installed on your PC %
+\subsection{Using Other Fonts Installed on your PC\index{PC fonts}\index{word processor fonts}\index{other fonts}}
+
+% Fonts installed on your PC (globally) %
+\subsubsection{Using the font globally\index{global font}}
+To use fonts installed on a local PC (e.g.{\tnr Times New Roman}), type the following in the preamble:
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\end{lstlisting}
+$\\$
+Then, you must typeset the document using the \XeLaTeX{}\index{XeLaTeX@\XeLaTeX} or \LuaLaTeX\index{LuaLaTeX@\LuaLaTeX} compiler\index{compiler}. The section between 2:52 to 3:16 of \href{https://www.youtube.com/watch?v=oI8W4MvFo1M&t=2m52s}{this} video might help with the compilation.
+
+% Fonts installed on your PC (temporary) %
+\subsubsection{Using the font temporarily\index{temporary font}}
+If you only need to use {\tnr Times New Roman} for some text, type:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\usepackage{fontspec}
+\newfontfamily{\tnrm}{Times New Roman} 
+{\tnrm Times New Roman Text.}
+\end{LTXexample} 
+$\\$
+\texttt{\textbackslash tnrm} was my choice. It can be replaced with a command of your choice (just make sure it isn't already defined). \\\\
+The user can download fonts for their PC at \href{https://www.dafont.com}{dafont.com}.
+
+% Font Catalogue %
+\subsection{Using The \LaTeX{} Font Catalogue\index{font catalogue}}
+\label{mathfont}
+
+More fonts and their instructions-for-use can be found on \href{https://tug.org/FontCatalogue/}{The \LaTeX{} Font Catalogue}\footnote{If you are writing mathematical expressions, use fonts with math support.}. For example, if you want to use {\fontfamily{pbk}\selectfont Bookman}\index{bookman@{\fontfamily{pbk}\selectfont Bookman}}\footnote{Popular fonts can be found \href{https://r2src.github.io/top10fonts/}{here}.} as the global font, type the following in the preamble: 
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+\usepackage{bookman}
+\end{lstlisting} 
+$\\$
+If you want to use {\fontfamily{pbk}\selectfont Bookman} only for some text:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Normal Text. \\
+{\fontfamily{pbk}\selectfont Bookman Text.}
+\end{LTXexample} 
+$\\$
+Notice the code \texttt{pbk}. You need to know this code\index{font codes} to access the font. The codes for the most common fonts can be found at \href{https://tex.stackexchange.com/questions/25249/how-do-i-use-a-particular-font-for-a-small-section-of-text-in-my-document/37251#37251}{Stack Exchange}. \\\\
+Sometimes the font does not appear. This is because it needs to be installed by \LaTeX. For more information, read \href{https://tug.org/fonts/fontinstall.html}{this} guide.
+
+% CHAPTER 4 % 
+\chapter{International Language Support\index{languages}\index{other languages}\index{International Language Support}}
+
+% Polyglossia Package % 
+\section{Using \texttt{polyglossia}}
+
+% Font Definition Languages % 
+\subsection{Languages Requiring Font Definitions}
+\label{languageswithfontdefinitions}
+% Arabic %
+\subsubsection{Arabic\index{Arabic}\index{International Language Support!Arabic}}
+Use the \texttt{polyglossia} package with the \XeLaTeX{}\index{XeLaTeX@\XeLaTeX} compiler as follows:
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Preamble 
+\usepackage{polyglossia}
+\setdefaultlanguage{english}
+\setotherlanguage{arabic}
+\newfontfamily{\arabicfont}[Script=Arabic]{Scheherazade}
+\end{lstlisting}
+$\\$
+\texttt{\textbackslash arabicfont} is used to type Arabic: {\arabicfont{يمكن عكس هذا النص}} \\\\ You must download the \href{https://www.1001fonts.com/scheherazade-font.html}{Scheherazade} font on your local PC. Other fonts that support Arabic can be found \href{https://www.overleaf.com/learn/latex/Questions\%2FWhich_OTF_or_TTF_fonts_are_supported_via_fontspec\%3F\#Fonts_for_Arabic_script}{here}.
+
+% Bengali %
+\subsubsection{Bengali\index{Bengali}\index{International Language Support!Bengali}}
+Use the \texttt{polyglossia} package with the \XeLaTeX{}\index{XeLaTeX@\XeLaTeX} compiler as follows:
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Preamble 
+\usepackage{polyglossia}
+\setdefaultlanguage{english}
+\setotherlanguage{bengali}
+\newfontfamily{\bengalifont}[Script=Bengali]{Kalpurush}
+\end{lstlisting}
+$\\$
+\texttt{\textbackslash bengalifont} is used to type Bengali: {\bengalifont{আমি বাংলা বলি না।}} \\\\ You must download the \href{http://banglafont.com/?p=Download\%20Kalpurush/}{Kalpurush} font on your local PC. Other fonts that support Bengali can be found \href{https://www.overleaf.com/learn/latex/Questions\%2FWhich_OTF_or_TTF_fonts_are_supported_via_fontspec\%3F\#Bengali}{here}.
+
+% Greek %
+\subsubsection{Greek\index{Greek}\index{International Language Support!Greek}}
+Use the \texttt{polyglossia} package with the \XeLaTeX{}\index{XeLaTeX@\XeLaTeX} compiler as follows:
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Preamble 
+\usepackage{polyglossia}
+\setdefaultlanguage{english}
+\setotherlanguage{greek}
+\newfontfamily{\greekfont}[Script=Greek]{Linux Libertine}
+\end{lstlisting}
+$\\$
+\texttt{\textbackslash greekfont} is used to type Greek: {\greekfont{Θέλω να πάω στη Μύκονο.}} \\\\ You must download the \href{https://www.dafont.com/linux-libertine.font}{Linux Libertine} font on your local PC. Some other Greek fonts can be found \href{https://www.overleaf.com/learn/latex/Questions\%2FWhich_OTF_or_TTF_fonts_are_supported_via_fontspec\%3F\#Fonts_for_Greek}{here}. 
+
+% Hebrew %
+\subsubsection{Hebrew\index{Hebrew}\index{International Language Support!Hebrew}}
+Use the \texttt{polyglossia} package with the \XeLaTeX{}\index{XeLaTeX@\XeLaTeX} compiler as follows:
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Preamble %
+\usepackage{polyglossia}
+\setdefaultlanguage{english}
+\setotherlanguage{hebrew}
+\newfontfamily{\hebrewfont}[Script=Hebrew]{IBM Plex Sans Hebrew}
+\end{lstlisting}
+$\\$
+\texttt{\textbackslash hebrewfont} is used to type Hebrew: {\hebrewfont{אנחנו אנשים אינטליגנטים.}} \\\\ You must download the \href{https://fonts.google.com/specimen/IBM+Plex+Sans+Hebrew?query=ibm}{IBM Plex Sans Hebrew} font on your local PC. Other fonts that support Hebrew can be found \href{https://www.overleaf.com/learn/latex/Questions\%2FWhich_OTF_or_TTF_fonts_are_supported_via_fontspec\%3F\#Fonts_for_Hebrew_script}{here}.
+
+% Hindi %
+\subsubsection{Hindi\index{Hindi}\index{International Language Support!Hindi}}
+Use the \texttt{polyglossia} package with the \XeLaTeX{}\index{XeLaTeX@\XeLaTeX} compiler as follows:
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Preamble 
+\usepackage{polyglossia}
+\setdefaultlanguage{english}
+\setotherlanguage{hindi}
+\newfontfamily{\hindifont}[Script=Devanagari]{Lohit Devanagari}
+\end{lstlisting}
+$\\$
+\texttt{\textbackslash hindifont} is used to type Hindi: {\hindifont{विराट कोहली भगवान हैं।}} \\\\ You must download the \href{https://www.ffonts.net/Lohit-Devanagari.font.download}{Lohit Devanagari} font on your local PC. Other fonts that support Hindi can be found \href{https://www.overleaf.com/learn/latex/Questions\%2FWhich_OTF_or_TTF_fonts_are_supported_via_fontspec\%3F\#Hindi_.28Devanagari_script.29}{here}.
+
+% Thai %
+\subsubsection{Thai\index{Thai}\index{International Language Support!Thai}}
+Use the \texttt{polyglossia} package with the \XeLaTeX{}\index{XeLaTeX@\XeLaTeX} compiler as follows:
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Preamble 
+\usepackage{polyglossia}
+\setdefaultlanguage{english}
+\setotherlanguage{thai}
+\newfontfamily\thaifont[Script=Thai]{Prompt}
+\end{lstlisting}
+$\\$
+\texttt{\textbackslash thaifont} is used to type Thai: {\thaifont{กุมารเป็นคนไทย}} \\\\ You must download the \href{https://fonts.google.com/specimen/Prompt?subset=thai}{Prompt} font on your local PC. Other fonts that support Thai can be found \href{https://www.overleaf.com/learn/latex/Questions\%2FWhich_OTF_or_TTF_fonts_are_supported_via_fontspec\%3F\#Fonts_for_Thai}{here}.
+
+% Russian %
+\subsubsection{Russian\index{Russian}\index{International Language Support!Russian}}
+Use the \texttt{polyglossia} package with the \XeLaTeX{}\index{XeLaTeX@\XeLaTeX} compiler as follows:
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Preamble 
+\usepackage{polyglossia}
+\setdefaultlanguage{english}
+\setotherlanguage{russian}
+\newfontfamily\russianfont[Script=Cyrillic]{Linux Libertine}
+\end{lstlisting}
+$\\$
+\texttt{\textbackslash russianfont} is used to type Russian: {\russianfont{Путин любит лошадей!}} \\\\ You must download the \href{https://www.dafont.com/linux-libertine.font}{Linux Libertine} font on your local PC. Some other Russian fonts can be found \href{https://www.lingualift.com/blog/cyrillic-russian-fonts/}{here}. \\\\ \textbf{If you set the default language as Russian, you can type it without \texttt{\textbackslash russianfont}. However, you still need to define \texttt{\textbackslash russianfont} using \texttt{\textbackslash newfontfamily} in the preamble. The same applies to the other languages in \ref{languageswithfontdefinitions}.}
+
+% Other Languages % 
+\subsection{Some Other Languages}
+
+% Spanish %
+\subsubsection{Spanish\index{Spanish}\index{International Language Support!Spanish}}
+Use the \texttt{polyglossia} package with the \XeLaTeX{}\index{XeLaTeX@\XeLaTeX} compiler as follows:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Preamble 
+\usepackage{polyglossia}
+\setdefaultlanguage{spanish} 
+
+% Body
+¡\today{} es mi cumpleaños!
+\end{LTXexample} 
+$\\$
+If you only need to use Spanish temporarily:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Preamble 
+\usepackage{polyglossia}
+\setdefaultlanguage{english} 
+\setotherlanguage{spanish}
+
+% Body
+I speak Spanish. \\
+\textspanish{\today{} es mi cumpleaños.}
+\end{LTXexample} 
+
+% French %
+\subsubsection{French\index{French}\index{International Language Support!French}}
+If you also want to add French, make the following changes:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Preamble 
+\usepackage{polyglossia}
+\setdefaultlanguage{english} 
+\setotherlanguages{spanish, french}
+
+% Body
+I speak Spanish. \\
+\textspanish{\today{} es mi cumpleaños.} \\
+\textfrench{Je parle aussi français.}
+\end{LTXexample} 
+
+% German %
+\subsubsection{German\index{German}\index{International Language Support!German}}
+You can simply replace \texttt{french} with \texttt{german} in the code above.
+
+\paragraph{Read the \texttt{polyglossia} \href{https://ctan.org/pkg/polyglossia?lang=en}{documentation} for a full list of supported languages.}
+
+% Languages Requiring Other Packages % 
+\section{Languages Requiring Other Packages}
+
+ % Chinese %
+\subsubsection{Chinese\index{Chinese}\index{International Language Support!Chinese}}
+The most comprehensive solution is to use the \texttt{ctex} package.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Preamble 
+\usepackage[UTF8]{ctex} 
+
+% Body
+你好
+\end{LTXexample} 
+$\\$
+It is recommended to use the \XeLaTeX{}\index{XeLaTeX@\XeLaTeX} compiler.
+
+% Japanese %
+\subsubsection{Japanese\index{Japanese}\index{International Language Support!Japanese}}
+The \texttt{xeCJK} package\footnote{This package can also be used to typeset Chinese.} takes care of Japanese.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Preamble 
+\usepackage{xeCJK}
+
+% Body
+日本の首都は東京です
+\end{LTXexample} 
+$\\$
+You must use the \XeLaTeX{}\index{XeLaTeX@\XeLaTeX} compiler.   
+
+\subsubsection{Helpful Resources\index{resources}\index{International Language Support!Resources}}
+\begin{enumerate}
+\item \href{https://www.overleaf.com/learn/latex/Questions/Which_OTF_or_TTF_fonts_are_supported_via_fontspec\%3F}{Language Fonts} - a list of fonts that support different languages.
+\item \href{https://en.wikibooks.org/wiki/LaTeX/Internationalization}{Wikibooks} - a more comprehensive guide for typesetting different languages.
+\item \href{https://www.overleaf.com/learn/latex/International_language_support\#Further_reading}{Overleaf} - further reading.
+\end{enumerate}
+
+% CHAPTER 6%
+\chapter{Page Layout}
+
+% Line Spacing %
+\section{Line Spacing\index{line spacing}}
+\command{linespread} alters the space between lines. Type it in the preamble.
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Default Line Spacing 
+\linespread{1}
+
+% One and a Half Line Spacing 
+\linespread{1.3}
+
+% Double Line Spacing 
+\linespread{1.6}
+\end{lstlisting} 
+$\\$
+\command{setlength}\texttt{\{\command{baselineskip}\}\{1.6 \command{baselineskip}\}} temporarily alters the line spacing to double spacing:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+{
+\setlength{\baselineskip}{1.6 \baselineskip}
+A double spaced paragraph is a paragraph with twice the space between lines. Wow, that's meta!
+\par} $\\$
+
+This is a normal paragraph with normal spacing. Nothing special.
+\end{LTXexample} 
+$\\$
+\command{par} ends a paragraph and is necessary\footnote{ You can also use an empty line.}.
+
+% Paragraphs %
+\section{Paragraphs\index{paragraphs}}
+
+% Indentation %
+\subsection{Paragraph Indentation\index{paragraph indentation}\index{indentation}}
+
+% Temp Indentation %
+\subsubsection{Temporary Indentation\index{temporary indentation}}
+Sometimes paragraphs are indented. \command{noindent} cancels the indent. If you want to indent a non-indented paragraph, use \command{indent}.  
+
+% Permanent Indentation %
+\subsubsection{Permanent Indentation\index{permanent indentation}}
+\command{setlength}\texttt{\{\command{parindent}\}\{4em\}} globally sets paragraph indentation to 4em. If you don't want any indentation in the document, use \command{setlength}\texttt{\{\command{parindent}\}\{0em\}}. Place the commands in the preamble, preferably before \command{tableofcontents}.
+
+% Paragraph Spacing %
+\subsection{Paragraph Spacing\index{paragraph spacing}\index{spacing}}
+\command{setlength}\texttt{\{\command{parskip}\}\{1em\}} globally sets spacing between 2 paragraphs to 1em.\\\\
+More information of units such as em can be found \href{https://tex.stackexchange.com/questions/8260/what-are-the-various-units-ex-em-in-pt-bp-dd-pc-expressed-in-mm}{here}.
+
+% Paragraph Shape %
+\subsection{Paragraph Shape\index{paragraph shape}\index{shaping paragraphs}}
+Load the \texttt{shapepar} package. You can write paragraphs with cool shapes.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\heartpar{This paragraph is shaped as a heart because \LaTeX{} is powerful. There are many other shapes available. Just go through the documentation for \texttt{shapepar}. There are circles, squares, rectangles, and shapes you can't imagine. This is kind of cringe but oh well.}
+\end{LTXexample} 
+$\\$
+For more information, read the \texttt{shapepar} \href{https://ctan.org/pkg/shapepar}{documentation}. For irregular shapes, read this \href{https://tex.stackexchange.com/questions/32226/how-to-layout-irregular-paragraph-shape}{post}. \\\\
+More information on paragraph formatting can be found on \href{https://www.overleaf.com/learn/latex/Paragraph_formatting}{Overleaf}.
+
+% Page Elements % 
+\section{Page Elements \index{page elements}}
+All documents classes except \texttt{book} (refer to \ref{classes} on page \pageref{classes}) are one-sided. In one-sided documents, each page is identical.  In two-sided documents, odd and even pages have different margins. To create a two-sided document, use the \texttt{twoside} option.
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Books are two-sided documents
+\documentclass{book}
+
+% Use the two-sided option for other document classes
+\documentclass[twoside]{article}
+\end{lstlisting} 
+$\\$
+More information on one/two-sided documents can be found \href{https://www.overleaf.com/learn/latex/Single_sided_and_double_sided_documents}{here}.
+
+% Headers & Footers % 
+\subsection{Headers \& Footers \index{header}\index{footer}}
+
+% Basic Customization %
+\subsubsection{Basic Customization}
+Use \command{pagestyles} in the preamble.
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% No Header, No Footer
+\pagestyles{empty} 
+\end{lstlisting} 
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% No Footer, Header contains page number and some information
+\pagestyles{headings} 
+\end{lstlisting} 
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% No Footer, Header for one-sided document
+\pagestyles{myheadings} 
+\markright{Name \hfill Date \hfill} % Name is placed on the left, Date is placed in the center, page number on the right
+\end{lstlisting} 
+
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% No Footer, Header for two-sided document
+\pagestyles{myheadings} 
+\markboth{Hi}{Hello} % 'Hi' on even pages, 'Hello' on odd pages
+\end{lstlisting} 
+\indexcommand{markright}\indexcommand{markboth}
+
+% Advanced Customization %
+\subsubsection{Advanced Customization}
+Load the \texttt{fancyhdr} package and do the following:
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Preamble
+\usepackage{fancyhdr}
+\pagestyle{fancy} % Sets page style to fancy
+\fancyhf{} % Clears the Header and Footer for customization
+\end{lstlisting} 
+$\\$
+For a one-sided documents, use the following commands:
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Preamble
+\rhead{Right Side of Header}
+\chead{Header Center}
+\lchead{Left Side of Header}
+\rfoot{Right Side of Footer}
+\cfoot{Footer Center} 
+\lfoot{Left Side of Footer}
+\end{lstlisting} 
+$\\$
+For two-sided documents:
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Preamble
+\fancyhead[LE,RO]{Outer}  % LE = Left Even; RO = Right Odd
+\fancyhead[RE,LO]{Inner} % RE = Right Even; LO = Left Odd
+\fancyfoot[CE,CO]{Center} % CE = Center Even; CO = Center Odd
+\fancyfoot[LE,RO]{\thepage} % Prints the page number on the Footer center on even and odd pages
+\end{lstlisting} 
+$\\$
+More commands include:
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|cc|}
+\hline
+\textbf{Description}                             & \textbf{Command}      \\                               
+Page Number & \command{thepage} \\
+Chapter Number & \command{thechapter}  \\ 
+Section Number & \command{thesection} \\ 
+Chapter Name & \command{chaptername}  \\ 
+Current Chapter / Section Name \& Number & \command{leftmark}  \\ 
+Current Section / Subsection Name \& Number & \command{rightmark}  \\ 
+\hline
+\end{tabular}
+\end{table}
+\index{chapter name}\index{chapter number}
+\index{section name}\index{section number}
+\index{page number}
+\noindent\texttt{fancyhdr} provides decorative lines for the header and footer. If you need to customize the lines, do the following: 
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Preamble
+\renewcommand{\headrulewidth}{2pt} % Header Line
+\renewcommand{\footrulewidth}{2pt} % Footer Line
+\end{lstlisting} 
+
+% Page Numbers % 
+\subsection{Page Numbers\index{page numbers}}
+Use \command{pagenumbering}.
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Preamble
+\pagenumbering{arabic}
+\end{lstlisting} 
+$\\$
+The page numbers will be Arabic numerals. If you need lowercase (uppercase) Roman numerals, use \texttt{roman} (\texttt{Roman}) instead. \\\\ \command{setcounter}\texttt{\{page\}} allows you to control the page counter.
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+\chapter{First Chapter}
+\setcounter{page}{3} % 3 is assigned to the current page
+\end{lstlisting} 
+$\\$
+More information on page numbering can be found \href{https://www.overleaf.com/learn/latex/Page_numbering}{here}.
+
+% Margins %
+\section{Page Margins \index{page size}\index{page margin}}
+The \texttt{geometry} package allows you to change the margins. 
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Preamble
+\usepackage[margin=2in]{geometrty}
+\end{lstlisting} 
+$\\$
+I have also used it to create help sheets.
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Preamble
+\documentclass{article}
+\usepackage[margin=1cm, landscape]{geometry}
+\usepackage{multicol}
+
+% Body
+\begin{multicols}{3}
+\section{Section 1}
+
+\section{Section 2}
+
+\section{Section 3}
+
+\section{Section 4}
+\end{multicols}
+\end{lstlisting} 
+
+% Page Layout LaTeX Resources %
+\subsubsection{Helpful Resources\index{resources}}
+Frankly, I don't have much experience with page margins, so I direct you to the following resources.
+\begin{enumerate}
+\item \href{https://ctan.org/pkg/geometry?lang=en}{CTAN} - \texttt{geometry} package documentation.
+\item \href{https://www.overleaf.com/learn/latex/Page_size_and_margins}{Overleaf} - an introduction to page size and margins. 
+\item \href{https://en.wikibooks.org/wiki/LaTeX/Page_Layout}{Wikibooks} - an advanced guide for page layout (page margins, page size, page background).
+\end{enumerate}
+\index{page background}\index{background}
+
+% CHAPTER 6%
+\chapter{Mathematics}
+This is where the heart of \LaTeX{} lies.
+
+% AMS Package %
+\section{\AmS-\LaTeX{} packages\index{American Mathematical Society}}
+It is \textbf{strongly recommended} to load the packages in the \AmS-\LaTeX{} bundle when typesetting math. Copy this into the document's preamble:
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+\usepackage{mathtools, amssymb, amsthm}
+\end{lstlisting} 
+
+% Math Mode %
+\section{Math Mode\index{math mode}}
+\label{math mode}
+Math mode must be used when writing math. There are 2 modes: inline and display.
+
+% Inline %
+\subsection{Inline (Text)\index{inline}\index{text mode}}
+Inserts math in between text. Requires:
+\begin{itemize}
+\item an opening \texttt{\$}\index{dollar sign}\indexcommand{\$} and closing \$;
+\item or an opening \texttt{\textbackslash(}and closing \texttt{\textbackslash)}; 
+\item or a \texttt{math} environment\index{environments!math@\texttt{math}}.
+\end{itemize}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+$9+10=21$ is false. \\
+
+\(3^2 + 4^2 = 5^2\) is true. \\
+
+\begin{math}
+\sin{x}=\pi \text{ has no solutions.}
+\end{math}
+
+\end{LTXexample} 
+$\\$ 
+\command{text} inserts text in math mode. If not, this happens: 
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\begin{math}
+\sin{x} = \pi has no solutions.
+\end{math}
+\end{LTXexample} 
+\index{text in math mode}
+
+% Display (unnumbered) %
+\subsection{Display (unnumbered)\index{equation}\index{display mode}\index{unlabelled equation}\index{unnumbered equation}}
+Displays math in its own line and is unnumbered. Requires:
+\begin{itemize}
+\item an opening \texttt{\textbackslash[} and closing \texttt{\textbackslash]};
+\item or an \texttt{equation*} environment\index{environments!equation*@\texttt{equation*}};
+\item or a \texttt{displaymath} environment\index{environments!display@\texttt{displaymath}}.
+\end{itemize}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+The Pythagorean theorem: \[a^2+b^2=c^2\]
+
+Environments also work:
+\begin{equation*}
+a^2+b^2=c^2
+\end{equation*}
+
+Another environment:
+\begin{displaymath}
+a^2+b^2=c^2
+\end{displaymath}
+\end{LTXexample} 
+$\\$
+Using an opening \verb|$$| and closing \verb|$$| also works but is \textbf{strongly discouraged}. Read \href{https://tex.stackexchange.com/questions/503/why-is-preferable-to}{this} for more information. 
+
+% Display (numbered) %
+\subsection{Display (numbered)\index{equation}\index{display mode}\index{labelled equation}\index{numbered equation}}
+Displays math in its own line and is automatically labelled. Requires:
+\begin{itemize}
+\item an \texttt{equation} environment\index{environments!equation@\texttt{equation}}.
+\end{itemize}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+A legend once said that
+\begin{equation} 
+9+10=21
+\end{equation}
+\end{LTXexample} 
+
+% Math Mode Fonts %
+\subsection{Math Mode Fonts\index{math fonts}\index{fonts}}
+The text and math fonts in a \LaTeX{} document are independent. The default math font is \textrm{Computer Modern}. Math fonts compatible with \LaTeX{} are rare. Refer to the footnote in \ref{mathfont} for more information. \\\\ If you need to use math fonts temporarily, \LaTeX{} provides a few pre-defined commands:
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Default & ABCabc123 & $ABCabc123$ \\ 
+Roman & \command{mathrm}\texttt{\{ABCabc123\}} & $\mathrm{ABCabc123}$ \\ 
+Bold & \command{mathbf}\texttt{\{ABCabc123\}} & $\mathbf{ABCabc123}$ \\ 
+Italics & \command{mathit}\texttt{\{ABCabc123\}} & $\mathit{ABCabc123}$ \\ 
+Typewriter & \command{mathtt}\texttt{\{ABCabc123\}} & $\mathtt{ABCabc123}$ \\ 
+Fraktur & \command{mathfrak}\texttt{\{ABCabc123\}} & $\mathfrak{ABCabc123}$ \\ 
+Blackboard Bold & \command{mathbb}\texttt{\{ABC\}} & $\mathbb{ABC}$ \\ 
+Caligraphic & \command{mathcal}\texttt{\{ABC\}} & $\mathcal{ABC}$ \\ 
+\hline
+\end{tabular}
+\end{table}
+\index{bold}
+\index{italics}
+\index{typewriter}\index{monospace}
+\index{blackboard bold}
+\index{caligraphic letters}
+\index{fraktur}
+\noindent Note that \command{mathbb} and \command{mathcal} only work with capital letters.
+
+% Math Mode Spacing %
+\subsection{Math Mode Spacing\index{math spacing}\index{spacing}}
+\LaTeX{} automatically spaces content in math mode. It ignores whitespace characters. If you want custom spacing, refer to this \href{https://www.overleaf.com/learn/latex/Spacing_in_math_mode}{table}. Here are a few examples:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+$1     2 $ \\
+$1 \! 2 $ \\
+$1 \, 2 $ \\
+$1 \: 2 $ \\
+$1 \; 2 $ \\
+$1 \  2 $ \\
+$1 \quad 2 $ \\
+$1 \qquad 2 $ \\
+$1 \qquad \quad 2 $ \\
+$1 \qquad \qquad 2 $ \\
+$1 \hspace*{4cm} 2 $
+\end{LTXexample} 
+$\\$
+\command{phantom} acts like a whitespace character. 
+\begin{LTXexample}[style=myLaTeX, pos=o]
+${}^{14}_{6}\mathrm{C}$ \\ 
+${}^{14}_{\phantom{1}6}\mathrm{C}$  % 1 space reserved
+\end{LTXexample} 
+
+% Equations %
+\section{Equations\index{equations}}
+\label{equations}
+% Labelling Equations %
+\subsection{Labelling Equations \index{labelling equations}}
+\LaTeX{} automatically labels equations. Use \command{tag} for a custom label.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+A legend once said that
+\begin{equation} 
+9+10=21 \tag{genius}
+\end{equation}
+\end{LTXexample}
+$\\$
+\command{label} and \command{eqref} allow you to refer to an equation.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\begin{equation} 
+1+1=2  \label{babymath}
+\end{equation}
+This refers to \eqref{babymath}.
+\end{LTXexample}
+
+% Long Equations %
+\subsection{Long Equations \index{long equations}}
+Sometimes equations are too long.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+A long sum:
+\[91=1+2+3+4+5+6+7+8+9+10+11+12+13\]
+\end{LTXexample}
+$\\$
+The \texttt{multline} environment resolves this. \index{environments!multline@\texttt{multline}}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+A long sum:
+\begin{multline}
+91=1+2+3+4+5 \\
++6+7+8+9+10 \\
++11+12+13
+\end{multline}
+\end{LTXexample}
+$\\$
+\texttt{multline*} removes the equation label.
+
+% Gathering Equations %
+\subsection{Gathering Equations \index{gather equations}}
+The \texttt{multline} solution looks messy, so another solution is to gather equations. The \texttt{gather} environment brings equations together, centered. \index{environments!gather@\texttt{gather}}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Centered equations:
+\begin{gather}
+1+1=2 \\
+xyz+x+y+z=w
+\end{gather}
+\end{LTXexample}
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Centered (unnumbered) equations:
+\begin{gather*}
+1+1=2 \\
+xyz+x+y+z=w
+\end{gather*}
+\end{LTXexample}
+$\\$
+The \texttt{gathered} environment (\textbf{within display mode}) assigns 1 label to the gathered equations.\index{environments!gathered@\texttt{gathered}}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\begin{equation}
+\begin{gathered}
+1+1=2 \\
+xyz+x+y+z=w
+\end{gathered}
+\end{equation}
+\end{LTXexample}
+
+% Aligning Equations %
+\subsection{Aligning Equations \index{align equations}}
+Another solution to long equations is to align equations on the relation symbol ($=$, $<$, etc.) using the \texttt{align} environment.\index{environments!align@\texttt{align}}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Aligned equations:
+\begin{align}
+1+1=2 \\
+xyz+x+y+z=w
+\end{align}
+\end{LTXexample}
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Aligned (unnumbered) simplification:
+\begin{align*}
+1+2+3+4&=1+2+7 \\
+&=1+9 \\
+&=10
+\end{align*}
+\end{LTXexample}
+$\\$
+Add text using \texttt{\&\&} and \command{text}.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Simplifying $1+2+3+4$:
+\begin{align*}
+1+2+3+4&=1+2+7 \\
+&=1+9 && \text{(as $2+7=9$)} \\
+&= 10
+\end{align*}
+\end{LTXexample}
+$\\$
+Some more equations:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Aligned (unnumbered) equations:
+\begin{align*}
+x&=y & y&=z  \\
+z&=x & y&=x  \\
+z&=y & x&=z 
+\end{align*}
+\end{LTXexample}
+$\\$
+The \texttt{aligned} environment (\textbf{within display mode}) assigns 1 label to the aligned equations.\index{environments!aligned@\texttt{aligned}}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\begin{equation}
+\begin{aligned}
+1+1=2 \\
+xyz+x+y+z=w
+\end{aligned}
+\end{equation}
+\end{LTXexample}
+$\\$
+You can also use \texttt{split} instead of \texttt{aligned}.\index{environments!split@\texttt{split}} Read more about the differences \href{https://tex.stackexchange.com/questions/187938/whats-the-difference-between-split-and-aligned}{here}.
+
+% Math Environments %
+\section{Math Environments\index{math environments}} 
+
+% Statement Environments %
+\subsection{Theorems, Lemmas, Corollaries, Propositions, Definitions, Remarks, Examples, Exercises, Asides}
+\label{mathenvironments}
+These environments may be helpful when writing math. Define them in the preamble.
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+\newtheoremstyle{dotless}{}{}{}{}{\bfseries}{}{12pt}{}
+\theoremstyle{dotless}
+\newtheorem{thm}{Theorem}[section] % Theorem 
+\newtheorem*{thm*}{Theorem} % Theorem (unnumbered)
+\newtheorem{lem}[thm]{Lemma} % Lemma 
+\newtheorem*{lem*}{Lemma} % Lemma (unnumbered)
+\newtheorem{cor}[thm]{Corollary} % Corollary 
+\newtheorem*{cor*}{Corollary} % Corollary (unnumbered)
+\newtheorem{prop}[thm]{Proposition} % Proposition
+\newtheorem*{prop*}{Proposition} % Proposition (unnumbered)
+\newtheorem{defn}[thm]{Definition} % Definition
+\newtheorem*{defn*}{Definition} % Definition (unnumbered)
+\newtheorem{rem}[thm]{Remark} % Remark
+\newtheorem*{rem*}{Remark} % Remark (unnumbered)
+\newtheorem{exa}[thm]{Example} % Example
+\newtheorem*{exa*}{Example} % Example (unnumbered)
+\newtheorem{exe}[thm]{Exercise} % Exercise
+\newtheorem*{exe*}{Exercise} % Exercise (unnumbered)
+\newtheorem{aside}[thm]{Aside} % Aside
+\newtheorem*{aside*}{Aside} % Aside (unnumbered)
+\end{lstlisting} 
+\index{theorem}
+\index{lemma}
+\index{corollary}
+\index{proposition}
+\index{definition}
+\index{remark}
+\index{example}
+\index{exercise}
+\index{aside}
+$\\$
+Implementing:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Theorem
+\begin{thm}
+This is a theorem.
+\end{thm}
+
+% Example
+\begin{exa}
+$1+1=2$
+\end{exa}
+
+% Exercise (unnumbered)
+\begin{exe*}
+Does $2+2=4$?
+\end{exe*}
+\end{LTXexample}
+
+% Proofs %
+\subsection{Proofs \index{proofs}}
+\label{proofs}
+The \texttt{proof} environment\index{environments!proof@\texttt{proof}} is provided by the \texttt{mathtools} package.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\begin{proof}
+$1+1=2 \implies 1=1$
+\end{proof}
+\end{LTXexample}
+$\\$
+Changing the QED symbol:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Preamble
+\renewcommand\qedsymbol{$\blacksquare$}
+
+% Body
+\begin{proof}
+$1+1=2 \implies 1=1$
+\end{proof}
+\end{LTXexample}
+$\\$
+Changing the QED symbol (again):
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Preamble
+\renewcommand\qedsymbol{QED}
+
+% Body
+\begin{proof}
+$1+1=2 \implies 1 = 1$
+\end{proof}
+\end{LTXexample}
+$\\$ 
+You can also change the style of the \texttt{proof} environment.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Preamble
+\renewenvironment{proof}{{\bfseries Proof.}}{\hfill$\square$}
+
+% Body
+\begin{proof}
+$1+1=2 \implies 1 = 1$
+\end{proof}
+\end{LTXexample}
+$\\$
+Unlike the environments in \ref{equations}, math mode must be used in the environments mentioned in \ref{mathenvironments} and \ref{proofs}.
+
+% Numbers %
+\section{Numbers\index{numbers}} 
+
+% Reals %
+\subsection{Reals ($\mathbb{R}$)\index{reals}\index{numbers}}
+
+% Integers %
+\subsubsection{Integers ($\mathbb{Z}$)\index{integers}\index{whole numbers}}
+Type out the integers. The font changes in math mode.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+$-1, 0, 2, 4$ \\ % math mode font
+-1, 0, 2, 4 % text mode font 
+\end{LTXexample} 
+
+% Rationals %
+\subsubsection{Rationals ($\mathbb{Q}$)\index{rationals}\index{fractions}}
+\command{frac} is used.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+$\frac{1}{2}$ \\
+
+$\frac{\frac{1}{2}+\frac{1}{2}}{1+2}$
+
+\[\frac{7}{10}\] 
+\end{LTXexample} 
+$\\$
+Use \command{dfrac} for a \textbf{d}isplay mode sized fraction and \command{tfrac} for a \textbf{t}ext mode sized fraction.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+$\dfrac{69}{420}$ 
+\[\tfrac{1}{1000}\] 
+\end{LTXexample} 
+$\\$
+You can also use \texttt{\^{}\{1\}/\_{}\{2\}} to display $^{1}/_{2}$.
+
+% Irrationals %
+\subsubsection{Irrationals($\mathbb{I}$)\index{irrationals}\index{Pi}\index{Euler's Number}\index{logarithms}\index{Golden Ratio}\index{square roots}}
+A few famous irrationals: 
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Pi    & \command{pi}     & $\pi$ \\ 
+Euler's Number    & \texttt{e}, \texttt{\textbackslash mathrm\{e\}}  & $e$, $\mathrm{e}$ \\ 
+Logarithms  & \command{log}\texttt{\_\{2\}\{3\}}    & $\log_{2}{3}$ \\ 
+Golden Ratio   & \command{phi}     & $\phi$ \\ 
+Unit Square Diagonal & \command{sqrt}\texttt{\{2\}} & $\sqrt{2}$ \\
+\hline
+\end{tabular}
+\end{table}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+The area of a unit circle is $\pi$.
+\end{LTXexample}
+
+% Complex Numbers %
+\subsection{Complex Numbers ($\mathbb{C}$)\index{complex numbers}\index{imaginary numbers}}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Imaginary Unit: $i$, $\mathrm{i}$
+\end{LTXexample}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Complex number: $z=2+2i$
+\end{LTXexample}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Conjugate: $z^{*}=2-2i$
+\end{LTXexample}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Real Part: $\Re(z)=2$ or $\mathrm{Re}(z)=2$
+\end{LTXexample}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Imaginary Part: $\Im(z)=2$ or $\mathrm{Im}(z)=2$
+\end{LTXexample}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Absolute Value: $|z|=2\sqrt{2}$
+\end{LTXexample}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Argument: $\arg(z)=\frac{\pi}{2}$
+\end{LTXexample}
+
+% Variables %
+\section{Variables\index{variables}\index{algebra}}
+Variables are letters in math mode.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Find x vs. Find $x$
+\end{LTXexample}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Text Mode
+abcdefghijklmnopqrstuvwxyz
+
+% Math Mode
+$abcdefghijklmnopqrstuvwxyz$ 
+\end{LTXexample}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+The solution to $ax^2+bx+c=0$ is \[x=\frac{-b \pm \sqrt{b^2-4ac}}{2a}.\]
+\end{LTXexample}
+
+% Greek Letters %
+\subsection{Greek \& Hebrew Letters\index{Greek Letters}\index{Hebrew Letters}\index{other letters}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|cc|cc|cc|cc|}
+\hline
+\textbf{Command}                             & \textbf{Output}                           & \textbf{Command}                                     & \textbf{Output}    & \textbf{Command}                                     & \textbf{Output}  & \textbf{Command}                                     & \textbf{Output}          \\
+\command{alpha}      & $\alpha$      & \command{mu} & $\mu$ & \command{upsilon} & $\upsilon$ & \command{Upsilon} & $\Upsilon$      \\
+\command{beta}           & $\beta$       & \command{nu} & $\nu$  & \command{xi} & $\xi$ & \command{aleph} & $\aleph$       \\
+\command{chi}       & $\chi$       & \command{omega}  & $\omega$ & \command{zeta} & $\zeta$ & \command{beth} & $\beth$     \\
+\command{delta}       & $\delta$      & \command{phi} & $\phi$  & \command{Delta} & $\Delta$ & \command{daleth} & $\daleth$       \\
+\command{epsilon}     & $\epsilon$    & \command{varphi}  &  $\varphi$ & \command{Gamma} & $\Gamma$ & \command{gimel} & $\gimel$      \\
+\command{varepsilon}   & $\varepsilon$ & \command{pi}   &  $\pi$  & \command{Lambda} & $\Lambda$ & &   \\
+\command{eta} & $\eta$        &   \command{psi}   & $\psi$ & \command{Omega} & $\Omega$  & &    \\
+\command{gamma}    & $\gamma$      &     \command{rho}                               & $\rho$ & \command{Phi} & $\Phi$    & &   \\
+\command{iota}     & $\iota$     &         \command{sigma}                           &   $\sigma$  & \command{Pi} & $\Psi$ & & \\
+\command{kappa}    & $\kappa$    &            \command{tau}                        & $\tau$  & \command{Sigma} & $\Sigma$   & &  \\
+\command{lambda}& $\lambda$     &                    \command{theta}                & $\theta$ & \command{Theta} & $\Theta$& &  \\
+\hline
+\end{tabular}
+\end{table}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+The cardinality of the natural numbers is $\aleph_0$.
+\end{LTXexample}
+$\\$
+More Greek symbols can be found \href{https://oeis.org/wiki/List_of_LaTeX_mathematical_symbols\#Greek_letters}{here}.
+
+% Math Mode Symbols %
+\section{Math Symbols\index{symbols}\index{math symbols}}
+
+In this section, I will list some basic math symbols. However, if you need to find commands for symbols that are not included here, refer to \ref{symbols} on page \pageref{symbols}.
+
+% Basic Arithmetic Symbols %
+\subsection{Basic Arithmetic\index{arithmetic}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Addition & \texttt{+} & $+$ \\ 
+Subtraction & \texttt{-} & $-$ \\ 
+Multiplication (times) & \command{times} & $\times$ \\ 
+Multiplication (dot) & \command{cdot} & $\cdot$ \\ 
+Division (sign) & \command{div} & $\div$ \\ 
+Division (slash) & \texttt{/} & $/$ \\ 
+Exponentiation & \texttt{a\^{}\{b\}} & $a^b$ \\ 
+\hline
+\end{tabular}
+\end{table}
+\index{addition}
+\index{subtraction}\index{minus}
+\index{multiplication}\index{product}\index{times}
+\index{division}
+\index{exponentiation}\index{power}\index{superscripts}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+$3 \times ((3^{3} \div 3)+(((3+3)/3)+3-3+3+3+3+3))=69$
+\end{LTXexample}
+
+% Basic Algebra %
+\subsection{Basic Algebra\index{algebra}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\ 
+Plus-Minus & \command{pm}& $\pm$ \\ 
+Minus-Plus & \command{mp}& $\mp$ \\                                       
+Square Root & \command{sqrt}\texttt{\{x\}} & $\sqrt{x}$ \\ 
+$n^{\text{th}}$ Root & \command{sqrt}\texttt{[n]\{x\}} & $\sqrt[n]{x}$ \\ 
+Absolute Value & \texttt{|x|} & $|x|$ \\ 
+Natural Log & \command{ln}\texttt{\{x\}},  \command{ln}\texttt{(x+y)}& $\ln{x}$, $\ln(x+y)$ \\ 
+Log & \command{log}\texttt{\_{}\{2\}\{3\}}, \command{log}\texttt{\_{}\{2\}(3+1)} & $\log_{2}(3+1)$ \\
+Factorial & \texttt{5!}& $5!$ \\              
+\hline
+\end{tabular}
+\end{table}
+\index{plus-minus}
+\index{minus-plus}
+\index{factorial}
+\index{square root}
+\index{nth root}\index{cube root}
+\index{absolute value}\index{modulus}
+\index{natural log}\index{log}\index{ln}
+\index{log}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+$\sqrt{\sqrt{81}}=3$ \\
+$\sqrt[2]{9}=3$ \\
+$\sqrt[3]{27}=3$ \\
+$|3|=3$ \\
+$\ln{3}=\log_{e}{3} $ \\
+$\ln(3)=\log_{e}(3)$
+\end{LTXexample}
+$\\$
+More operator symbols can be found \href{https://oeis.org/wiki/List_of_LaTeX_mathematical_symbols\#Binary_operators}{here}.
+
+% Polynom Package %
+\subsubsection{\texttt{polynom} package}
+You can divide and factorize polynomials with the \texttt{polynom} package.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Long Division
+$\polylongdiv{x^3+x^2+x+1}{x+1}$
+\end{LTXexample}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Factorization
+$x^5+x^4+x^3+x^2+x+1 = $
+\[\polyfactorize{
+x^5+x^4+x^3+x^2+x+1
+}\]
+\end{LTXexample}
+
+% Cancel Package %
+\subsubsection{\texttt{cancel} package}
+You can cancel fractions with the \texttt{cancel} package.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\[\frac{3 \cdot \cancel{2}}{\cancel{2} \cdot 4} = \frac{3}{4}\]
+\end{LTXexample}
+
+
+% Comparison Symbols %
+\subsection{Comparison Symbols\index{comparison symbols}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Equal to& \texttt{=} & $=$ \\ 
+Approximately Equal to& \command{approx} & $\approx$ \\ 
+Not Equal to & \command{neq} & $\neq$ \\ 
+Less Than & \texttt{<} & $<$ \\ 
+Less Than or Equal to & \command{leq} & $\leq$ \\ 
+Less Than or Equal to (slant) & \command{leqslant} & $\leqslant$ \\ 
+Much Less Than & \command{ll} & $\ll$ \\
+Greater Than & \texttt{>} & $>$ \\ 
+Greater Than or Equal to & \command{geq} & $\geq$ \\ 
+Greater Than or Equal to (slant) & \command{geqslant} & $\geqslant$ \\ 
+Much Greater Than & \command{gg} & $\gg$ \\
+Proportional To & \command{propto} & $\propto$ \\
+\hline
+\end{tabular}
+\end{table}
+\index{equal}
+\index{approximately equal}
+\index{not equal}
+\index{less than}
+\index{greater than}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+$\pi \approx 3.14$, but $\pi \neq 3.14$ and $\pi \geq 3.14$. In other words, $\pi > 3.14$.
+\end{LTXexample}
+$\\$
+More Comparison symbols can be found \href{https://oeis.org/wiki/List_of_LaTeX_mathematical_symbols\#Relation_operators}{here}.
+
+% Superscripts & Subscripts %
+\subsection{Su$_\text{b}^\text{per}$scripts\index{superscripts}\index{exponents}\index{subscripts}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Superscript & \texttt{a\^{}\{b\}} & $a^b$ \\ 
+Subscript & \texttt{a\_{}\{0\}} & $a_0$ \\ 
+\hline
+\end{tabular}
+\end{table}
+\noindent \texttt{\^{}} and \texttt{\_{}} only impact the next character, so it's better to group the necessary characters with \texttt{\{\}}. \\\\
+Examples with \texttt{\{\}}\footnote{\texttt{x\^{}2\^{}3} and \texttt{x\_{}2\_{}3} yield errors.}:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+$x^{2} \quad x_{2}$ \\
+$x^{10} \quad x_{10}$ \\
+$x^{y^{2}} \quad x_{y_{2}}$ \\
+$x^{y_{2}} \quad x_{y^{2}}$
+\end{LTXexample}
+$\\$
+Examples without \texttt{\{\}}:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+$x^2 \quad x_2$ \\
+$x^2z^3 \quad x_2z_3$ \\
+$x  ^2 z^  3 \quad x  _2 z_   2$ \\
+$x^10 \quad x _10$ 
+\end{LTXexample}
+$\\$
+Mixing things up:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+$x^{420}_{69} - y \quad x_{69}^{420} - y$ \\
+${}^{14}_{6}C \quad {}_{6}^{14}C$ \\
+${}^1_1H \quad {}^1{}_1H$ \\
+$A_1^2 \quad A{}_1{}^2$ \\
+$A{}_1^2 \quad A_1{}^2$ \\
+${}^{2}B^{2} \quad {}_2A_{1}$ \\
+$x_1' \quad x''_2$ 
+\end{LTXexample}
+
+
+% Fences %
+\subsection{Fences (Delimiters)\index{fences}\index{delimiters}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Round Brackets & \texttt{(x)} & $(x)$ \\ 
+Square Brackets & \texttt{[x]} & $[x]$ \\ 
+Curly Brackets & \command{\{}\texttt{x}\command{\}} & $\{x\}$ \\ 
+Angled Brackets & \command{langle}\texttt{ x }\command{rangle} & $\langle x \rangle$ \\ 
+Floor & \command{lfloor}\texttt{ x }\command{rfloor} & $\lfloor x \rfloor$ \\ 
+Ceiling & \command{lceil}\texttt{ x }\command{rceil} & $\lceil x \rceil$ \\ 
+Norm & \command{|}\texttt{x}\command{|} & $\|x\|$ \\ 
+Upper Corners & \command{ulcorner}\texttt{ x }\command{urcorner} & $\ulcorner x \urcorner$ \\ 
+Lower Corners & \command{llcorner}\texttt{ x }\command{lrcorner} & $\llcorner x \lrcorner$ \\ 
+\hline
+\end{tabular}
+\end{table}
+\index{brackets}\index{parentheses}\index{round brackets}
+\index{square brackets}
+\index{curly brackets}
+\index{floor}
+\index{ceiling}
+\index{norm}\index{double bars}
+\index{corners}
+\noindent If the fences are too small, use \command{left} and \command{right} before the left and right fence, respectively.  
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\[n \to \infty \implies \left( 1+\frac{1}{n} \right)^{n} \to e\]
+\end{LTXexample}
+$\\$
+For bigger, custom fence sizes, use \command{big}, \command{Big}, \command{bigg}, or \command{Bigg} before both the left and right fence.
+
+% Dots %
+\subsection{Dots\index{dots}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Comma Separated List & \texttt{1, 2, \command{dotsc}, 5}  & $1, 2, \dotsc, 5$ \\ 
+Lower Dots & \texttt{1, 2, \command{ldots}, 5}  & $1, 2, \ldots, 5$ \\ 
+Multiplication Dots & \texttt{1 \command{cdot} 2 \command{cdot} 3 \command{dotsm} 5}  & $1 \cdot 2 \cdot 3 \dotsm 5$ \\ 
+Binary Operation Dots & \texttt{1 + 2 + \command{dotsb} + 5}  & $1 + 2 + \dotsb + 5$ \\ 
+Other Dots & \texttt{1,  2, \command{dotso}, 5}  & $1, 2, \dotso, 5$ \\ 
+Vertical Dots & \command{vdots} & $\vdots$ \\
+Diagonal Dots & \command{ddots} & $\ddots$ \\
+\hline
+\end{tabular}
+\end{table}
+\index{vertical dots}
+\index{diagonal dots}
+\index{centered dots}
+\index{multiplication dots}
+\index{comma separated list}
+
+% Arrows %
+\subsection{Arrows\index{arrows}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Right Arrow & \command{to}, \command{rightarrow} & $\to$ \\ 
+Long Right Arrow & \command{longrightarrow} & $\longrightarrow$ \\ 
+Not Right Arrow & \command{nrightarrow} & $\nrightarrow$ \\ 
+Thick Right Arrow & \command{Rightarrow} & $\Rightarrow$ \\ 
+Thick Long Right Arrow & \command{Longrightarrow} & $\Longrightarrow$ \\ 
+Thick Not Right Arrow & \command{nRightarrow} & $\nRightarrow$ \\ 
+Left Arrow & \command{leftarrow}, \command{gets} & $\leftarrow$ \\ 
+Long Left Arrow & \command{longleftarrow} & $\longleftarrow$ \\ 
+Not Left Arrow & \command{nleftarrow} & $\nleftarrow$ \\ 
+Thick Left Arrow & \command{Leftarrow} & $\Leftarrow$ \\ 
+Thick Long Left Arrow & \command{Longleftarrow} & $\Longleftarrow$ \\ 
+Thick Not Left Arrow & \command{nLeftarrow} & $\nLeftarrow$ \\ 
+Left-Right Arrow & \command{leftrightarrow} & $\leftrightarrow$ \\ 
+Not Left-Right Arrow & \command{nleftrightarrow} & $\nleftrightarrow$ \\ 
+Thick Left-Right Arrow & \command{iff} & $\iff$ \\ 
+Up Arrow & \command{uparrow} & $\uparrow$ \\ 
+Thick Up Arrow & \command{Uparrow} & $\Uparrow$ \\ 
+Down Arrow & \command{downarrow} & $\downarrow$ \\ 
+Thick Down Arrow & \command{Downarrow} & $\Downarrow$ \\ 
+Up-Down Arrow & \command{updownarrow} & $\updownarrow$ \\ 
+Thick Up-Down Arrow & \command{Updownarrow} & $\Updownarrow$ \\ 
+Maps To & \command{mapsto} & $\mapsto$ \\ 
+Maps To (Long) & \command{longmapsto} & $\longmapsto$ \\ 
+Leads To & \command{leadsto} & $\leadsto$ \\ 
+\hline
+\end{tabular}
+\end{table}
+\index{right arrow}
+\index{left arrow}
+\index{up arrow}
+\index{down arrow}
+\index{thick arrows}
+\index{maps}\index{leads}
+\index{iff}\index{implies}\index{gets}
+\index{negated arrows}
+
+% Decorations %
+\subsection{Decorations\index{decorations}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\    
+Over-brace & \command{overbrace}\texttt{\{x+y\}\^{}\{=y+x\}} & $\overbrace{x+y}^{=y+x}$\\                           
+Prime & \texttt{f'}  & $f'$ \\ 
+Prime Prime & \texttt{f''}  & $f''$ \\ 
+Dot & \command{dot}\texttt{\{x\}}  & $\dot{x}$ \\ 
+Dot Dot & \command{ddot}\texttt{\{x\}}  & $\ddot{x}$ \\ 
+Hat & \command{hat}\texttt{\{x\}}  & $\hat{x}$ \\ 
+Wide Hat & \command{widehat}\texttt{\{x+y\}}  & $\widehat{x+y}$ \\ 
+Tilde & \command{tilde}\texttt{\{x\}}  & $\tilde{x}$ \\ 
+Wide Tilde & \command{widetilde}\texttt{\{x+y\}}  & $\widetilde{x+y}$ \\ 
+Bar & \command{bar}\texttt{\{x\}}  & $\bar{x}$ \\ 
+Under-brace & \command{underbrace}\texttt{\{x+y\}\_{}\{=y+x\}} & $\underbrace{x+y}_{=y+x}$ \\ 
+\hline
+\end{tabular}
+\end{table}
+\index{prime}
+\index{derivative}\index{second derivative}
+\index{hat}
+\index{tilde}
+\index{bar}
+\index{star}
+\index{over-brace}
+\index{under-brace}
+
+% Misc %
+\subsection{Miscellaneous\index{miscellaneous symbols}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\    
+Asterisk & \command{ast} & $\ast$ \\ 
+Bow Tie & \command{bowtie} & $\bowtie$ \\ 
+Bullet & \command{bullet} & $\bullet$ \\ 
+Dagger & \command{dagger} & $\dagger$ \\ 
+Curly l & \command{ell} & $\ell$ \\ 
+Star & \command{star} & $\star$ \\ 
+Surd & \command{surd} & $\surd$ \\ 
+Tick & \command{checkmark} & $\checkmark$ \\ 
+Tilde & \command{sim} & $\sim$ \\ 
+\hline
+\end{tabular}
+\end{table}
+\index{star}
+\index{asterisk}
+\index{bow-tie}
+\index{dagger}
+\index{curly l}
+\index{bullet}
+\index{surd}
+\index{tick}
+\index{tilde}
+
+% Sets %
+\section{Set Theory\index{set theory}}
+
+% Number Sets %
+\subsection{Number Sets\index{sets}\index{number sets}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\            
+Boolean Numbers & \command{mathbb}\texttt{\{B\}} & $\mathbb{B}$ \\ 
+Prime Numbers & \command{mathbb}\texttt{\{P\}} & $\mathbb{P}$ \\ 
+Natural Numbers & \command{mathbb}\texttt{\{N\}} & $\mathbb{N}$ \\ 
+Whole Numbers & \command{mathbb}\texttt{\{W\}} & $\mathbb{W}$ \\ 
+Integers & \command{mathbb}\texttt{\{Z\}} & $\mathbb{Z}$ \\ 
+Rationals & \command{mathbb}\texttt{\{Q\}} & $\mathbb{Q}$ \\ 
+Algebraic Numbers & \command{mathbb}\texttt{\{A\}} & $\mathbb{A}$ \\ 
+Irrationals & \command{mathbb}\texttt{\{I\}} & $\mathbb{I}$ \\ 
+Reals & \command{mathbb}\texttt{\{R\}} & $\mathbb{R}$ \\ 
+Complex Numbers & \command{mathbb}\texttt{\{C\}} & $\mathbb{C}$ \\ 
+Quaternions & \command{mathbb}\texttt{\{H\}} & $\mathbb{H}$ \\ 
+Octonions & \command{mathbb}\texttt{\{O\}} & $\mathbb{O}$ \\ 
+Sedenions & \command{mathbb}\texttt{\{S\}} & $\mathbb{S}$ \\ 
+Empty Set & \command{emptyset}, \command{varnothing} & $\emptyset$,  $\varnothing$ \\               
+Power Set & \command{mathcal}\texttt{\{P\}} & $\mathcal{P}$ \\ 
+\hline
+\end{tabular}
+\end{table}
+\index{boolean numbers}
+\index{prime numbers}
+\index{natural numbers}
+\index{whole numbers}
+\index{integers}
+\index{rationals}\index{fractions}
+\index{algebraic numbers}
+\index{irrationals}
+\index{reals}
+\index{complex numbers}
+\index{quaternions}
+\index{octonions}
+\index{sedenions}
+\index{empty set}
+\index{power set}
+
+% Set Notation %
+\subsection{Set Notation\index{set notation}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                           
+Brackets & \texttt{\command{\{}3, 1, 4\command{\}}} & $\{3, 1, 4\}$ \\ 
+Cardinality & \command{mathbf}\texttt{\{card\}(S)}, \texttt{|S|}& $\mathbf{card}(S)$, $|S|$ \\ 
+Definition & \texttt{A:=B} & $A:=B$ \\ 
+Element of & \command{in} & $\in$ \\ 
+Not an Element of & \command{notin} & $\notin$ \\ 
+Subset of & \command{subset} & $\subset$ \\ 
+Subset of & \command{subseteq} & $\subseteq$ \\ 
+Subset of but Not Equal to & \command{subsetneq} & $\subsetneq$ \\ 
+Not a Subset of & \command{not}\command{subset} & $\not\subset$ \\ 
+Not a Subset of & \command{nsubseteq} & $\nsubseteq$ \\ 
+Contains & \command{supset} & $\supset$ \\ 
+Contains & \command{supseteq} & $\supseteq$ \\ 
+Union & \command{cup} & $\cup$ \\ 
+Big Union & \command{bigcup}\texttt{\_{}\{n=1\}\^{}\{10\}\{A\_{}n\}}& $\bigcup_{n=1}^{10}{A_n}$ \\ 
+Disjoint Union & \command{sqcup} & $\sqcup$ \\ 
+Intersection & \command{cap} & $\cap$ \\ 
+Big Intersection & \command{bigcap}\texttt{\_{}\{n=1\}\^{}\{10\}\{A\_{}n\}}& $\bigcap_{n=1}^{10}{A_n}$ \\ 
+Set Difference & \command{setminus} & $\setminus$ \\ 
+Symmetric Difference & \command{triangle} & $\triangle$ \\ 
+Set Complement & \texttt{A\^{}\{mathsf\{c\}\}} & $A^{\mathsf{c}}$ \\ 
+Set Complement & \command{overline}\texttt{\{A\}} & $\overline{A}$ \\ 
+Cartesian Product & \command{times} & $\times$ \\ 
+\hline
+\end{tabular}
+\end{table}
+\index{element}\index{member}
+\index{subset}\index{contained in}
+\index{superset}\index{contains}
+\index{union}
+\index{intersection}
+\index{set difference}
+\index{set complement}
+\index{complement}
+
+% Braket Package %
+\subsection{\texttt{braket} package\index{braket}}
+You can load the \texttt{braket} package when typesetting sets.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Preamble 
+\usepackage{braket}
+
+% Body 
+\[ \Set{x \in \mathbb{R} | 0 < x < \frac{1}{3}}\]
+\end{LTXexample}
+
+% Logic %
+\section{Logic\index{logic}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Not & \command{neg}, \command{sim} & $\neg$, $\sim$ \\ 
+And & \command{land} & $\land$ \\ 
+Or & \command{lor} & $\lor$ \\ 
+Exclusive Or (XOR) & \command{oplus} & $\oplus$ \\ 
+If$\dots$Then & \command{implies}, \command{Longrightarrow} & $\Longrightarrow$ \\ 
+Only If & \command{Longleftarrow} & $\Longleftarrow$ \\ 
+If and Only If & \command{iff} & $\iff$ \\ 
+Equivalence & \command{equiv} & $\equiv$ \\ 
+Therefore & \command{therefore} & $\therefore$ \\ 
+Because & \command{because} & $\because$ \\ 
+Exists & \command{exists} & $\exists$ \\ 
+Exists Uniquely & \command{exists!} & $\exists!$ \\ 
+There is No & \command{nexists} & $\nexists$ \\ 
+For All & \command{for all} & $\forall$ \\ 
+Top & \command{top} & $\top$ \\ 
+Bottom & \command{bot} & $\bot$ \\ 
+\hline
+\end{tabular}
+\end{table}
+\index{negation}\index{not}
+\index{and}
+\index{or}
+\index{xor}\index{exclusive or}
+\index{if-then}\index{implies}
+\index{only if}\index{implied by}
+\index{if and only if}
+\index{equivalence}
+\index{exists}
+\index{for all}
+\index{top}
+\index{bottom}
+\index{therefore}
+\index{because}
+\noindent More logic symbols can be found on \href{https://en.wikipedia.org/wiki/List_of_logic_symbols}{Wikipedia}.
+
+% Algebra %
+\section{Algebra\index{algebra}}
+
+% Infinity %
+\subsection{Infinity\index{infinity}}
+First, you ought to know the commands for $\infty$ and $-\infty$.
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Infinity & \command{infty} & $\infty$ \\ 
+Negative Infinity & \texttt{-}\command{infty} & $-\infty$ \\ 
+\hline
+\end{tabular}
+\end{table}
+\index{infinity}
+\index{negative infinity}
+
+% Intervals %
+\subsection{Intervals\index{intervals}}
+There are 9 types of intervals:
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Finite Open & \texttt{(a, b)} & $(a, b)$ \\ 
+Finite Closed & \texttt{[a, b]} & $[a, b]$ \\ 
+Finite Half Closed - Half Open & \texttt{[a, b)} & $[a, b)$ \\ 
+Infinite Half Closed - Half Open & \texttt{[a, \command{infty})} & $[a, \infty)$ \\ 
+Infinite Half Open - Half Closed & \texttt{(-\command{infty}, b]} & $(-\infty, b]$ \\ 
+Infinite Open & \texttt{(a, \command{infty})} & $(a, \infty)$ \\ 
+Infinite Open & \texttt{(-\command{infty}, b)} & $(-\infty, b)$ \\ 
+Reals & \texttt{(\command{infty}, -\command{infty})} & $(\infty, -\infty)$ \\ 
+\hline
+\end{tabular}
+\end{table}
+\index{closed interval}
+\index{open interval}
+\index{half open - half closed}
+\index{half closed - half open}
+\index{reals}
+
+% Functions %
+\subsection{Functions\index{functions}\index{maps}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Colon & \command{colon}& $\colon$ \\ 
+Function & \command{to}, \command{rightarrow} & $\to$ \\ 
+Maps To & \command{mapsto}& $\mapsto$ \\ 
+Injection & \command{rightarrowtail} & $\rightarrowtail$ \\ 
+Injection & \command{xhookrightarrow\{\}} & $\xhookrightarrow{}$ \\ 
+Injection & \command{xrightarrow}\texttt{\{\command{tiny} 1:1\}} & $\xrightarrow{\tiny 1:1}$ \\ 
+Injection & \command{xrightarrow}\texttt{[\command{tiny} 1:1]\{\}}  & $\xrightarrow[\tiny 1:1]{}$ \\ 
+Surjection & \command{twoheadrightarrow} & $\twoheadrightarrow$ \\ 
+Surjection & \command{xrightarrow}\texttt{\{\command{tiny} \command{text}\{onto\}\}} & $\xrightarrow{\tiny \text{onto}}$ \\ 
+Bijection & \command{xrightarrow}\texttt{\{\command{tiny} 1:1, \command{text}\{ onto\}\}}  & $\xrightarrow{\tiny 1:1, \text{ onto}}$ \\ 
+Bijection & \command{xrightarrow}\texttt{\{\command{tiny}\command{text}\{bij\}\}}  & $\xrightarrow{\tiny \text{bij}}$ \\ 
+Composition & \command{circ}& $\circ$ \\ 
+Restriction & \texttt{f|\_{}\{X\}} & $f|_{X}$ \\ 
+Inverse & \texttt{f\^{}\{-1\}} & $f^{-1}$ \\ 
+Convolution &  \command{ast} & $\ast$ \\ 
+Fourier Transform &  \command{hat}\texttt{\{f\}}& $\hat{f}$ \\ 
+\hline
+\end{tabular}
+\end{table}
+\index{function}
+\index{map}
+\index{injection}
+\index{surjection}
+\index{bijection}
+\index{colon}
+\index{composition}
+\noindent While you could type out \say{:}, \command{colon} allows for proper spacing.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% :
+$f \circ g: [0, 1] \to [0, 1]$ is a function. \\
+
+% \colon
+$f \circ g \circ h \colon A \to B$ is a function.
+\end{LTXexample}
+$\\$
+Use the \texttt{cases} environment\index{environments!cases@\texttt{cases}} to define a piecewise function\index{piecewise function}.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\[ 
+f(x) = 1_{\mathbb{Q}}(x) = 
+\begin{cases}
+1 & x \in \mathbb{Q} \\
+0 & x \notin \mathbb{Q}
+\end{cases} 
+\]
+\end{LTXexample}
+$\\$
+If you need to include text, then:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\[ 
+f(x) = 1_{\mathbb{Q}}(x) = 
+\begin{cases}
+1 & \text{if $x \in \mathbb{Q}$} \\
+0 & \text{if $x \notin \mathbb{Q}$}
+\end{cases} 
+\]
+\end{LTXexample}
+
+% Geometry %
+\section{Geometry\index{geometry}}
+
+% Geometry Notation %
+\subsection{Geometry Notation}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Line Segment & \command{overline}\texttt{\{AB\}}& $\overline{AB}$ \\ 
+Ray & \command{overrightarrow}\texttt{\{AB\}}& $\overrightarrow{AB}$ \\ 
+Line & \command{overleftrightarrow}\texttt{\{AB\}}& $\overleftrightarrow{AB}$ \\ 
+Triangle & \command{triangle}\texttt{\{ABC\}} & $\triangle{ABC}$ \\
+Square & \command{square}\texttt{\{ABC\}} & $\square{ABC}$ \\
+Angle & \command{angle}\texttt{\{ABC\}} & $\angle{ABC}$ \\
+Measured Angle & \command{measuredangle}\texttt{\{ABC\}} & $\measuredangle{ABC}$ \\
+Degrees & \texttt{180\^{}\{\command{circ}\}} & $180^{\circ}$ \\
+Congruent & \command{cong} & $\cong$ \\
+Not Congruent & \command{ncong} & $\ncong$ \\
+Similar & \command{sim} & $\sim$ \\
+Not Similar & \command{nsim} & $\nsim$ \\
+Parallel & \command{parallel} & $\parallel$ \\
+Not Parallel & \command{nparallel} & $\nparallel$ \\
+Perpendicular & \command{perp} & $\perp$ \\
+Not Perpendicular & \command{not}\command{perp} & $\not\perp$ \\
+\hline
+\end{tabular}
+\end{table}
+\index{line}
+\index{segment}
+\index{ray}
+\index{triangle}
+\index{square}
+\index{angle}
+\index{degrees}
+\index{congruent}
+\index{not congruent}
+\index{similar}
+\index{not similar}
+\index{parallel}
+\index{not parallel}
+\index{perpendicular}
+\index{not perpendicular}
+
+% Trig + Hyperbolic Functions %
+\subsection{Trigonometry \& Hyperbolic Functions\index{trigonometry}\index{hyperbolic functions}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Sine & \command{sin}\texttt{\{\textbackslash pi\}}, \command{sin}\texttt{(\textbackslash pi)} & $\sin{\pi}$,  $\sin(\pi)$ \\ 
+Cosine & \command{cos}\texttt{\{\textbackslash pi\}} & $\cos{\pi}$ \\ 
+Tangent & \command{tan}\texttt{\{\textbackslash pi\}} & $\tan{\pi}$ \\ 
+Cosecant & \command{csc}\texttt{\{\textbackslash pi\}} & $\csc{\pi}$ \\ 
+Secant & \command{sec}\texttt{\{\textbackslash pi\}} & $\sec{\pi}$ \\ 
+Cotangent & \command{cot}\texttt{\{\textbackslash pi\}} & $\cot{\pi}$ \\ 
+Inverse Sine & \command{arcsin}\texttt{\{0\}} & $\arcsin{0}$ \\ 
+Inverse Cosine & \command{arccos}\texttt{\{0\}} & $\arccos{0}$ \\ 
+Inverse Tangent & \command{arctan}\texttt{\{0\}} & $\arctan{0}$ \\ 
+Hyperbolic Sine & \command{sinh}\texttt{\{0\}} & $\sinh{0}$ \\ 
+Hyperbolic Cosine & \command{cosh}\texttt{\{0\}} & $\cosh{0}$ \\ 
+Hyperbolic Tangent & \command{tanh}\texttt{\{0\}} & $\tanh{0}$ \\ 
+\hline
+\end{tabular}
+\end{table}
+\index{sine}
+\index{cosine}
+\index{tangent}
+\index{cosecant}
+\index{secant}
+\index{cotangent}
+\index{arcsin}\index{inverse sine}
+\index{arccos}\index{inverse cosine}
+\index{arctan}\index{inverse tangent}
+\index{sinh}
+\index{cosh}
+\index{tanh}
+
+% Sums %
+\subsection{Sums\index{sums}}
+\label{sums}
+Sums are different in inline and display mode.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+The harmonic series 
+$\sum_{n=1}^{\infty}{\frac{1}{n}}$ 
+is divergent. \\
+
+The harmonic series 
+\[\sum_{n=1}^{\infty}{\frac{1}{n}}\] 
+is divergent.
+\end{LTXexample} 
+$\\$
+While the curly braces \texttt{\{\}} are not necessary, they make the code readable.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\[\sum_a^b \frac{1}{n}\] 
+\end{LTXexample} 
+$\\$
+You can also typeset double sums.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\[\sum_{i=1}^{2}{\sum_{j=1}^{2}{i+j}} = 12\]
+\end{LTXexample} 
+$\\$
+Use \command{substack} to write the limits over multiple lines.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\[\sum_{
+\substack{
+0 \leq i \leq 2 \\
+0 \leq j \leq 2
+}
+}^{}{i+j}=12\]
+\end{LTXexample} 
+You can forcefully change the position of the limits for sums using \command{limits} and \command{nolimits}\footnote{This also applies for products, integrals, and limits.}.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Inline Mode
+$\sum_{n=1}^{5}{n}$
+
+% Inline Mode (placing limit position under sum)
+$\sum\limits_{n=1}^{5}{n}$
+
+% Inline Mode (placing limit position besides sum)
+$\sum\nolimits_{n=1}^{5}{n}$
+
+% Display Mode
+\[\sum_{n=1}^{5}{n}\] 
+
+% Display Mode (placing limit position under sum)
+\[\sum\limits_{n=1}^{5}{n}\] 
+
+% Display Mode (placing limit position besides sum)
+\[\sum\nolimits_{n=1}^{5}{n}\] 
+\end{LTXexample} 
+% Products %
+\subsection{Products\index{product}\index{multiplication}}
+Refer to \ref{sums} on page \pageref{sums} and replace \texttt{sum} with \texttt{prod}.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Inline Mode
+$\prod_{n=1}^{50}{n}=50!$ \\
+
+% Display Mode
+The product \[\prod_{n=1}^{50}{n}\]
+$=50!$
+\end{LTXexample} 
+\indexcommand{prod}
+
+% Caclulus % 
+\section{Calculus\index{calculus}}
+
+% Derivatives %
+\subsection{Derivatives\index{derivatives}\index{differentiation}\index{partial derivatives}\index{ordinary derivatives}\index{higher-order derivatives}}
+You can write a derivative as follows:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Leibniz Notation
+If $f(x)=x^2$, then
+\[\frac{df}{dx}=2x.\]
+
+% Lagrange Notation
+Using other notation:
+\[f'(x)=2x\]
+\end{LTXexample} 
+$\\$
+Notice the slant in $df$. For an upright $\mathrm{d}$, type the following in the preamble:
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+\newcommand{\dee}{\mathrm{d}}
+\end{lstlisting} 
+$\\$
+\command{dee} is my choice, so you can use something else.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\[\frac{\dee f}{\dee x} = 2x\]
+\end{LTXexample} 
+$\\$
+If you need to evaluate derivatives:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\[\left.\frac{\dee f}{\dee x}\right|_{x=2}=4\]
+\end{LTXexample} 
+\index{evaluate derivatives}
+$\\$
+Partial derivatives are typeset using \command{partial}.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\[\frac{\partial g}{\partial x \partial y}\]
+\end{LTXexample} 
+
+% diffcoeff Package %
+\subsubsection{\texttt{diffcoeff} package}
+\texttt{diffcoeff} with the \texttt{ISO} option also takes care of the upright $\mathrm{d}$. It is also handy for higher-order and partial derivatives.
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+ % Preamble
+\uspackage[ISO]{diffcoeff}
+\end{lstlisting} 
+$\\$
+Typesetting ordinary derivatives:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\[\diff{f}{x}\]
+\[\diff{f}/{x}\]
+\[\diff[n]{f}{x}\]
+\[\diff[n]{f}/{x}\]
+\[\diff{\cos(\sin x)}{(\sin x)}\]
+\[\diff[n]{\cos(\sin{x})}{\sin{x}}\]
+\[\diff*{f(x)}{x}\]
+\[\diff*{\diff{y}{x}}{x}\]
+\[\diff[n]{f}{x}[x=0]\]
+\end{LTXexample} 
+$\\$
+Typesetting partial derivatives:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\[\diffp{f}{x}\]
+\[\diffp{f}/{x}\]
+\[\diffp[n]{f}{x}\]
+\[\diffp[n]{f}/{x}\]
+\[\diffp[n]{f(x,y)}{x}[(0,0)]\]
+\[\diffp{f}{x, y, z}\]
+\[\diffp[2, 3, 4, 1]{f(x, y, z, w)}{x, y, z, w}\]
+\end{LTXexample} 
+$\\$
+More package information can be found on \href{https://ctan.org/pkg/diffcoeff?lang=en}{CTAN}.
+
+% Integrals %
+\subsection{Integration\index{integration}\index{antiderivatives}}
+\label{integration}
+Refer to \ref{sums} on page \pageref{sums} and replace \texttt{sum} with \texttt{int}. To include the differential, add \texttt{\textbackslash,\textbackslash dee x}. 
+\begin{LTXexample}[style=myLaTeX, pos=o]
+The integral $\int_{0}^{\infty}{e^x} \,\dee x$ diverges.
+\end{LTXexample} 
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\[\int_{0}^{2}{2x} \,\dee x = \left[x^2\right]^{2}_{0} = 4\]
+\end{LTXexample} 
+\index{differentials}
+\index{integral spacing}
+\index{spacing in integral}
+$\\$
+For multiple integrals, use \command{int} multiple times. 
+\begin{LTXexample}[style=myLaTeX, pos=o]
+If $I_1=I_2=[0, 2]$, then
+\[\int_{I_1}{\int_{I_2}{xy \,\dee x} \,\dee y} = 4\]
+
+Explicitly:
+\[\int_{0}^{2}{\int_{0}^{2}{xy \,\dee x} \,\dee y} = 4\]
+
+\end{LTXexample}
+$\\$
+Different types of integrals:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Integral with Specified Limits (Besides Integral)
+\[\int_{-\infty}^{\infty} f = 0\]
+
+% Integral with Specified Limits (Under Integral)
+\[\int\limits_{-\infty}^{\infty} f = 0\]
+
+% Double / Surface Integral
+\[\iint_A f = F\]
+
+% Triple / Volume Integral
+\[\iiint_V f = F\]
+
+% Quadruple Integral
+\[\iiiint_V f = F\]
+
+% Multiple Integral
+\[\idotsint_V f = F\]
+
+% Line Integral
+\[\oint_V f = F\]
+
+\end{LTXexample}
+\indexcommand{iint}
+\indexcommand{iiint}
+\indexcommand{iiint}
+\indexcommand{idotsint}
+\indexcommand{oint}
+\index{double integral}\index{surface integral}
+\index{triple integral}\index{volume integral}
+\index{quadruple integral}\index{multiple integral}
+\index{line integral}\index{curve integral}\index{closed integral}
+
+% Multivariable Calculus %
+\subsection{Multivariable Calculus\index{vector calculus}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Gradient & \command{nabla}\texttt{\{f\}} & $\nabla{f}$ \\ 
+Divergence & \command{nabla}\command{cdot}\texttt{\{F\}} & $\nabla\cdot{F}$ \\ 
+Divergence & \command{nabla}\command{times}\texttt{\{f\}} & $\nabla\times{F}$ \\ 
+Laplace Operator & \command{Delta}\texttt{\{f\}} & $\Delta{f}$ \\ 
+D'Alembert Operator & \command{square}\texttt{\{f\}} & $\square{f}$ \\ 
+\hline
+\end{tabular}
+\end{table}
+\index{gradient}
+\index{divergence}
+\index{curl}
+\index{Laplace operator}
+\index{D'Alembert operator}
+
+% Analysis % 
+\section{Analysis\index{analysis}}
+
+% Sequences and Series %
+\subsection{Sequences\index{sequences}}
+Use \texttt{()} to denote sequences. 
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Let $(a_{n})=(1, 2, 3, 4, 5, \ldots)$ be a sequence. 
+Then \[n \to \infty \implies a_{n} \to \infty.\]
+\end{LTXexample}
+
+% Limits %
+\subsection{Limits\index{limits}}
+Limits can also be typeset easily.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+If the limit of $f(x)$ exists at $x=a$, then $(\forall\varepsilon>0) (\exists\delta>0) (0<|x-a|<\delta \implies |f(x)-f(a)|<\varepsilon)$. \\
+\end{LTXexample}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Inline Mode
+$\lim_{n \to \infty}{\frac{1}{n}} = 0$ \\
+
+$\lim_{n \to 2^{+}}{\frac{1}{n}} = \frac{1}{2}$ \\
+
+% Display Mode
+\[\lim_{n \to \infty}{\frac{1}{n}} = 0\]
+
+\[f'(x) = \lim_{h \to 0^{+}}{\frac{f(x+h) - f(x)}{h}}\] \\
+\end{LTXexample} 
+$\\$
+\command{substack} (refer to \ref{sums} on page \pageref{sums}) can also be applied to limits.
+
+% Inf + Sup %
+\subsection{Infimum \& Supremum\index{infimum}\index{supremum}}
+For limit inferior and superior, replace \command{lim} with \command{liminf} and \command{limsup}, respectively. 
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Limit Superior
+\[\limsup_{n \to \infty}{x_{n}} = 1\] 
+\[\varlimsup_{n \to \infty}{x_{n}} = 1\] 
+
+% Limit Inferior
+\[\liminf_{n \to \infty}{x_{n}} = -1\] 
+\[\varliminf_{n \to \infty}{x_{n}} = -1\] 
+\end{LTXexample} 
+$\\$
+Other important commands include:
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Minimum & \command{min}\texttt{\{A\}} & $\min{A}$ \\ 
+Maximum & \command{max}\texttt{\{A\}} & $\max{A}$ \\ 
+Infimum & \command{inf}\texttt{\{A\}} & $\inf{A}$ \\ 
+Supremum & \command{sup}\texttt{\{A\}} & $\sup{A}$ \\ 
+\hline
+\end{tabular}
+\end{table}
+\index{minimum}
+\index{maximum}
+\index{infimum}\index{limit inferior}
+\index{supremum}\index{limit superior}
+
+% Big O Notation %
+\subsection{Big O Notation\index{big O notation}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Small o & \texttt{o(g)} & $o(g)$ \\ 
+Big O & \command{mathcal}\texttt{\{O\}(g)} & $\mathcal{O}(g)$ \\ 
+Big Theta & \command{Theta}\texttt{(g)} & $\Theta(g)$ \\ 
+Big Omega & \command{Omega}\texttt{(g)} & $\Omega(g)$ \\ 
+Small omega & \command{omega}\texttt{(g)} & $\omega(g)$ \\
+\hline
+\end{tabular}
+\end{table}
+\index{small o}
+\index{little o}
+\index{big Omega}
+\index{small omega}
+\index{big Theta}
+
+% Algebra %
+\section{Abstract Algebra\index{abstract algebra}\index{algebra}}
+
+% Equivalence Relations & Classes %
+\subsection{Equivalence Classes \& Relations\index{equivalence classes}\index{equivalence relations}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Equivalence Class & \texttt{[a]} & $[a]$ \\ 
+Equivalence Relation & \command{sim} & $\sim$ \\ 
+Equivalence Relation & \command{backsim} & $\backsim$ \\ 
+\hline
+\end{tabular}
+\end{table}
+
+% Group Theory %
+\subsection{Group Theory\index{group}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Group Isomorphism & \command{simeq} & $\simeq$ \\ 
+Direct Product & \command{times} & $\times$ \\ 
+Semi-Direct Product & \command{rtimes} & $\rtimes$ \\ 
+Wreath Product & \command{wr} & $\wr$ \\ 
+Subgroup & \command{leq} & $\leq$ \\ 
+Normal Subgroup & \command{vartriangleleft} & $\vartriangleleft$ \\ 
+Not a Normal Subgroup & \command{not}\command{vartriangleleft} & $\not\vartriangleleft$ \\ 
+Quotient Group & \texttt{G / H} & $G / H$ \\ 
+Index of a Subgroup & \texttt{[G : H]} & $ [G : H]$ \\ 
+Generator & \command{langle}\texttt{ X }\command{rangle}  & $\langle X \rangle$ \\ 
+Commutator & \texttt{[g, h]} & $[g, h]$ \\ 
+\hline
+\end{tabular}
+\end{table}
+\index{isomorphism}
+\index{direct product}
+\index{semi-direct product}
+\index{Wreath product}
+\index{subgroup}
+\index{normal subgroup}
+\index{index}
+\index{generator}
+\index{commutator}
+
+% Field Theory %
+\subsection{Field Theory\index{field}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Field Extension & \texttt{L : K} & $L : K$ \\ 
+Degree of Field Extension & \texttt{[L : K]} & $ [L : K]$ \\ 
+Algebraic Closure & \command{overline}\texttt{\{K\}} & $\overline{K}$ \\ 
+\hline
+\end{tabular}
+\end{table}
+\index{field extension}
+\index{algebraic closure}
+
+% Discrete Mathematics %
+\section{Discrete Mathematics \index{discrete mathematics}}
+
+% Number Theory %
+\subsection{Number Theory}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Divides & \texttt{a \command{mid} b} & $a \mid b$ \\ 
+Does Not Divide  & \texttt{a \command{nmid} b} & $a \nmid b$ \\ 
+Congruence With () & \texttt{a \command{equiv} b \command{pmod}\{n\}} & $a \equiv b \pmod{n}$ \\ 
+Congruence Without () & \texttt{a \command{equiv} b \command{mod}\{n\}} & $a \equiv b \mod{n}$ \\ 
+Greatest Common Divisor & \texttt{\command{gcd}(100, 10)} & $\gcd(100, 10)$ \\
+Euler's Totient Function & \texttt{\command{phi}(n)} & $\phi(n)$ \\
+\hline
+\end{tabular}
+\end{table}
+\index{divides}
+\index{congruence}\index{modular arithmetic}
+\index{greatest common divisor}
+\index{totient function}\index{Euler's totient function}
+
+% Continued Fractions %
+\subsection{Continued Fractions\index{continued fractions}}
+\command{cfrac} does the job. The options \texttt{[r]} or \texttt{[l]} determine the position of the numerator.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\begin{equation*}
+x = x_{0} + \cfrac{y_{0}}{
+x_{1} + \cfrac{y_{1}}{
+x_{2} + \cfrac[l]{y_{2}}{
+x_{3} + \cfrac[r]{y_{3}}{
+x_{4} + \cdots}}}}
+\end{equation*}
+\end{LTXexample} 
+
+% Combinatorics %
+\subsection{Combinatorics\index{combinatorics}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Factorial & \texttt{n!} & $n!$ \\ 
+Double Factorial & \texttt{n!!} & $n!!$ \\
+Derangement & \texttt{!n} & $!n$ \\
+Combination & \command{binom}\texttt{\{n\}\{k\}} & $\binom{n}{k}$ \\
+Multinomial Coefficient & \command{binom}\texttt{\{n\}\{k\_{}1, k\_{}2, \command{ldots}, k\_{}r\}} & $\binom{n}{k_1, k_2, \ldots, k_r}$ \\
+Multiset & \texttt{\command{left}(\command{binom}\texttt{\{n\}\{k\}}\command{right})} & $\left(\binom{n}{k}\right)$ \\
+Primorial & \texttt{n\command{\#}} & $n\#$ \\
+\hline
+\end{tabular}
+\end{table}
+\index{factorial}
+\index{double factorial}
+\index{derangement}
+\index{combination}
+\index{permutation}
+\index{multinomial coefficient}
+\index{multiset}
+\index{primorial}
+$\\$
+You can also use \command{dbinom} for a \textbf{d}isplay mode sized binomial and \command{tbinom} for a \textbf{t}ext mode sized binomial.
+
+% Probability & Statistics % 
+\section{Stochastics (Probability \& Statistics) \index{probability}\index{statistics}\index{stochastics}}
+
+% Probability %
+\subsection{Probability\index{probability}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Probability Measure & \texttt{P(E)} & $P(E)$ \\ 
+Conditional Probability & \texttt{P(A \command{mid} B)} & $P(A \mid B)$ \\ 
+Expected Value & \texttt{E(X)} & $E(X)$ \\
+Variance & \texttt{\textbackslash mathrm\{Var\}(X)} & $\mathrm{Var}(X)$ \\
+Standard Deviation & \command{sigma}\texttt{(X)} & $\sigma(X)$ \\
+Covariance & \texttt{\textbackslash mathrm\{Cov\}(X,  Y)} & $\mathrm{Cov}(X)$ \\
+Correlation & \command{rho}\texttt{(X, Y)} & $\rho(X, Y)$ \\
+Probability Distribution & \texttt{X \command{sim} Y} & $X \sim Y$ \\
+\hline
+\end{tabular}
+\end{table}
+\index{probability}
+\index{conditional probability}
+\index{expected value}
+\index{standard deviation}
+\index{variance}
+\index{correlation}
+\index{probability distribution}
+
+% Statistics %
+\subsection{Statistics\index{statistics}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Mean & \texttt{\command{overline}\{x\}} & $\overline{x}$ \\ 
+Estimator &  \command{hat}\texttt{\{p\}}& $\hat{p}$ \\ 
+\hline
+\end{tabular}
+\end{table}
+\index{mean}
+\index{estimator}
+
+% Linear Algebra %
+\section{Linear Algebra\index{linear algebra}}
+
+% Vectors %
+\subsection{Vectors\index{vectors}}
+\label{vectors}
+Vectors are denoted using \command{vec}.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+$\vec{a}$
+\end{LTXexample} 
+$\\$
+Bold vectors require \command{boldsymbol}. Typing this out can be cumbersome, so define a new command in the preamble.
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+\newcommand{\bvec}[1]{\boldsymbol{#1}}
+\end{lstlisting} 
+$\\$ 
+Using the new command:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+$\bvec{a}$
+\end{LTXexample} 
+$\\$
+Vectors are defined within a \texttt{matrix}\footnote{The \texttt{array} environment does the same thing but is not preferred.}, \texttt{pmatrix}, \texttt{bmatrix}, or \texttt{Bmatrix} environment. \index{environments!matrix@\texttt{matrix}}\index{environments!pmatrix@\texttt{pmatrix}}\index{environments!bmatrix@\texttt{bmatrix}}\index{environments!Bmatrix@\texttt{Bmatrix}} \\\\
+Row vectors:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Row Vector (no fences)
+\begin{equation*}
+\begin{matrix}
+1 & 2 & 3 
+\end{matrix}
+\end{equation*}
+\end{LTXexample} 
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Row Vector (round brackets)
+\begin{equation*}
+\begin{pmatrix}
+1 & 2 & 3 
+\end{pmatrix}
+\end{equation*}
+\end{LTXexample} 
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Row Vector (square brackets)
+\begin{equation*}
+\begin{bmatrix}
+1 & 2 & 3 
+\end{bmatrix}
+\end{equation*}
+\end{LTXexample} 
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Row Vector (curly braces)
+\begin{equation*}
+\begin{Bmatrix}
+1 & 2 & 3 
+\end{Bmatrix}
+\end{equation*}
+\end{LTXexample} 
+\index{row vectors}
+$\\$
+Column vectors:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Column Vector (no delimiters)
+\begin{equation*}
+\begin{matrix}
+1 \\
+2 \\
+\vdots \\
+3
+\end{matrix}
+\end{equation*}
+\end{LTXexample} 
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Column Vector (round brackets)
+\begin{equation*}
+\begin{pmatrix}
+1 \\
+2 \\
+\vdots \\
+3
+\end{pmatrix}
+\end{equation*}
+\end{LTXexample} 
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Column Vector (square brackets)
+\begin{equation*}
+\begin{bmatrix}
+1 \\
+2 \\
+\vdots \\
+3
+\end{bmatrix}
+\end{equation*}
+\end{LTXexample} 
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Column Vector (curly braces)
+\begin{equation*}
+\begin{Bmatrix}
+1 \\
+2 \\
+\vdots \\
+3
+\end{Bmatrix}
+\end{equation*}
+\end{LTXexample} 
+\index{column vectors}
+
+% Matrices %
+\subsection{Matrices\index{matrices}}
+Use the exact same environments mentioned in \ref{vectors}.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Matrix (no delimiters)
+\begin{equation*}
+\begin{matrix}
+1 & 2 & 3 \\
+4 & 5 & 6
+\end{matrix}
+\end{equation*}
+\end{LTXexample} 
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Matrix (round brackets)
+\begin{equation*}
+\begin{pmatrix}
+a_{11} & \cdots & a_{1n} \\
+\vdots & \ddots & \vdots \\
+a_{m1} & \cdots & a_{mn} 
+\end{pmatrix}
+\end{equation*}
+\end{LTXexample} 
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Matrix (square brackets)
+\begin{equation*}
+\begin{bmatrix}
+1 & 2 \\
+4 & 5
+\end{bmatrix}
+\end{equation*}
+\end{LTXexample} 
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Matrix (curly braces)
+\begin{equation*}
+\begin{Bmatrix}
+1 & 2 \\
+3 & 4 \\
+5 & 6
+\end{Bmatrix}
+\end{equation*}
+\end{LTXexample} 
+$\\$
+If you need matrices with different delimiters, then you add them to a plain \texttt{matrix} using \command{left} and \command{right}.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Matrix (custom delimiters)
+$
+\left(
+\begin{matrix}
+1 & 2 \\
+3 & 4 
+\end{matrix}
+\right]
+$, 
+$
+\left\lceil
+\begin{matrix}
+1 & 2 \\
+3 & 4
+\end{matrix}
+\right\rfloor
+$
+\end{LTXexample} 
+$\\$
+Even in inline mode, matrices are in display style. For smaller matrices, use \texttt{smallmatrix},  \texttt{psmallmatrix}, or  \texttt{bsmallmatrix}.\index{environments!smallmatrix@\texttt{smallmatrix}}\index{environments!psmallmatrix@\texttt{psmallmatrix}}\index{environments!bsmallmatrix@\texttt{bsmallmatrix}}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Small Matrix (no delimiters)
+$
+\begin{smallmatrix}
+1 & 2 \\
+3 & 4 
+\end{smallmatrix}
+$ is a $2 \times 2$ matrix.
+\end{LTXexample} 
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Small Matrix (round brackets)
+$
+\begin{psmallmatrix}
+1 & 2 \\
+3 & 4 
+\end{psmallmatrix}
+$ is a $2 \times 2$ matrix.
+\end{LTXexample} 
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Small Matrix (square brackets)
+$
+\begin{bsmallmatrix}
+1 & 2 \\
+3 & 4 
+\end{bsmallmatrix}
+$ is a $2 \times 2$ matrix.
+\end{LTXexample}
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Small Matrix (custom brackets)
+$
+\left(
+\begin{smallmatrix}
+1 & 2 \\
+3 & 4 
+\end{smallmatrix}
+\right\}
+$ is a $2 \times 2$ matrix.
+\end{LTXexample}  
+
+% Determinants %
+\subsection{Determinants\index{determinants}}
+Use the \texttt{vmatrix} environment.\index{environments!@vmatrix\texttt{vmatrix}}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\begin{equation*}
+\begin{vmatrix}
+1 & 2 \\
+3 & 4 
+\end{vmatrix}
+= 1 \cdot 4 - 2 \cdot 3 = -2
+\end{equation*}
+\end{LTXexample}  
+$\\$
+An alternative is:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\begin{equation*}
+\left|
+\begin{matrix}
+1 & 2 \\
+3 & 4 
+\end{matrix}
+\right|
+= 1 \cdot 4 - 2 \cdot 3 = -2
+\end{equation*}
+\end{LTXexample}  
+$\\$ 
+You can also use \command{det}.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+The determinant of $A$ is
+\begin{equation*}
+\det{\left(
+\begin{pmatrix}
+1 & 2 \\
+3 & 4 
+\end{pmatrix}
+\right)}
+= 1 \cdot 4 - 2 \cdot 3 = -2
+\end{equation*}
+\end{LTXexample}  
+
+% Matrix Norm %
+\subsection{Matrix Norm\index{matrix norm}\index{norm}}
+Use the \texttt{Vmatrix} environment.\index{environments!Vmatrix@\texttt{Vmatrix}}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\begin{equation*}
+\begin{Vmatrix}
+1 & 2 \\
+3 & 4 
+\end{Vmatrix}
+\end{equation*}
+\end{LTXexample}  
+$\\$
+An alternative is:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\begin{equation*}
+\left\|
+\begin{matrix}
+1 & 2 \\
+3 & 4 
+\end{matrix}
+\right\|
+\end{equation*}
+\end{LTXexample}  
+
+% Vector Calculus %
+\subsection{Vector Calculus\index{vector calculus}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Dot Product & \texttt{v \command{cdot} w} & $v \cdot w$ \\ 
+Inner Product & \texttt{\command{langle} v, w \command{rangle}} & $\langle v, w \rangle$ \\ 
+Cross Product & \texttt{v \command{times} w} & $v \times w$ \\ 
+Triple Product & \texttt{(u, v, w)} & $(u, v, w)$ \\ 
+Dyadic Product & \texttt{v \command{otimes} w} & $v \otimes w$ \\ 
+Unit Vector & \command{hat}\texttt{\{v\}}& $\hat{v}$ \\ 
+\hline
+\end{tabular}
+\end{table}
+\index{dot product}
+\index{inner product}
+\index{cross product}
+\index{triple product}
+\index{unit vector}
+\index{dyadic product}
+
+% Matrix Operations %
+\subsection{Matrix Operations\index{matrix operations}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Matrix Multiplication & \texttt{A \command{cdot} B} & $A \cdot B$ \\ 
+Hadamard Product & \texttt{A \command{circ} B} & $A \circ B$ \\ 
+Kronecker Product & \texttt{A \command{otimes} B} & $A \otimes B$ \\ 
+Matrix Transpose & \texttt{A\^{}\{T\}} & $A^{T}$ \\ 
+Conjugate Transpose & \texttt{A\^{}\{*\}} & $A^{*}$ \\ 
+Inverse Matrix & \texttt{A\^{}\{-1\}} & $A^{-1}$ \\ 
+Trace & \texttt{\command{mathrm}\{tr\}(A)} & $\mathrm{tr}(A)$ \\ 
+Determinant & \texttt{\command{det}(A)} & $\det(A)$ \\ 
+Determinant & \texttt{|A|} & $|A|$ \\ 
+Matrix Norm & \texttt{\textbackslash|A\textbackslash|} & $\|A\|$ \\ 
+Rank & \texttt{\command{mathrm}\{rank\}(A)} & $\mathrm{rank}(A)$ \\ 
+Span & \texttt{\command{mathrm}\{span\}(A)} & $\mathrm{span}(A)$ \\ 
+\hline
+\end{tabular}
+\end{table}
+\index{matrix multiplication}\index{multiplication}
+\index{Hadamard product}
+\index{Kronecker product}
+\index{transpose}\index{matrix multiplication}
+\index{conjugate transpose}
+\index{matrix inverse}\index{inverse matrix}
+\index{determinant}
+\index{trace}
+\index{matrix norm}
+
+% Vector Spaces %
+\subsection{Vector Spaces \index{vector spaces}}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|ccc|}
+\hline
+\textbf{Description}                             & \textbf{Command}                           & \textbf{Output}    \\                              
+Kernel & \texttt{\command{ker}\{W\}} & $\ker{W}$ \\ 
+Dimension & \texttt{\command{dim}\{W\}} & $\dim{W}$ \\ 
+Degree & \texttt{\command{degree}\{P(x)\}} & $\deg{P(x)}$ \\ 
+Direct Sum & \texttt{V \command{oplus} W} & $V \oplus W$ \\ 
+Direct Product & \texttt{V \command{times} W} & $V \times W$ \\ 
+Tensor Product & \texttt{V \command{otimes} W} & $V \otimes W$ \\ 
+Quotient Space & \texttt{V / W} & $V / W$ \\ 
+Orthogonal Complement & \texttt{W\^{}\{\command{perp}\}} & $A^{\perp}$ \\ 
+Dual Space & \texttt{V\^{}\{*\}} & $V^{*}$ \\
+Linear Hull & \texttt{\command{langle} X \command{rangle}} & $\langle X \rangle$ \\ \hline
+\end{tabular}
+\end{table}
+\index{kernel}
+\index{dimension}
+\index{direct sum}
+\index{direct product}
+\index{tensor product}
+\index{quotient space}
+\index{orthogonal complement }
+\index{dual space}
+\index{linear hull}
+
+% Overriding Math Styles %
+\section{Overriding Default Math Styles}
+Suppose you want a display mode style sum in between text. How do you do that? Fortunately, \LaTeX{} provides commands to override the default style that math is typeset.
+ \begin{itemize}
+\item \command{textstyle} - inline math style.
+\item \command{displaystyle} - display math style.
+\item \command{scriptstyle} - sub/superscript math style.
+\item \command{scriptscriptstyle} - second order sub/superscript math style.
+\end{itemize}
+$\\$ 
+These commands are useful with sums, products, integral, and limits.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+% Display Mode
+\[\sum_{n=1}^{10}{n}\] 
+
+% Text Style in Display Mode
+\[\textstyle\sum_{n=1}^{10}{n}\] 
+
+% Other Styles
+$\scriptscriptstyle\sum_{n=1}^{10}
+{n}$, 
+$\scriptstyle\sum_{n=1}^{10}{n}$,  
+$\sum_{n=1}^{10}{n}$, 
+$\displaystyle\sum_{n=1}^{10}{n}$ 
+\end{LTXexample} 
+
+% Coloring Math %
+\section{Coloring Math \index{color}}
+Coloring math is similar to coloring text (refer to \ref{colors} on page \pageref{colors}).
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\[\frac{\textcolor{blue}{5}}{10}= \frac{1}{\textcolor{red}{10}}\]
+\end{LTXexample}
+
+% Math HW %
+\section{Homework \index{homework}}
+There are a few templates for homework assignments that I have uploaded to \href{https://github.com/Prabhav10/LaTeX}{GitHub}. More templates can be found on \href{https://www.overleaf.com/gallery/tagged/homework}{Overleaf}.
+
+% Math LaTeX Resources %
+\subsubsection{Helpful Resources\index{resources}}
+\begin{enumerate}
+\item \href{https://en.wikibooks.org/wiki/LaTeX/Mathematics}{Wikibooks} - a thorough guide for typesetting mathematics.
+\item \href{http://tug.ctan.org/info/short-math-guide/short-math-guide.pdf}{AMS Math Guide for \LaTeX} - a guide to \LaTeX{} by the American Mathematical Society.
+\item \href{https://faculty.math.illinois.edu/~west/grammar.html}{The Grammar of Mathematics} - how to write math.
+\end{enumerate}
+
+% CHAPTER 7 %
+\chapter{Structures}
+
+% Lists %
+\section{Lists\index{lists}}
+Different environments render different  lists.
+\begin{itemize}
+\item \texttt{itemize} - unordered list (bullet points).\index{environments!itemize@\texttt{itemize}}
+\item \texttt{enumerate} - ordered list (numbers).\index{environments!enumerate@\texttt{enumerate}}
+\item \texttt{description} - description list (words).\index{environments!description@\texttt{description}}
+\end{itemize}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Grocery list:
+\begin{itemize}
+  \item Pineapples
+  \item More Pineapples
+  \item Even More Pineapples
+\end{itemize}
+\end{LTXexample} 
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Premier League Top 4:
+\begin{enumerate}
+  \item Manchester United
+  \item Manchester City
+  \item Liverpool
+  \item Chelsea
+\end{enumerate}
+\end{LTXexample} 
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Bull's Starting Line-up:
+\begin{description}
+  \item[PG] Lonzo Ball
+  \item[SG] Zach Lavine
+  \item[SF] DeMar DeRozan
+  \item[PF] Javonte Green
+  \item[C] Nikola Vučević
+\end{description}
+\end{LTXexample} 
+$\\$
+You can also nest lists.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+Bull's Starting Line-up:
+\begin{description}
+  \item[PG] Lonzo Ball
+    \begin{description}
+      \item Bench
+        \begin{itemize}
+          \item[\textbf{\#6}] Alex Caruso
+          \item Coby White
+        \end{itemize}
+      \end{description}
+  \item[SG] Zach Lavine
+  \item[SF] DeMar DeRozan
+  \item[PF] Javonte Green
+  \item[C] Nikola Vučević
+\end{description}
+\end{LTXexample} 
+$\\$
+More information on lists can be found \href{https://www.overleaf.com/learn/latex/Lists}{here}.
+
+% Tables %
+\section{Tables\index{Tables}}
+The \texttt{table} and \texttt{tabular} environments are used to create tables\index{environments!tabular@\texttt{tabular}}\index{environments!table@\texttt{table}}.
+
+% Table Environment %
+\subsection{The \texttt{table} environment}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\begin{table}[c] % t = top of the page; c = center of the page b = bottom of the page
+
+% Title of the table
+\caption{Basic Table} 
+
+% Centers table (table is aligned to left by default)
+\centering 
+\end{table}
+\end{LTXexample} 
+
+\begin{itemize}
+\item \texttt{c} specifies the position of the table within the page.
+\item To place table at precisely the location in the \LaTeX{} code, load the \texttt{float} package and use \texttt{H} instead of \texttt{c}.
+\item To right align the table, place the code in a \texttt{flushright} environment.
+\end{itemize}
+$\\$
+To fill in the table contents, start a \texttt{tabular} environment.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\begin{center} % You can also use the center environment 
+\begin{table}[c] 
+\caption{Basic Table} 
+
+% 3 columns: l = left justified contents; c = centered column contents; r = right justified contents
+\begin{tabular}{l c r}
+1 & 2 & 3 \\
+4 & 5 & 6 \\
+\end{tabular}
+\end{table}
+\end{center}
+\end{LTXexample} 
+
+\begin{itemize}
+\item Column widths and spacing are automatically defined.
+\item \texttt{\&} separates columns.
+\item \command{\textbackslash} separates rows.
+\item For simple tables, you may only need the \texttt{tabular} environment.
+\end{itemize}
+$\\$
+Notice the small gap between the table contents and title. The \texttt{caption} package solves this. Add the following to the preamble.
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+\usepackage{caption} 
+\captionsetup[table]{skip=10pt}
+\end{lstlisting} 
+$\\$
+The \texttt{caption} package provides more customization options. Read \href{http://www.peteryu.ca/tutorials/publishing/latex_captions}{this} tutorial for more information.
+
+% Tabular Environment %
+\subsection{The \texttt{tablular} environment}
+The \texttt{tablular} environment was introduced in the last section. Let's continue adding features to it.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering
+
+\begin{tabular}[c]{|| l | c | r ||}
+\hline 
+Col 1 & Col 2 & Col 3 \\ [0.2ex] % Headings 
+1 & 2 & 3 \\
+\hline
+4 & 5 & 6 \\
+\hline
+7 & 8 & 9 \\
+\hline\hline
+\end{tabular}
+\end{LTXexample} 
+
+\begin{itemize}
+\item \texttt{|} adds a vertical line between columns.
+\item \texttt{||} adds a double vertical line between columns.
+\item \command{hline} adds a horizontal line between rows. 
+\item \command{hline}\command{hline} adds a double horizontal line between rows. 
+\item There is no need \command{\textbackslash} after \command{hline}.
+\item Add space between rows with square brackets \texttt{[]}
+\end{itemize}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering
+
+\begin{tabular}[c]{l c r}
+\hline 
+Col 1 & Col 2 & Col 3 \\ [0.2ex]
+\cline{2-2}
+1 & 2 & 3 \\
+\cline{2-3}
+4 & 5 & 6 \\
+\hline
+7 & 8 & 9 \\
+\hline
+\end{tabular}
+\end{LTXexample} 
+
+\begin{itemize}
+\item \command{cline}\texttt{\{m-n\}} adds a horizontal line between columns \texttt{m} and \texttt{n}.
+\end{itemize}
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering
+
+\begin{tabular}[c]{| l | c | r | p{2.5cm} |}
+\hline 
+Col 1 & Col 2 & Col 3 & Text \\ [0.2ex] 
+1 & 2 & 3 & Numbers from 1-3. \\
+\hline
+4 & 5 & 6 & Numbers from 4-6. \\
+\hline
+7 & 8 & 9 & Numbers from 7-9. \\
+\hline
+\end{tabular}
+\end{LTXexample} 
+
+\begin{itemize}
+\item \command{p}\texttt{\{2.5cm\}} specifies a paragraph column with text vertically aligned at the top.
+\end{itemize}
+$\\$
+More complex tables involving merging rows and columns. Use \command{multicolumn} to merge cells over multiple columns.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering
+
+\begin{tabular}[c]{| l | c | r |}
+\hline 
+Col 1 & Col 2 & Col 3 \\ [0.2ex]
+\hline
+1 & \multicolumn{2}{c}{2, 3} \\
+\hline
+\multicolumn{3}{c}{4, 5, 6} \\
+\hline
+\multicolumn{1}{l}{7} & \multicolumn{1}{c}{8} & \multicolumn{1}{r}{9} \\
+\hline
+\end{tabular}
+\end{LTXexample} 
+
+\begin{itemize}
+\item \command{multicolumn} removes the vertical lines, so specify them.
+\end{itemize}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering
+
+\begin{tabular}[c]{| l | c | r |}
+\hline 
+Col 1 & Col 2 & Col 3 \\ [0.2ex]
+\hline
+1 & \multicolumn{2}{| c |}{2, 3} \\
+\hline
+\multicolumn{3}{| c |}{4, 5, 6} \\
+\hline
+\multicolumn{1}{| l |}{7} & \multicolumn{1}{| c |}{8} & \multicolumn{1}{| r |}{9} \\
+\hline
+\end{tabular}
+\end{LTXexample} 
+$\\$
+Load the \texttt{multirow} package and use \command{multirow} to merge cells over multiple rows.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering
+
+\begin{tabular}{| c | c | c |}
+\hline
+\multicolumn{3}{| c |}{Bulls Roster} \\
+\hline
+\multirow{2}{*}{Point Guards} 
+& PG1 & Lonzo B. \\
+& PG2 & Alex C. \\
+\hline
+\multirow{2}{*}{Shooting Guards} 
+& SG1 & Zach L. \\
+& SG2 & Ayo D. \\
+\hline
+\multirow{2}{*}{Small Forwards} 
+& SF1 & DeMar D. \\
+& SF2 & Derrick J. \\
+\hline
+\multirow{2}{*}{Power Forwards} 
+& PF1 & Patrick W. \\
+& PF2 & Javonte G. \\
+\hline
+\multirow{2}{*}{Centers} 
+& C1 & Nikola V. \\
+& C2 & Tony B. \\
+\hline
+\end{tabular}
+\end{LTXexample} 
+
+\begin{itemize}
+\item \texttt{*} tells \LaTeX{} that the column width is determined by its content.
+\end{itemize}
+
+% Table LaTeX Resources %
+\subsubsection{Helpful Resources\index{resources}}
+\begin{enumerate}
+\item \href{https://www.tablesgenerator.com}{Table to \LaTeX{} generators} - converts drawn table to \LaTeX.
+\item \href{https://www.overleaf.com/learn/latex/Positioning_images_and_tables#Basic_positioning_2}{Overleaf} - positioning tables.
+\item \href{https://en.wikibooks.org/wiki/LaTeX/Tables}{Wikibooks} - an advanced guide for tables.
+\end{enumerate}
+\index{table spacing}
+
+% Images %
+\section{Images\index{graphics}\index{images}}
+\begin{enumerate}
+\item Save the image in the folder your document is saved in (as a EPS, JPEG, PDF, or PNG).
+\item Load the \texttt{graphicx} package.
+\item Use \command{includegraphics}.
+\end{enumerate}
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\begin{center}
+\includegraphics[width=5cm, height=3cm, angle=0, scale=1]{ronaldo.jpeg}
+\end{center}
+\end{LTXexample} 
+$\\$
+Sometimes images and text do not work well together, so images must be placed in a \texttt{figure} environment\index{environments!figure@\texttt{figure}}. It is similar to the \texttt{table} environment in some ways.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\begin{center}
+\begin{figure}
+\caption{The \textbf{SIU}}
+\includegraphics[width=5cm, height=3cm, angle=0, scale=1]{ronaldo.jpeg}
+\end{figure}
+\end{center}
+\end{LTXexample} 
+$\\$
+More information on inserting images can be found \href{https://www.overleaf.com/learn/latex/Inserting_Images}{here}.
+
+% CHAPTER 8 %
+\chapter{Navigation}
+
+% Contents %
+\section{Table of Contents\index{table of contents}}
+Use \command{tableofcontents} in the body of the document.
+
+% List of... %
+\section{List of Tables \& Figures\index{list of figures}\index{list of tables}}
+Use \command{listoftables} and \command{listoffigures} in the body of the document.
+
+% Abstract %
+\section{Abstract\index{abstract}\index{summary}}
+Add the following code to the document body:
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+\chapter*{Abstract}
+
+% Adding Abstract to Table of Contents 
+\addcontentsline{toc}{chapter}{Abstract}  
+\end{lstlisting} 
+$\\$
+An alternative solution is to use the \texttt{abstract} environment.\index{environments!abstract@\texttt{abstract}}
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+\begin{abstract}
+This guide serves as an introduction to \LaTeX{}. I hope new users find it useful.
+\end{abstract}
+\end{lstlisting} 
+
+% Acknowledgements %
+\section{Acknowledgements\index{acknowledgements}\index{thanks}}
+Add the following code to the document body:
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+\chapter*{Acknowledgements}
+
+% Adding Acknowledgements to Table of Contents 
+\addcontentsline{toc}{chapter}{Acknowledgements}  
+\end{lstlisting} 
+
+% Appendix %
+\section{Appendix\index{appendix}}
+Load the \texttt{appendix} package as follows:
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Preamble
+\usepackage[toc]{appendix} % Includes appendices in Table of Contents
+
+% Body
+\begin{appendices}
+\chapter{Riemann Hypothesis Proof}
+Sir Michael Atiyah claims the proof for the Riemann Hypothesis is as follows...
+\end{appendices}
+\end{lstlisting} 
+
+% Bibliography %
+\section{Bibliography\index{bibliography}\index{references}}
+\label{references}
+Watch \href{https://www.youtube.com/watch?v=KS9GvK7cvmo}{this} video. A few things to remember:
+\begin{itemize}
+\item Run the compilers below in the order stated:
+\begin{enumerate}
+\item \LaTeX{}\footnote{You can use \XeLaTeX{} or \LuaLaTeX{} instead.} 
+\item Bib\TeX 
+\item \LaTeX{} ($\mathsf{\times 2}$)
+\end{enumerate}
+\item Other bibliography styles can be found \href{https://www.overleaf.com/learn/latex/Bibtex_bibliography_styles\#Table_of_stylename_values}{here}.
+\item When you use \command{bibliography}, the .bib file name must be within the \texttt{\{\}}.
+\item When you use \command{cite}, the name must within \texttt{\{\}} must match the name in the .bib file.
+\end{itemize}
+\index{Bib\TeX}
+
+% Index %
+\section{Index\index{index}}
+Load the \texttt{imakeidx} package and type the following code:
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Preamble
+\usepackage{imakeidx}
+
+% Alphabetical Index 
+\begin{filecontents*}{\jobname.mst}
+headings_flag 1
+heading_prefix   "\\par\\penalty-50\\textbf{"
+heading_suffix   "}\\\\\*\~\\\\\*"
+symhead_positive "Symbols"
+symhead_negative "symbols"
+numhead_positive "Numbers"
+numhead_negative "numbers"
+delim_0 ",\~"
+\end{filecontents*}
+
+% Making the Index 
+\makeindex[intoc]
+
+% Body
+
+% Making an Index entry
+This is the first index\index{first entry} entry.
+
+% Printing the Index
+\printindex
+\end{lstlisting} 
+$\\$
+Next, run the compilers below in the order stated:
+\begin{enumerate}
+\item \LaTeX{}\footnote{Refer to the footnote in \ref{references}}
+\item MakeIndex
+\item \LaTeX{} ($\mathsf{\times 2}$)
+\end{enumerate}
+To change the style of index entries, refer to \href{https://en.wikibooks.org/wiki/LaTeX/Indexing\#Sophisticated_indexing}{this} table.
+
+% Hyperlinks %
+\section{Hyperlinks\index{hyperlinks}\index{links}}
+Load the \texttt{href} package.
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Preamble
+\usepackage[colorlinks, urlcolor=blue]{href}
+\end{lstlisting} 
+$\\$
+Use \command{href} to add a link.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+This is a \href{https://www.google.com}
+{link}.
+\end{LTXexample} 
+$\\$
+If you just want a URL, then use \command{url}.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\url{https://www.google.com} provides a pretty good search engine.
+\end{LTXexample} 
+$\\$
+You can also add your email address.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\href{mailto:prabhavkumar10@gmail.com}
+{Say Hi!}
+\end{LTXexample} 
+$\\$
+More information about hyperlinks can be found \href{https://www.overleaf.com/learn/latex/Hyperlinks}{here}.
+
+% CHAPTER 9 % 
+\chapter{Drawing\index{drawing}\index{art}}
+
+TikZ is the most powerful graphics tool in \LaTeX. While it is quite complex, I introduce the basics.
+
+% Lines %
+\section{Lines\index{lines}}
+Load the \texttt{tikz} package.
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Preamble
+\usepackage{tikz}
+\end{lstlisting} 
+$\\$
+Use \command{tikz}\texttt{$\ldots$;} to draw inline. \textbf{\texttt{;} marks the end of the instruction and is necessary}.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\tikz \draw (0, 0) - - (1, 0); is a straight line
+\end{LTXexample} 
+$\\$
+Use the \texttt{tikzpicture} environment for larger pictures.\index{environments!tikzpicture@\texttt{tikzpicture}}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{tikzpicture}
+
+% Drawing Grid Lines
+\draw[help lines] (-1, -1) grid (1, 1);
+
+% Drawing a Path
+\draw (0, 0) - - (1, 0) -- (1, 1) -- (0, 1) -- (-1, 1) -- (-1, 0) -- (-1, -1);
+
+\end{tikzpicture}
+
+\end{LTXexample}  
+$\\$ 
+Drawing the same path using \texttt{|}:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{tikzpicture}
+\draw[help lines] (-1, -1) grid (1, 1);
+
+% Drawing Same Path
+\draw (0, 0) -| (1, 1) -| (-1, -1);
+
+\end{tikzpicture}
+\end{LTXexample}  
+
+% Points %
+\section{Points\index{points}}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{tikzpicture}
+
+% Drawing Grid Lines
+\draw[help lines] (-1, -1) grid (1, 1);
+
+% Drawing a Path
+\draw (0, 0) -| (1, 1) -| (-1, -1);
+
+% Starting & Ending Points
+\filldraw (0,0) circle (2pt); 
+\filldraw (-1, -1) circle (2pt); 
+
+\end{tikzpicture}
+\end{LTXexample}  
+
+% Curved Lines %
+\section{Curved Lines\index{curved lines}}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{tikzpicture}
+\draw[help lines] (-1, -1) grid (1, 1);
+
+% Drawing a Parabola
+\draw (0, 0) parabola (1, 1);
+
+% Drawing a Curved Line
+\draw (-1, -1) .. controls (-0.5, 0) and (0.5, 0) .. (1, -1);
+
+\end{tikzpicture}
+\end{LTXexample}  
+\texttt{(-1, -1)} and \texttt{(1, -1)} are the start and end points, respectively. \texttt{(-0.5, 0)} and \texttt{(0.5, 0)} act like magnets. Make sure there is no whitespace between the 2 periods before and after \texttt{controls}.
+
+% Shapes %
+\section{Shapes\index{shapes}}
+
+% Circle %
+A circle centered at the origin of radius 1\index{circle}:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{tikzpicture}
+\draw (0, 0) circle (1);
+\end{tikzpicture}
+\end{LTXexample}  
+$\\$
+% Triangle %
+A triangle\index{triangle}:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{tikzpicture}
+\draw (0, 0) -- (1, 0) -- (1, 1) -- cycle;
+\end{tikzpicture}
+\end{LTXexample}  
+$\\$
+% Rectangle %
+A rectangle\index{rectangle}:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{tikzpicture}
+\draw (0, 0) rectangle (1, 2);
+\end{tikzpicture}
+\end{LTXexample}  
+$\\$
+% Square %
+A square\index{square}:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{tikzpicture}
+\draw (0, 0) rectangle (2, 2);
+\end{tikzpicture}
+\end{LTXexample}  
+$\\$
+% Ellipse %
+An ellipse centered at the origin with $x$ and $y$-direction radii of 1 and 0.5\index{ellipse}:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{tikzpicture}
+\draw (0, 0) ellipse (1 and 0.5);
+\end{tikzpicture}
+\end{LTXexample}  
+$\\$
+% Arc %
+An arc of radius 1 from 0 to 90 degrees\index{arc}:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{tikzpicture}
+\draw (0, 0) arc (0:90:1);
+\end{tikzpicture}
+\end{LTXexample}  
+
+% Scaling %
+\section{Scaling\index{scaling}}
+Scaling a drawing by a factor of 2:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{tikzpicture}[scale=2]
+\draw[help lines] (-1, -1) grid (1, 1);
+\draw (0, 0) circle (1);
+\end{tikzpicture}
+\end{LTXexample}  
+$\\$
+Scaling across the $x$-dimension:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{tikzpicture}[xscale=2]
+\draw[help lines] (-1, -1) grid (1, 1);
+\draw (0, 0) circle (1);
+\end{tikzpicture}
+\end{LTXexample}  
+$\\$
+Scaling across the $x$ and $y$-dimensions:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{tikzpicture}[xscale=0.5, yscale=2]
+\draw[help lines] (-1, -1) grid (1, 1);
+\draw (0, 0) circle (1);
+\end{tikzpicture}
+\end{LTXexample}  
+
+% Decorating Lines %
+\section{Decorating Lines\index{decorating lines}}
+
+% Arrows %
+\subsection{Arrows\index{arrows}}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{tikzpicture}
+\draw [->] (0, 0) -- (0, 1);
+\draw [<-] (1, 0) -- (1, 1);
+\draw [<-|] (2, 0) -- (2, 1);
+\draw [<->] (3, 0) -- (3, 1);
+\end{tikzpicture}
+\end{LTXexample}  
+
+% Thickness %
+\subsection{Line Thickness\index{thickness}}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{tikzpicture}
+
+% Pre-defined Thickness %
+\draw [ultra thick] (0, 0) -- (0, 1);
+\draw [thick] (1, 0) -- (1, 1);
+\draw [thin] (2, 0) -- (2, 1);
+\draw [very thin] (3, 0) -- (3, 1);
+
+% Custom Thickness %
+\draw [line width=3pt] (4, 0) -- (4, 1);
+
+\end{tikzpicture}
+\end{LTXexample}  
+
+% Line Styles %
+\subsection{Line Styles\index{line styles}\index{dashed lines}\index{dotted lines}}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{tikzpicture}
+\draw [dashed, ultra thick] (0, 0) -- (0, 1);
+\draw [dashed, thick] (1, 0) -- (1, 1);
+\draw [dotted] (2, 0) -- (2, 1);
+\end{tikzpicture}
+\end{LTXexample}  
+
+% Colors %
+\subsection{Line Color\index{color}\index{line color}}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{tikzpicture}
+\draw [red, dashed, ultra thick] (0, 0) -- (0, 1);
+\draw [blue, dashed, thick] (1, 0) -- (1, 1);
+\draw [magenta] (2, 0) -- (2, 1);
+\end{tikzpicture}
+\end{LTXexample}  
+$\\$
+Refer to \ref{colors} to use different colours.
+
+% Grid Lines %
+\subsection{Grid Lines\index{grid lines}}
+Custom grid lines:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{tikzpicture}
+\draw[step=1, blue, thin] (-1, -1) grid (1, 1);
+\end{tikzpicture}
+\end{LTXexample}  
+$\\$
+Removing outer border:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{tikzpicture}
+\draw[step=1, blue, thin] (-1.9, -1.9) grid (1.9, 1.9);
+\end{tikzpicture}
+\end{LTXexample}  
+
+% Repetition %
+\section{Repetition\index{repetition}\index{for loop}}
+If you need to reuse lines of code to draw similar things, use \command{foreach}.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{tikzpicture}
+
+% Vertical or Horizontal Parallel Lines?
+\foreach \x in {0,...,100} {
+\draw [red, dashed, ultra thin] (\x * 0.015, 0) -- (\x * 0.015, 1);
+};
+
+\end{tikzpicture}
+\end{LTXexample}  
+$\\$
+You don't need to enter math mode to do math with \texttt{\textbackslash x}.
+
+% TikZ LaTeX Resources %
+\subsubsection{Helpful Resources\index{resources}}
+\label{tikzresources}
+I have only scratched the surface of TikZ, so please use these resources, especially if you want to create art.
+\begin{enumerate}
+\item \href{https://ctan.org/pkg/visualtikz}{My Favorite TikZ Manual} - learn TikZ visually.
+\item \href{http://cremeronline.com/LaTeX/minimaltikz.pdf}{Minimal Introduction TiKZ} - a very minimal introduction to TikZ.
+\item \href{https://ctan.org/pkg/pgf?lang=en}{Another TikZ Manual} - a comprehensive guide for TikZ.
+\item \href{http://www.texample.net/tikz/}{Examples} - learn TikZ through examples.
+\item \href{https://tikz.net}{STEM-related Drawings} - STEM-related TikZ drawings and their code.
+\end{enumerate}
+
+% CHAPTER 10 % 
+
+% LaTeX with other subjects %
+\chapter{Extending \LaTeX{}}
+
+% Physics % 
+\section{Physics\index{physics}}
+Physics has a lot of diagrams, so TikZ is important. The rest is basically math\footnote{Open to debate.}. Refer to resource 5 in \ref{tikzresources}.   
+
+% Circuits %
+\subsection{Circuits\index{circuits}\index{electricity}}
+My favorite physics-related package is \texttt{circuitikz}.
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{circuitikz}
+\draw (0,0) to [lamp] (4,0); 
+\draw (4,0) to (4, -2); 
+\draw (4, -2) to [battery] (0, -2); 
+\draw (0, -2) to [fuse] (0, 0); 
+\end{circuitikz}
+\end{LTXexample}  
+$\\$
+More information can be found \href{https://www.overleaf.com/learn/latex/CircuiTikz_package}{here}.
+
+% Chemistry %
+\section{Chemistry\index{chemistry}}
+
+% Basics %
+\subsection{Basics}
+Load the \texttt{mhchem} package and use \command{ce} in math mode to write formulae.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+$\ce{H2O}$ \\
+$\ce{Cl-}$ \\
+$\ce{CrO4^{2}-}$ \\
+$\ce{(C3H4O2)2}$ 
+\end{LTXexample}  
+$\\$
+Add the amount before the formula.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+$\ce{2O2}$ \\
+$\ce{3/4Cl2}$ 
+\end{LTXexample}  
+$\\$
+Displaying isotopes:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+$\ce{^{14}_{6}C}$ \\
+$\ce{^{17}_{6}C+}$
+\end{LTXexample} 
+
+% Reactions %
+\subsection{Reactions\index{chemical reactions}}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+$\ce{H2 + O -> H2O}$ \\
+$\ce{H2 + O ->[\text{heat}] H2O}$ \\
+$\ce{H2 + O <- H2O}$ \\
+$\ce{CO2 + C <=> 2CO}$
+\end{LTXexample} 
+$\\$
+More information on \texttt{mhchem} can be found \href{https://docs.moodle.org/311/en/Chemistry_notation_using_mhchem}{here}.
+
+% Drawing Chemical Formuale %
+\subsection{Drawing Chemical Formulae\index{atoms}\index{molecules}}
+Load the \texttt{chemfig} package and use \command{chemfig}.
+ 
+ % Bonds %
+\subsubsection{Bonds\index{bonds}}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+$\chemfig{O - H}$ \\
+$\chemfig{O = H}$ \\
+$\chemfig{O ~ H}$ \\
+$\chemfig{O > H}$ \\
+$\chemfig{O >: H}$ \\
+$\chemfig{O >| H}$ \\
+$\chemfig{O < H}$ \\
+$\chemfig{O <: H}$ \\
+$\chemfig{O <| H}$ 
+\end{LTXexample} 
+
+\subsubsection{Bond Angles}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+Water ($\ce{H2O}$) \vspace{.5cm} \\
+\chemfig{H-[1] O-[7] H} \\
+\end{LTXexample} 
+$\\$
+\texttt{[x]} represents $\mathsf{(x * 45)^{\circ}}$. \\\\
+A more complex example:
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\chemfig{H-C(-[2] H)(-[6] H)-C(=[1] O)-[7] H}
+\end{LTXexample} 
+
+ % Rings %
+\subsubsection{Rings\index{rings}}
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\chemfig{C*6(-C=C-C=C-C=)}
+\end{LTXexample} 
+$\\$
+\texttt{C} is the first atom. \texttt{*6} is the number of atoms. \texttt{()} contains the rest of the atoms. \\\\
+More information on \texttt{chemfig} can be found \href{https://www.overleaf.com/learn/latex/Chemistry_formulae}{here}.
+
+% Poetry %
+\section{Poetry\index{poems}}
+Use the \texttt{verse} package.
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\centering 
+\begin{verse}
+Roses are Red, \\
+Violets are Blue, \\
+This guide with help you.
+\end{verse}
+\end{LTXexample} 
+$\\$
+More information can be found \href{https://ctan.org/pkg/verse?lang=en}{here}.
+
+% Programming Languages %
+\section{Programming Languages\index{computer science}\index{CS}\index{programming languages}}
+You may need to type out programming languages in \LaTeX{}.
+
+% Verbatim %
+\subsection{\texttt{verbatim} environment\index{environments!verbatim@\texttt{verbatim}}}
+The \texttt{verbatim} environment outputs text or code in monospace font.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\begin{verbatim}
+def add(x, y):
+    return x + y
+\end{verbatim}
+\end{LTXexample} 
+$\\$
+To type code inline, use \command{verb}.
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\verb|add()| returns the sum of 2 numbers.
+\end{LTXexample} 
+$\\$
+There should be no space between \command{verb} and \texttt{|}. Any character except a letter or \texttt{*} can be used instead of \texttt{|} as a delimiter. 
+
+% Listings %
+\subsection{\texttt{listings} package}
+For more customization, use the \texttt{listings} package and the \texttt{lstlisting} environment\index{environments!lstlisting@\texttt{lstlisting}}. For example,
+{\footnotesize
+\begin{verbatim}
+\begin{lstlisting}[language=Python, caption=Python Example]
+def add(x, y):
+    return x + y
+\end{lstlisting}
+\end{verbatim}}
+$\\$
+produces
+\begin{lstlisting}[language=Python, caption=Python Example]
+def add(x, y):
+    if x >= y:
+        print(x)
+    else:
+        print(y)
+    return x + y
+\end{lstlisting}
+$\\$
+You can also highlight code, add line numbers, and do many more things. Read \href{https://www.overleaf.com/learn/latex/Code_listing}{this} guide for more information. \\\\
+Code highlighting can also be done via the \texttt{minted} package. Read about it \href{https://www.overleaf.com/learn/latex/Code_Highlighting_with_minted}{here}. \textbf{Warning}: \texttt{minted} can cause errors. However, solutions to the most common errors can be found \href{https://tex.stackexchange.com/questions/240913/latex-minted-error}{here}.
+
+\section{PDF Forms\index{forms}\index{pdf forms}}
+Use the \texttt{Form} environment\index{environments!Form@\texttt{Form}}.
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+\begin{Form}[action={path/to/submit}]
+\begin{tabular}{l}
+    \TextField{Name} \\\\
+    \CheckBox[width=1em]{Male} \CheckBox[width=1em]{Female} \CheckBox[width=1em]{Other} \\\\
+    \Submit{Submit} \quad \Reset{Reset}\\
+\end{tabular}
+\end{Form}
+\end{LTXexample} 
+$\\$
+More information can be found \href{https://tex.stackexchange.com/questions/14842/creating-fillable-pdfs}{here}. A more thorough example can be found \href{https://www.maltegerken.de/blog/2021/07/creating-pdf-forms-with-latex/}{here}. \textbf{Warning}: making PDF forms in \LaTeX{} can be buggy, so it's probably better to use Adobe Acrobat.
+
+% Emojis %
+\section{Emojis\index{emojis}}
+
+% LuaLaTeX %
+\subsection{Using \LuaLaTeX}
+Use \command{emoji} provided by the \texttt{emoji} package with the \LuaLaTeX compiler as follows: 
+\begin{lstlisting}[style=myLaTeX, columns=fullflexible]
+% Preamble 
+\usepackage{emoji}
+
+% Body
+\emoji{flexed-biceps-medium-dark-skin-tone}
+\end{lstlisting}
+$\\$
+A list of emojis provided by the \texttt{emoji} package can be found \href{https://www.ctan.org/pkg/emoji}{here}.
+
+% XeLaTeX %
+\subsection{Using \XeLaTeX}
+If you need to use the \XeLaTeX compiler, \href{https://www.wfonts.com/font/symbola}{download} the Symbola font on your local PC and do the following:
+
+\begin{LTXexample}[style=myLaTeX, pos=o]
+I am {\fontspec{Symbola}\char"1F600}!
+\end{LTXexample} 
+$\\$
+\href{https://unicode.org/emoji/charts/emoji-list.html}{Here} is a list of emoji codes. 
+
+% Emojis as Images %
+\subsection{Using Images}
+Another option is to insert emojis at images. Read \href{https://kaushikamardas.medium.com/using-emojis-in-latex-c901969efa24}{this} article for more details.
+
+% CV %
+\section{Writing a CV\index{resume}\index{CV}}
+If you want to write your CV with \LaTeX{}, choose one of the \href{https://www.overleaf.com/gallery/tagged/cv}{templates} and edit accordingly. I have also uploaded a template on \href{https://github.com/Prabhav10/LaTeX}{GitHub}.
+
+% Thesis %
+\section{Writing a Thesis\index{thesis}\index{dissertaiton}\index{PhD}}
+If you don't know how to write a thesis, read \href{https://www.student.uwa.edu.au/__data/assets/pdf_file/0007/1919239/How-to-write-a-thesis-A-working-guide.pdf}{this} guide. If you want to write your thesis with \LaTeX{}, choose one of the \href{https://www.overleaf.com/latex/templates/tagged/thesis}{templates} and edit accordingly. If you want a video walkthrough, \href{https://www.youtube.com/playlist?list=PLCRFsOKSM7eNGNghvT6QdzsDYwSTZxqjC}{these} are the best videos I have come across.
+
+% Presentations %
+\section{Presentations\index{presentations}}
+\texttt{beamer} is the document class for presentations. I learnt \texttt{beamer} using Overleaf's \href{https://www.overleaf.com/learn/latex/Beamer}{tutorials}. You can find examples of aesthetically pleasing presentations \href{https://www.overleaf.com/gallery/tagged/presentation}{here}. A list of \texttt{beamer} themes can be found \href{https://github.com/martinbjeldbak/ultimate-beamer-theme-list}{here}.
+
+% CHAPTER 11%
+\chapter{Clever Tricks}
+Here is a list of \LaTeX{} hacks: \\
+\begin{enumerate}
+\item \textbf{\command{today}} - prints today's date (\today).
+\item \textbf{\command{TeX}} - prints \TeX.
+\item \textbf{\command{LaTeX}} - prints \LaTeX.
+\item \textbf{Negations} - place \texttt{n} or \command{not} before a math symbol command to get its negation: \command{in} prints $\in$ and \command{not}\command{in} prints $\not\in$ (doesn't always work).
+\item \textbf{One Bracket} - use \command{left.} (or \command{right.}) if you only need 1 delimiter:  \verb|\left.\frac{1}{2}\right)| yields $\left.\frac{1}{2}\right)$.
+\end{enumerate}
+
+% CHAPTER 12%
+\chapter{Common Errors}
+\begin{enumerate}
+\item \textbf{Too few braces} - \texttt{\textbackslash section\{I am missing a closing brace!}
+\item \textbf{Too many braces} - \texttt{\textbackslash section\{I have an extra brace\}\}}
+\item \textbf{Non-matching braces} - \texttt{\textbackslash section[My braces don't match\}}
+\item \textbf{Missing environment end} - \texttt{\textbackslash begin\{enumerate\} \command{item} Don't forget to add \textbackslash end\{enumerate\} }
+\item \textbf{\texttt{hbox} errors} - read \href{https://stuff.mit.edu/afs/sipb/project/www/latex/guide/node28.html}{this}.
+\item \textbf{Forgetting to use \texttt{\textbackslash} to escape} - \texttt{\$} does not print \$.
+\item \textbf{Forgetting to use math mode} - \verb|a^2 + b^2 = c^2| will cause an error, but \verb|$a^2 + b^2 = c^2$| will not (remember to place mathematical symbols, expressions, and statements in math mode).
+\item \textbf{\command{\textbackslash} error} - if you get a \say{There's no line here to end} error, try \verb|$\\$|.
+\item \textbf{URL error} - if you can't open a URL, try adding \verb|http://| or \verb|https://|
+\item \textbf{Compiler error} - If you use external packages and get an error, you may be using the wrong compiler: e.g. \texttt{fontspec} needs \XeLaTeX{} or \LuaLaTeX.
+\item \textbf{Footnote / Index / References / Labels / Links not showing} - recompile the document multiple times to typeset successfully.
+\item \textbf{Declaring packages in wrong order} - declare the \texttt{hyperref} package last (as it causes most of the issues). A more comprehensive list of package conflicts can be found \href{http://www.macfreek.nl/memory/LaTeX_package_conflicts}{here}.
+\end{enumerate}
+
+% CHAPTER 13 %
+\chapter{More Resources}
+As \LaTeX{} is open-source, resources are infinite. Popular resources include: \\
+
+\begin{enumerate}
+\item \textbf{Big Resources}
+\begin{itemize}
+\item \href{https://www.google.com}{Search Engine} - \textcolor{blue}{G}\textcolor{red}{o}\textcolor{yellow}{o}\textcolor{blue}{g}\textcolor{green}{l}\textcolor{red}{e}.
+\item \href{https://ctan.org}{CTAN} - \LaTeX's humble abode.
+\item \href{https://tex.stackexchange.com}{Stack Exchange} - ask questions.
+\item \href{https://latex.org/forum/index.php}{\LaTeX{} Forum} - ask questions.
+\item \href{https://www.reddit.com/r/LaTeX/}{\LaTeX{} Subreddit} - for reddit fans.
+\end{itemize}
+\item \textbf{Learn \LaTeX}
+\begin{itemize}
+\item \href{https://www.overleaf.com/learn}{Overleaf} - learn and write \LaTeX{} online (\underline{highly recommended}).
+\item \href{https://en.wikibooks.org/wiki/LaTeX}{Wikibooks} - a more comprehensive \LaTeX{} online guide (\underline{highly recommended}).
+\item \href{https://www.youtube.com/playlist?list=PL1D4EAB31D3EBC449}{\LaTeX{} Playlist} - learn \LaTeX{} on YouTube.
+\item \href{https://www.youtube.com/channel/UC9rTsvTxJnx1DNrDA3Rqa6A}{Dr Trefor Bazett} - learn \LaTeX{} from a mathematician.
+\item \href{http://static.latexstudio.net/wp-content/uploads/2014/09/The+art+of+latex.pdf}{The Art of \LaTeX} - book to learn \LaTeX{}.
+\item \href{https://tobi.oetiker.ch/lshort/lshort.pdf}{The Not So Short Introduction to \LaTeX} - Bible of \LaTeX{}.
+\item \href{https://www.overleaf.com/gallery}{\LaTeX{}  Gallery} - \LaTeX{} templates (\underline{highly recommended}).
+\end{itemize}
+\item \textbf{Cheat Sheets}
+\begin{itemize}
+\item \href{https://wch.github.io/latexsheet/}{\LaTeX{} Cheat Sheet} - 2-page cheat sheet.
+\item \href{https://joshua.smcvt.edu/undergradmath/undergradmath.pdf}{\LaTeX{} Math Cheat Sheet} - Math cheat sheet. 
+\item \href{https://users.dickinson.edu/~richesod/latex/latexcheatsheet.pdf}{\LaTeX{} Quick Guide} - 2-page guide.
+\end{itemize}
+\item \textbf{Some Pretty Cool Stuff}
+\begin{itemize}
+\item \href{https://mathpix.com}{Mathpix Snip Notes} - convert images and pdf documents to \LaTeX{}.
+\item \href{https://castel.dev}{\LaTeX{} + Vim} - writing \LaTeX{} in Vim.
+\item \href{https://www.notion.so/help/math-equations}{\LaTeX{} + Notion} - writing \LaTeX{} in Notion.
+\item \href{https://bitbucket.org/kleberj/logicpuzzle/wiki/Home}{\texttt{logicpuzzle}} - create puzzles (sudoku, battleship etc.) with \LaTeX.
+\item \href{https://www.overleaf.com/latex/examples/latex-coffee-stains/qsjjwwsrmwnc}{For Coffee Lovers} - place coffee stains on \LaTeX{} documents.
+\item \href{https://project-awesome.org/egeerardyn/awesome-LaTeX}{Even more resources} - an awesome list of \LaTeX{} resources.
+\end{itemize}
+\end{enumerate}
+
+% Printing Index %
+\printindex
+
+\end{document}
